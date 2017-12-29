@@ -1,0 +1,30 @@
+.{$pf}input-group {
+  display: table
+  position: relative
+  .layui-form-item {
+    white-space: nowrap
+    vertical-align: middle  
+    display: table-cell
+    padding-right: 5px
+    &:last-child {
+      padding-right: 0  
+    }
+  }
+  .addbtn {
+    white-space: nowrap
+    vertical-align: middle  
+    display: table-cell
+    &:last-child {
+      button {
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0  
+      }
+    }
+  }
+  input {
+    width: 100%
+    display: table-cell
+    border-top-right-radius: 0 !important
+    border-bottom-right-radius: 0 !important
+  }
+}
