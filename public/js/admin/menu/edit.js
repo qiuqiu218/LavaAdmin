@@ -60,34 +60,10 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 128);
+/******/ 	return __webpack_require__(__webpack_require__.s = 130);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 128:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _selectTree = __webpack_require__(129);
-
-var _selectTree2 = _interopRequireDefault(_selectTree);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-layui.use(['form']);
-
-$.fn.extend({
-  selectTree: _selectTree2.default
-});
-
-$("[selectTree]").selectTree({
-  url: '/admin/getTree'
-});
-
-/***/ }),
 
 /***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
@@ -212,6 +188,30 @@ function initBind() {
 }
 
 exports.default = init;
+
+/***/ }),
+
+/***/ 130:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _selectTree = __webpack_require__(129);
+
+var _selectTree2 = _interopRequireDefault(_selectTree);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+layui.use(['form']);
+
+$.fn.extend({
+  selectTree: _selectTree2.default
+});
+
+$("[selectTree]").selectTree({
+  url: '/admin/getTree'
+});
 
 /***/ })
 

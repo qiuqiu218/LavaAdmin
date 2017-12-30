@@ -32,4 +32,11 @@ class Menu extends Node
     protected $hidden = [
         'lft', 'rgt', 'depth', 'created_at', 'updated_at'
     ];
+
+    public function getPath()
+    {
+        return $this->getAncestorsAndSelf(['id'])->map(function ($item) {
+            return $item->id;
+        });
+    }
 }

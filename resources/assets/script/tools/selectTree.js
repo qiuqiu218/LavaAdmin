@@ -1,11 +1,12 @@
 let _this = null, // 当前dom
     _temp = null, // 模板
-    _data = [], // 数据
+    _tree = [], // 数据
     _url = '', // 数据来源
     _name = '', // 字段名称
     _form = null,
     _path = [0],
-    _input = ''
+    _input = '',
+    _value = 0
 
 layui.use(['form'], function () {
   _form = layui.form
@@ -16,7 +17,8 @@ function init (arg) {
   _this = $(this)
   _temp = _this.html()
   _name = _this.attr('selectTree')
-  _input = $(`<input type="hidden" name="${_name}" />`)
+  _value = _this.attr('value') ? _this.attr('value') : _value
+  _input = $(`<input type="hidden" name="${_name}" value="${_value}"/>`)
   _this.after(_input)
   getData()
     .then(res => {
@@ -28,8 +30,8 @@ function init (arg) {
 function initNode () {
   _this.html('')
   _path.forEach((value, index) => {
-    let collect = getCollect(0, index)
-    if (collect.length > 0) {
+    let collect = getCollect(0, index) // 获取当前select集合
+    if (collect.length > 0 || index === 0) {
       let dom = $(_temp)
       dom
         .find('select')
@@ -39,6 +41,8 @@ function initNode () {
         })
         .append(getOption(value, collect))
       _this.append(dom)
+    } else {
+      _path.splice(index)
     }
   })
   _form.render('select')
@@ -47,16 +51,30 @@ function initNode () {
 
 function getData () {
   return new Promise((resolve, reject) => {
-    $.get(_url, res => {
-      _data = res.data
+    let id = getInputId()
+    $.get(`${_url}?id=${id}`, res => {
+      _tree = res.data.tree
+      if (res.data.path && Array.isArray(res.data.path)) {
+        _path = res.data.path
+        _path.push(0)
+      }
       resolve()
     })
   })
 }
 
+function getInputId () {
+  let dom = $("input[name='id']")
+  let id = 0
+  if (dom.length > 0) {
+    id = dom.val() || id
+  }
+  return id
+}
+
 function getCollect (index, depth, collect) {
   if (index === 0) {
-    collect = _data
+    collect = _tree
   }
   if (index === depth) {
     return collect

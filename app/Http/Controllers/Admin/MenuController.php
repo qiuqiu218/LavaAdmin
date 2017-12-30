@@ -16,7 +16,8 @@ class MenuController extends BaseController
      */
     public function index()
     {
-        return view('admin.menu.index');
+        $data = Menu::all()->toHierarchy()->values();
+        return view('admin.menu.index', ['data' => $data]);
     }
 
     /**
@@ -26,7 +27,8 @@ class MenuController extends BaseController
      */
     public function create()
     {
-        return view('admin.menu.create');
+        $type = config('enum.Menu.type');
+        return view('admin.menu.create', ['type' => $type]);
     }
 
     /**
@@ -60,19 +62,25 @@ class MenuController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $data = Menu::query()->findOrFail($id);
+        $type = config('enum.Menu.type');
+        return view('admin.menu.edit', [
+            'data' => $data,
+            'type' => $type
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  MenuRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MenuRequest $request, $id)
     {
-        //
+        $input = array_filter($request->only(['parent_id', 'title', 'description', 'route', 'type', 'sort']));
+        Menu::query()->findOrFail($id)->update($input);
     }
 
     /**
@@ -87,11 +95,18 @@ class MenuController extends BaseController
     }
 
     /**
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getTree()
+    public function getTree(Request $request)
     {
-        $data = Menu::all()->toHierarchy()->values();
-        return $data ? $this->setParams($data)->success('获取成功') : $this->error('获取失败');
+        $data = [];
+        $id = intval($request->input('id'));
+        if ($id) {
+            $item = Menu::query()->findOrFail($id);
+            $data['path'] = $item->getPath();
+        }
+        $data['tree'] = Menu::all()->toHierarchy()->values();
+        return $this->setParams($data)->success('获取成功');
     }
 }
