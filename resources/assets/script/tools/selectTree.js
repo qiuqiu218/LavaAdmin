@@ -4,49 +4,60 @@ let _this = null, // 当前dom
     _url = '', // 数据来源
     _name = '', // 字段名称
     _form = null,
-    _path = [0],
+    _path = [],
     _input = '',
     _value = 0
 
-layui.use(['form'], function () {
-  _form = layui.form
-})
+
 
 function init (arg) {
-  _url = arg.url
   _this = $(this)
+  _url = arg.url
   _temp = _this.html()
   _name = _this.attr('selectTree')
   _value = _this.attr('value') ? _this.attr('value') : _value
   _input = $(`<input type="hidden" name="${_name}" value="${_value}"/>`)
   _this.after(_input)
-  getData()
-    .then(res => {
-      initNode()
-      initBind()
-    })
+  
+  layui.use(['form'], function () {
+    _form = layui.form
+    getData()
+      .then(res => {
+        initNode()
+        initBind()
+      })
+  })
 }
 
 function initNode () {
   _this.html('')
-  _path.forEach((value, index) => {
-    let collect = getCollect(0, index) // 获取当前select集合
-    if (collect.length > 0 || index === 0) {
-      let dom = $(_temp)
-      dom
-        .find('select')
-        .attr({
-          'lay-filter': `${_name}-item`,
-          index
-        })
-        .append(getOption(value, collect))
-      _this.append(dom)
-    } else {
-      _path.splice(index)
+  if (_path.length === 0) {
+    appendDom(getCollect(0, 0))
+  } else {
+    _path.forEach((value, index) => {
+      let collect = getCollect(0, index) // 获取当前select集合
+      appendDom(collect, index, value)
+    })
+    let collect = getCollect(0, _path.length)
+    if (collect.length > 0) {
+      appendDom(collect, _path.length, 0)
     }
-  })
+  }
+  
   _form.render('select')
-  _input.val(_path[_path.length - 2])
+  _input.val(_path[_path.length - 1])
+}
+
+function appendDom (collect, index = 0, value = 0) {
+  let dom = $(_temp)
+  dom
+    .find('select')
+    .attr({
+      'lay-filter': `${_name}-item`,
+      index
+    })
+    .append(getOption(value, collect))
+  _this.append(dom)
 }
 
 function getData () {
@@ -56,7 +67,6 @@ function getData () {
       _tree = res.data.tree
       if (res.data.path && Array.isArray(res.data.path)) {
         _path = res.data.path
-        _path.push(0)
       }
       resolve()
     })
@@ -100,9 +110,10 @@ function initBind () {
     res.value = Number(res.value)
     let index = Number($(res.elem).attr('index'))
     _path[index] = res.value
-    _path.splice(index + 1)
     if (res.value > 0) {
-      _path.push(0)
+      _path.splice(index + 1)
+    } else {
+      _path.splice(index)
     }
     initNode()
   })
