@@ -35,7 +35,14 @@ class Menu extends Node
 
     public function getPath()
     {
-        return $this->getAncestorsAndSelf(['id'])->map(function ($item) {
+        return $this->getAncestors(['id'])->map(function ($item) {
+            return $item->id;
+        });
+    }
+
+    public function getChildrenAndSelf()
+    {
+        return $this->getDescendantsAndSelf(['id'])->map(function ($item) {
             return $item->id;
         });
     }

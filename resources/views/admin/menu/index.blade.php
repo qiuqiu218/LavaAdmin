@@ -2,10 +2,15 @@
 
 @section('content')
 <div class="d-padding-10">
+  <div>
+    <div>
+      <button class="layui-btn layui-btn-normal" route="{{ url('admin/menu/create') }}">添加菜单</button>
+    </div>
+  </div>
   <table class="layui-table">
     <colgroup>
       <col width="80">
-      <col width="200">
+      <col>
       <col>
       <col width="200">
       <col width="100">

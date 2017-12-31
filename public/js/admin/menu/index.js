@@ -60,31 +60,148 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 131);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 131:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _ajax = __webpack_require__(136);
+
+var _ajax2 = _interopRequireDefault(_ajax);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 layui.use(['layer'], function () {
 
-  $("button[edit]").click(function () {
+  $("button[route]").click(function () {
     var route = $(this).attr('route');
     layer.open({
       type: 2,
-      title: '编辑',
+      title: $(this).text(),
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '80%'],
-      content: route
+      content: route,
+      end: function end() {
+        location.reload();
+      }
     });
   });
+
+  $("button[url]").click(function () {
+    var url = $(this).attr('url');
+    var confirm = $(this).attr('confirm');
+    _ajax2.default.deleteInfo(url, function (res) {
+      location.reload();
+    }, confirm);
+  });
 });
+
+$("table a").click(function () {
+  var tr = $(this).parents('tr');
+  var id = tr.data('id');
+  var status = tr.data('status');
+  if (status === 'fold') {
+    tr.data('status', 'unfold');
+    unfoldMenu(id);
+    $(this).find('i').html('&#xe625;');
+  } else {
+    tr.data('status', 'fold');
+    foldMenu(id);
+    $(this).find('i').html('&#xe623;');
+  }
+});
+
+// 折叠菜单
+function foldMenu(parentId) {
+  var dom = $("tr[data-parentId='" + parentId + "']");
+  if (dom.length) {
+    dom.addClass('layui-hide');
+    dom.each(function () {
+      foldMenu($(this).data('id'));
+    });
+  }
+}
+
+function unfoldMenu(parentId) {
+  var parent = $("tr[data-id='" + parentId + "']");
+  var dom = $("tr[data-parentId='" + parentId + "']");
+  if (dom.length) {
+    dom.each(function () {
+      var status = parent.data('status');
+      if (status === 'fold') {
+        $(this).addClass('layui-hide');
+      } else {
+        $(this).removeClass('layui-hide');
+      }
+      unfoldMenu($(this).data('id'));
+    });
+  }
+}
+
+/***/ }),
+
+/***/ 136:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+var _param = {
+  url: '',
+  type: 'get',
+  contentType: 'application/json',
+  dataType: 'json',
+  data: {}
+};
+
+function isConfirm(msg) {
+  return new Promise(function (resolve, reject) {
+    if (msg) {
+      layer.confirm(msg, function (index) {
+        layer.close(index);
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
+}
+
+function deleteInfo(route, callback) {
+  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
+    return ajax({
+      url: route,
+      success: callback,
+      type: 'delete'
+    });
+  });
+}
+
+function ajax(param) {
+  $.ajax(Object.assign(_param, param));
+}
+
+exports.default = {
+  deleteInfo: deleteInfo
+};
 
 /***/ })
 

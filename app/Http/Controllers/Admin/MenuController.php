@@ -32,15 +32,14 @@ class MenuController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  MenuRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param MenuRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(MenuRequest $request)
     {
         $input = array_filter($request->only(['parent_id', 'title', 'description', 'route', 'type', 'sort']));
-        Menu::query()->create($input);
+        $res = Menu::query()->create($input);
+        return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
     /**
@@ -87,11 +86,12 @@ class MenuController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        Menu::query()->findOrFail($id)->delete();
+        return $this->success('删除成功');
     }
 
     /**
@@ -101,12 +101,15 @@ class MenuController extends BaseController
     public function getTree(Request $request)
     {
         $data = [];
+        $query = Menu::query();
         $id = intval($request->input('id'));
         if ($id) {
             $item = Menu::query()->findOrFail($id);
             $data['path'] = $item->getPath();
+            $data['children'] = $item->getChildrenAndSelf();
+            $query = $query->whereNotIn('id', $data['children']);
         }
-        $data['tree'] = Menu::all()->toHierarchy()->values();
+        $data['tree'] = $query->get()->toHierarchy()->values();
         return $this->setParams($data)->success('获取成功');
     }
 }

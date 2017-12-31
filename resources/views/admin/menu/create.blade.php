@@ -1,9 +1,13 @@
 @extends('layouts.default')
 
 @section('content')
-<div class="d-padding-10">
-  <form class="layui-form layui-form-pane" action="{{url('admin/menu')}}" method="post">
-    {{ csrf_field() }}
+<form class="layui-form layui-form-pane" action="{{url('admin/menu')}}" method="post">
+  {{ csrf_field() }}
+  <div class="layui-footer d-text-center">
+    <button class="layui-btn" lay-submit>立即提交</button>
+    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+  </div>
+  <div class="d-padding-10">
     <div class="layui-form-item">
       <label class="layui-form-label">父级</label>
       <div class="layui-form" selectTree="parent_id">
@@ -53,13 +57,6 @@
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('sort')}}</div>
     </div>
-    
-    <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button class="layui-btn" lay-submit>立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-      </div>
-    </div>
-  </form>
-</div>
+  </div>
+</form>
 @endsection

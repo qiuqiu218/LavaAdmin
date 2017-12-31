@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 128);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 128:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _selectTree = __webpack_require__(129);
+var _selectTree = __webpack_require__(64);
 
 var _selectTree2 = _interopRequireDefault(_selectTree);
 
@@ -89,7 +89,7 @@ $("[selectTree]").selectTree({
 
 /***/ }),
 
-/***/ 129:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -109,45 +109,57 @@ _url = '',
 _name = '',
     // 字段名称
 _form = null,
-    _path = [0],
+    _path = [],
     _input = '',
     _value = 0;
 
-layui.use(['form'], function () {
-  _form = layui.form;
-});
-
 function init(arg) {
-  _url = arg.url;
   _this = $(this);
+  _url = arg.url;
   _temp = _this.html();
   _name = _this.attr('selectTree');
   _value = _this.attr('value') ? _this.attr('value') : _value;
   _input = $('<input type="hidden" name="' + _name + '" value="' + _value + '"/>');
   _this.after(_input);
-  getData().then(function (res) {
-    initNode();
-    initBind();
+
+  layui.use(['form'], function () {
+    _form = layui.form;
+    getData().then(function (res) {
+      initNode();
+      initBind();
+    });
   });
 }
 
 function initNode() {
   _this.html('');
-  _path.forEach(function (value, index) {
-    var collect = getCollect(0, index); // 获取当前select集合
-    if (collect.length > 0 || index === 0) {
-      var dom = $(_temp);
-      dom.find('select').attr({
-        'lay-filter': _name + '-item',
-        index: index
-      }).append(getOption(value, collect));
-      _this.append(dom);
-    } else {
-      _path.splice(index);
+  if (_path.length === 0) {
+    appendDom(getCollect(0, 0));
+  } else {
+    _path.forEach(function (value, index) {
+      var collect = getCollect(0, index); // 获取当前select集合
+      appendDom(collect, index, value);
+    });
+    var collect = getCollect(0, _path.length);
+    if (collect.length > 0) {
+      appendDom(collect, _path.length, 0);
     }
-  });
+  }
+
   _form.render('select');
-  _input.val(_path[_path.length - 2]);
+  _input.val(_path[_path.length - 1]);
+}
+
+function appendDom(collect) {
+  var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+  var dom = $(_temp);
+  dom.find('select').attr({
+    'lay-filter': _name + '-item',
+    index: index
+  }).append(getOption(value, collect));
+  _this.append(dom);
 }
 
 function getData() {
@@ -157,7 +169,6 @@ function getData() {
       _tree = res.data.tree;
       if (res.data.path && Array.isArray(res.data.path)) {
         _path = res.data.path;
-        _path.push(0);
       }
       resolve();
     });
@@ -203,9 +214,10 @@ function initBind() {
     res.value = Number(res.value);
     var index = Number($(res.elem).attr('index'));
     _path[index] = res.value;
-    _path.splice(index + 1);
     if (res.value > 0) {
-      _path.push(0);
+      _path.splice(index + 1);
+    } else {
+      _path.splice(index);
     }
     initNode();
   });
