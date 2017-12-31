@@ -1,4 +1,4 @@
-for row in 0 2 5 10 15 20 30{
+for row in 0 2 5 10 15 20 25 30{
   .{$pf}margin-l-{row}{
     margin-left: 1px * row !important;
   }
@@ -47,6 +47,12 @@ for row in 0 2 5 10 15 20 30{
   }
 }
 
+for row in (-main -default -white -success -error) {
+  .{$pf}font{row}{
+    color: lookup('$color-font'+row) !important
+  }
+}
+
 .{$pf}float-left {
   float: left  
 }
@@ -62,4 +68,9 @@ for row in 0 2 5 10 15 20 30{
 }
 .{$pf}text-center {
   text-align: center !important
+}
+.{$pf}vertical-center {
+  position: relative
+  top: 50%
+  transform: translateY(-50%)  
 }
