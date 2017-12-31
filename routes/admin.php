@@ -27,6 +27,10 @@ $this->namespace('Admin\Auth')->group(function () {
 $this->namespace('Admin')->group(function () {
     Route::get('/', 'IndexController@index');
     Route::get('index/menu', 'IndexController@Menu');
+    Route::get('index/success', 'IndexController@Success');
+    Route::get('index/error', 'IndexController@Error');
+
+    // 系统菜单
     Route::resource('menu', 'MenuController');
     Route::get('getTree', 'MenuController@getTree');
 });
