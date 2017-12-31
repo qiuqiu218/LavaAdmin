@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 
 trait ResJson
 {
@@ -29,29 +30,57 @@ trait ResJson
     protected $message = '操作成功';
 
     /**
+     * @var string
+     */
+    protected $redirect = '';
+
+    /**
      * @var array
      */
     protected $params = [];
 
     /**
+     * @var string
+     */
+    protected $jumpUrl = '';
+
+    /**
+     * @var bool
+     */
+    protected $autoClose = false;
+
+    /**
      * @param string $message
+     * @param string $jumpUrl
      * @return JsonResponse
      */
-    public function success($message = '操作成功')
+    public function success($message = '操作成功', $jumpUrl = '')
     {
-        return $this->setStatusCode(200)->setStatus('success')->setMessage($message)->respond();
+        return $this->setStatusCode(200)
+                    ->setStatus('success')
+                    ->setMessage($message)
+                    ->setRedirect('admin/index/success')
+                    ->setJumpUrl($jumpUrl)
+                    ->respond();
     }
 
     /**
      * @param string $message
+     * @param string $jumpUrl
      * @return JsonResponse
      */
-    public function error($message = '操作失败')
+    public function error($message = '操作失败', $jumpUrl = '')
     {
-        return $this->setStatus('error')->setMessage($message)->respond();
+        return $this->setStatus('error')
+                    ->setMessage($message)
+                    ->setRedirect('admin/index/error')
+                    ->setJumpUrl($jumpUrl)
+                    ->respond();
     }
 
     /**
+     * 设置响应代码
+     *
      * @param int $code
      * @return $this
      */
@@ -62,6 +91,8 @@ trait ResJson
     }
 
     /**
+     * 设置响应状态
+     *
      * @param string $status
      * @return $this
      */
@@ -72,6 +103,8 @@ trait ResJson
     }
 
     /**
+     * 设置消息提示内容
+     *
      * @param string $message
      * @return $this
      */
@@ -82,6 +115,8 @@ trait ResJson
     }
 
     /**
+     * 设置参数
+     *
      * @param $data
      * @return $this
      */
@@ -93,15 +128,63 @@ trait ResJson
     }
 
     /**
-     * @param array $data
-     * @return JsonResponse
+     * 设置页面重定向链接
+     *
+     * @param $route
+     * @return $this
+     */
+    public function setRedirect($route)
+    {
+        $this->redirect = $route;
+        return $this;
+    }
+
+    /**
+     * 设置提示完成后的跳转链接
+     *
+     * @param $url
+     * @return $this
+     */
+    public function setJumpUrl($url)
+    {
+        $this->jumpUrl = $url;
+        return $this;
+    }
+
+    /**
+     * 设置自动关闭
+     *
+     * @return $this
+     */
+    public function setAutoClose()
+    {
+        $this->autoClose = true;
+        return $this;
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     private function respond()
     {
-        return new JsonResponse([
-            'message' => $this->message,
-            'status' => $this->status,
-            'data' => $this->params
-        ], $this->statusCode);
+        if (Request::ajax()) {
+            return new JsonResponse([
+                'message' => $this->message,
+                'status' => $this->status,
+                'jumpUrl' => $this->jumpUrl,
+                'data' => $this->params
+            ], $this->statusCode);
+        } else {
+            if (Request::isMethod('get')) {
+                return view($this->redirect);
+            } else if(Request::isMethod('post')) {
+                return redirect($this->redirect)->with([
+                    'message' => $this->message,
+                    'jumpUrl' => $this->jumpUrl,
+                    'autoClose' => $this->autoClose,
+                    'data' => $this->params
+                ])->withInput();
+            }
+        }
     }
 }
