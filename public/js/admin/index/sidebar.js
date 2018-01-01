@@ -66,9 +66,12 @@
 /******/ ({
 
 /***/ 131:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/wanxin/project/LavaAdmin/resources/src/admin/index/menu.js'");
+"use strict";
+
+
+layui.use(['element']);
 
 /***/ })
 
