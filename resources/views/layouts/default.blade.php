@@ -6,10 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>lavaAdmin</title>
-  @include('layouts.head')
+  @section('head')
+    @include('layouts.head')
+  @show
 </head>
 <body>
 @yield('content')
-@include('layouts.script')
+@section('script')
+  @include('layouts.script')
+@show
 </body>
 </html>
