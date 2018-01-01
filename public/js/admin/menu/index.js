@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 136);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
+/***/ 136:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _ajax = __webpack_require__(136);
+var _ajax = __webpack_require__(137);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -87,10 +87,7 @@ layui.use(['layer'], function () {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '80%'],
-      content: route,
-      end: function end() {
-        location.reload();
-      }
+      content: route
     });
   });
 
@@ -103,18 +100,19 @@ layui.use(['layer'], function () {
   });
 });
 
+// 点击菜单进行折叠或展开
 $("table a").click(function () {
   var tr = $(this).parents('tr');
   var id = tr.data('id');
   var status = tr.data('status');
   if (status === 'fold') {
     tr.data('status', 'unfold');
-    unfoldMenu(id);
     $(this).find('i').html('&#xe625;');
+    unfoldMenu(id);
   } else {
     tr.data('status', 'fold');
-    foldMenu(id);
     $(this).find('i').html('&#xe623;');
+    foldMenu(id);
   }
 });
 
@@ -129,6 +127,7 @@ function foldMenu(parentId) {
   }
 }
 
+// 展开菜单
 function unfoldMenu(parentId) {
   var parent = $("tr[data-id='" + parentId + "']");
   var dom = $("tr[data-parentId='" + parentId + "']");
@@ -147,7 +146,7 @@ function unfoldMenu(parentId) {
 
 /***/ }),
 
-/***/ 136:
+/***/ 137:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

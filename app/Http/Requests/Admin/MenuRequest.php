@@ -28,7 +28,7 @@ class MenuRequest extends FormRequest
             'description' => 'sometimes|nullable|max:120',
             'parent_id' => 'sometimes|nullable|integer',
             'route' => 'sometimes|nullable|max:120',
-            'type' => 'sometimes|nullable|integer',
+            'type' => 'required',
             'sort' => 'sometimes|nullable|integer',
         ];
     }

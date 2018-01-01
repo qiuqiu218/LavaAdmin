@@ -33,6 +33,24 @@ class Menu extends Node
         'lft', 'rgt', 'depth', 'created_at', 'updated_at'
     ];
 
+    /**
+     * @param $value
+     */
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = array_search($value, config('enum.Menu.type.data'));
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getTypeAttribute($value)
+    {
+        $value = $value ? $value : 0;
+        return config('enum.Menu.type.data')[$value];
+    }
+
     public function getPath()
     {
         return $this->getAncestors(['id'])->map(function ($item) {

@@ -16,7 +16,7 @@ class MenuController extends BaseController
      */
     public function index()
     {
-        $data = Menu::all()->toHierarchy()->values();
+        $data = Menu::all()->toHierarchy();
         return view('admin.menu.index', ['data' => $data]);
     }
 
@@ -70,16 +70,15 @@ class MenuController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  MenuRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param MenuRequest $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(MenuRequest $request, $id)
     {
-        $input = array_filter($request->only(['parent_id', 'title', 'description', 'route', 'type', 'sort']));
-        Menu::query()->findOrFail($id)->update($input);
+        $input = $request->only(['parent_id', 'title', 'description', 'route', 'type', 'sort']);
+        $res = Menu::query()->findOrFail($id)->update($input);
+        return $res ? $this->setAutoClose()->success('修改成功') : $this->error('修改失败');
     }
 
     /**

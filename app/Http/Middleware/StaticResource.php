@@ -27,6 +27,7 @@ class StaticResource
 
         // 判断当前页面的js文件是否存在
         $jsPath = 'js/'.$prefix.'/'.$controller.'/'.$action.'.js';
+//        dd($jsPath);
         $jsBasePath = public_path($jsPath);
         if (is_file($jsBasePath)) {
             $jsPath = '<script src="'.asset($jsPath).'?'.time().'"></script>';

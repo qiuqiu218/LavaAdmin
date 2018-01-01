@@ -10,10 +10,7 @@ layui.use(['layer'], function () {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '80%'],
-      content: route,
-      end () {
-        location.reload()
-      }
+      content: route
     })
   })
 
@@ -27,18 +24,19 @@ layui.use(['layer'], function () {
 
 })
 
+// 点击菜单进行折叠或展开
 $("table a").click(function () {
   let tr = $(this).parents('tr')
   let id = tr.data('id')
   let status = tr.data('status')
   if (status === 'fold') {
     tr.data('status', 'unfold')
-    unfoldMenu(id)
     $(this).find('i').html('&#xe625;')
+    unfoldMenu(id)
   } else {
     tr.data('status', 'fold')
-    foldMenu(id)
     $(this).find('i').html('&#xe623;')
+    foldMenu(id)
   }
 })
 
@@ -53,6 +51,7 @@ function foldMenu (parentId) {
   }
 }
 
+// 展开菜单
 function unfoldMenu (parentId) {
   let parent = $("tr[data-id='" + parentId + "']")
   let dom = $("tr[data-parentId='" + parentId + "']")

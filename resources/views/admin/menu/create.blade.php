@@ -4,7 +4,7 @@
 <form class="layui-form layui-form-pane" action="{{url('admin/menu')}}" method="post">
   {{ csrf_field() }}
   <div class="layui-footer d-text-center">
-    <button class="layui-btn" lay-submit>立即提交</button>
+    <button class="layui-btn" lay-submit>确认添加</button>
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
   </div>
   <div class="d-padding-10">
@@ -43,8 +43,8 @@
       <div class="layui-input-inline">
         <select name="type">
           <option value="">默认{{$type['default']}}</option>
-          @foreach ($type['data'] as $value => $name)
-          <option value="{{$value}}">{{$name}}</option>
+          @foreach ($type['data'] as $name)
+          <option value="{{$name}}"{{ $type['default'] === $name ? ' selected' : '' }}>{{$name}}</option>
           @endforeach
         </select>
       </div>
