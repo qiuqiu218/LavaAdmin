@@ -30,11 +30,6 @@ trait ResJson
     protected $message = '操作成功';
 
     /**
-     * @var string
-     */
-    protected $redirect = '';
-
-    /**
      * @var array
      */
     protected $params = [];
@@ -59,7 +54,6 @@ trait ResJson
         return $this->setStatusCode(200)
                     ->setStatus('success')
                     ->setMessage($message)
-                    ->setRedirect('admin/index/success')
                     ->setJumpUrl($jumpUrl)
                     ->respond();
     }
@@ -73,7 +67,6 @@ trait ResJson
     {
         return $this->setStatus('error')
                     ->setMessage($message)
-                    ->setRedirect('admin/index/error')
                     ->setJumpUrl($jumpUrl)
                     ->respond();
     }
@@ -128,18 +121,6 @@ trait ResJson
     }
 
     /**
-     * 设置页面重定向链接
-     *
-     * @param $route
-     * @return $this
-     */
-    public function setRedirect($route)
-    {
-        $this->redirect = $route;
-        return $this;
-    }
-
-    /**
      * 设置提示完成后的跳转链接
      *
      * @param $url
@@ -176,9 +157,9 @@ trait ResJson
             ], $this->statusCode);
         } else {
             if (Request::isMethod('get')) {
-                return view($this->redirect);
-            } else if(Request::isMethod('post')) {
-                return redirect($this->redirect)->with([
+                return view('admin.index.'.$this->status);
+            } else if(Request::isMethod('post') || Request::isMethod('put')) {
+                return redirect()->route($this->status)->with([
                     'message' => $this->message,
                     'jumpUrl' => $this->jumpUrl,
                     'autoClose' => $this->autoClose,
