@@ -7,13 +7,13 @@
  */
 
 $this->namespace('Admin\Auth')->group(function () {
+    Route::get('login', 'LoginController@loginView')->name('login');
+    Route::post('login', 'LoginController@login');
     // Authentication Routes...
-    $this->get('login', 'LoginController@showLoginForm')->name('login');
-    $this->post('login', 'LoginController@login');
-    $this->post('logout', 'LoginController@logout')->name('logout');
+    $this->get('logout', 'LoginController@logout')->name('logout');
 
 // Registration Routes...
-    $this->get('register', 'RegisterController@showRegistrationForm')->name('register');
+    $this->get('register', 'RegisterController@registerView')->name('register');
     $this->post('register', 'RegisterController@register');
 
 // Password Reset Routes...
@@ -24,11 +24,12 @@ $this->namespace('Admin\Auth')->group(function () {
 });
 
 
-$this->namespace('Admin')->group(function () {
+$this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::get('/', 'IndexController@index');
-    Route::get('index/menu', 'IndexController@Menu');
-    Route::get('index/success', 'IndexController@Success');
-    Route::get('index/error', 'IndexController@Error');
+    Route::get('main', 'IndexController@main');
+    Route::get('sidebar', 'IndexController@sidebar');
+    Route::get('success', 'IndexController@success')->name('success');
+    Route::get('error', 'IndexController@error')->name('error');
 
     // 系统菜单
     Route::resource('menu', 'MenuController');
