@@ -381,6 +381,15 @@
 .d-font-error {
   color: #ff5722 !important;
 }
+.d-bg-main {
+  background-color: #3498db !important;
+}
+.d-bg-default {
+  background-color: #333 !important;
+}
+.d-bg-white {
+  background-color: #fff !important;
+}
 .d-float-left {
   float: left;
 }
