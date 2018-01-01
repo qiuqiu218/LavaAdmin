@@ -17,6 +17,7 @@ function init (arg) {
 
 function autoClose () {
   if (window.self.location.toString() !== window.top.location.toString()) { // 如果当前页面是在框架内打开的
+    window.parent.location.reload()
     let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
     parent.layer.close(index); //再执行关闭
   }

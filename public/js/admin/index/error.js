@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 126);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 126:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(127);
+__webpack_require__(128);
 
-var _redirect = __webpack_require__(351);
+var _redirect = __webpack_require__(64);
 
 var _redirect2 = _interopRequireDefault(_redirect);
 
@@ -89,14 +89,14 @@ $("#jump").redirect({
 
 /***/ }),
 
-/***/ 127:
+/***/ 128:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 351:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,6 +125,7 @@ function init(arg) {
 function autoClose() {
   if (window.self.location.toString() !== window.top.location.toString()) {
     // 如果当前页面是在框架内打开的
+    window.parent.location.reload();
     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
     parent.layer.close(index); //再执行关闭
   }
