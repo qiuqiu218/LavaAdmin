@@ -77,4 +77,12 @@ class RegisterController extends Controller
     {
         return Auth::guard('admin');
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registerView()
+    {
+        return view('admin.user.register');
+    }
 }

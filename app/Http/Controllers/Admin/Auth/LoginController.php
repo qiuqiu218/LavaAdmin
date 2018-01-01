@@ -29,6 +29,11 @@ class LoginController extends Controller
     protected $redirectTo = '/admin';
 
     /**
+     * @var string
+     */
+    public $logoutRedirectTo = '/admin';
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -54,5 +59,13 @@ class LoginController extends Controller
     protected function guard()
     {
         return Auth::guard('admin');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function loginView()
+    {
+        return view('admin.user.login');
     }
 }
