@@ -53,6 +53,12 @@ for row in (-main -default -white -success -error) {
   }
 }
 
+for row in (-main -default -white) {
+  .{$pf}bg{row}{
+    background-color: lookup('$color-font'+row) !important
+  }
+}
+
 .{$pf}float-left {
   float: left  
 }
