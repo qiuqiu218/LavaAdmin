@@ -8,7 +8,7 @@
       @if (count($item->children))
         <dl class="layui-nav-child">
           @foreach ($item->children as $children)
-            <dd><a href="{{$item->route ? url($item->route) : 'javascript:;'}}" target="content">{{$children->title}}</a></dd>
+            <dd><a href="{{$children->route ? url($children->route) : 'javascript:;'}}" target="content">{{$children->title}}</a></dd>
           @endforeach
         </dl>
       @endif

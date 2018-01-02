@@ -77,7 +77,8 @@ class MenuController extends BaseController
     public function update(MenuRequest $request, $id)
     {
         $input = $request->only(['parent_id', 'title', 'description', 'route', 'type', 'sort']);
-        $res = Menu::query()->findOrFail($id)->update($input);
+        $node = Menu::query()->findOrFail($id);
+        $res = $node->update($input);
         return $res ? $this->setAutoClose()->success('修改成功') : $this->error('修改失败');
     }
 

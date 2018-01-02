@@ -12,10 +12,6 @@ class Menu extends Node
     protected $table = 'menus';
 
     /**
-     * @var string
-     */
-    protected $orderColumn = 'sort';
-    /**
      * The attributes that are mass assignable.
      *
      * @var array

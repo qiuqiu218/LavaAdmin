@@ -15,7 +15,6 @@ class IndexController extends BaseController
     {
         $data = Menu::query()
                     ->whereNull('parent_id')
-                    ->orderBy('sort', 'asc')
                     ->orderBy('id', 'asc')
                     ->get();
         return view('admin.index.index', [
@@ -42,7 +41,6 @@ class IndexController extends BaseController
         if (!$parent_id) {
             $first = Menu::query()
                             ->whereNull('parent_id')
-                            ->orderBy('sort', 'asc')
                             ->orderBy('id', 'asc')
                             ->first();
             if ($first) {

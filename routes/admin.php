@@ -34,4 +34,6 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     // 系统菜单
     Route::resource('menu', 'MenuController');
     Route::get('getTree', 'MenuController@getTree');
+    // 管理员
+    Route::resource('admin', 'AdminController');
 });
