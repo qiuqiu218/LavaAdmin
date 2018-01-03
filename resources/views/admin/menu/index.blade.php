@@ -12,7 +12,7 @@
       <col width="80">
       <col>
       <col>
-      <col width="200">
+      <col width="250">
       <col width="100">
       <col width="150">
     </colgroup>
