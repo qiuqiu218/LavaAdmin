@@ -156,16 +156,12 @@ trait ResJson
                 'data' => $this->params
             ], $this->statusCode);
         } else {
-            if (Request::isMethod('get')) {
-                return view('admin.index.'.$this->status);
-            } else if(Request::isMethod('post') || Request::isMethod('put')) {
-                return redirect()->route($this->status)->with([
-                    'message' => $this->message,
-                    'jumpUrl' => $this->jumpUrl,
-                    'autoClose' => $this->autoClose,
-                    'data' => $this->params
-                ])->withInput();
-            }
+            return redirect()->route($this->status)->with([
+                'message' => $this->message,
+                'jumpUrl' => $this->jumpUrl,
+                'autoClose' => $this->autoClose,
+                'data' => $this->params
+            ])->withInput();
         }
     }
 }

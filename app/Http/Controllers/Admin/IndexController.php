@@ -54,4 +54,20 @@ class IndexController extends BaseController
             'data' => $data
         ]);
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function successView()
+    {
+        return view('admin.index.success');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function errorView()
+    {
+        return view('admin.index.error');
+    }
 }
