@@ -3,9 +3,32 @@
 @section('content')
 
 <div class="d-padding-10">
-  <div>
-    <div>
+  <div class="layui-row">
+    <div class="layui-col-xs6">
       <button class="layui-btn layui-btn-normal" route="{{ url('admin/admin/create') }}">添加管理员</button>
+    </div>
+    <div class="layui-col-xs6">
+      <form class="layui-form layui-form-pane" method="get" action="{{ url('admin/admin') }}">
+        <div class="d-input-group d-float-right">
+          <div class="layui-form-item">
+            <select name="field">
+              <option value="">选择字段</option>
+              @foreach (config('enum.Admin.search.data') as $value => $name)
+                <option value="{{$value}}"{{$value === $field ? ' selected' : ''}}>{{$name}}</option>
+              @endforeach
+              <option value="no">不存在</option>
+            </select>
+          </div>
+          <div class="layui-form-item">
+            <div class="d-input-group">
+              <input type="text" name="keywords" placeholder="请输入关键词" class="layui-input" value="{{$keywords}}">
+              <div class="addbtn">
+                <button class="layui-btn">搜索</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
   <table class="layui-table">
@@ -26,8 +49,21 @@
       </tr> 
     </thead>
     <tbody>
+    @foreach ($data as $item)
+    <tr>
+      <td>{{$item->id}}</td>
+      <td>{{$item->username}}</td>
+      <td>{{$item->nickname}}</td>
+      <td align="center">
+        <button class="layui-btn layui-btn-xs layui-btn-normal" route="{{ url('admin/admin/'.$item->id.'/edit') }}">编辑</button>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/admin/'.$item->id) }}">删除</button>
+      </td>
+    </tr>
+    @endforeach
     </tbody>
   </table>
+  <div>
+    {{$data->links()}}
+  </div>
 </div>
-
 @endsection

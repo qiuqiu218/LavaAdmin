@@ -28,12 +28,16 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::get('/', 'IndexController@index');
     Route::get('main', 'IndexController@main');
     Route::get('sidebar', 'IndexController@sidebar');
-    Route::get('success', 'IndexController@success')->name('success');
-    Route::get('error', 'IndexController@error')->name('error');
+    Route::get('success', 'IndexController@successView')->name('success');
+    Route::get('error', 'IndexController@errorView')->name('error');
 
     // 系统菜单
     Route::resource('menu', 'MenuController');
     Route::get('getTree', 'MenuController@getTree');
     // 管理员
     Route::resource('admin', 'AdminController');
+    //角色管理
+    Route::resource('role', 'RoleController');
+    //权限管理
+    Route::resource('permission', 'PermissionController');
 });

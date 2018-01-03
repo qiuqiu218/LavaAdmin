@@ -10,13 +10,29 @@ use Illuminate\Http\Request;
 class AdminController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.admin.index');
+        $search = config('enum.Admin.search.data');
+        $keywords = $request->input('keywords') ?? '';
+        $field = $request->input('field') ?? array_search(config('enum.Admin.search.default'), $search);
+        if (!isset($search[$field])) {
+            return $this->error('您搜索的字段不存在');
+        }
+
+        $query = Admin::query();
+        if ($keywords) {
+            $query = $query->where($field, 'like', '%'.$keywords.'%');
+        }
+
+        $data = $query->orderBy('id')->paginate(10);
+        return view('admin.admin.index', [
+            'data' => $data,
+            'keywords' => $keywords,
+            'field' => $field
+        ]);
     }
 
     /**
@@ -38,17 +54,6 @@ class AdminController extends BaseController
         $input = $request->only('username', 'nickname', 'email', 'phone', 'password');
         $res = Admin::query()->create($input);
         return $res ? $this->setAutoClose()->success('注册成功') : $this->error('注册失败');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -80,6 +85,7 @@ class AdminController extends BaseController
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
