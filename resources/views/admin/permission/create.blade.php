@@ -23,6 +23,25 @@
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('display_name')}}</div>
     </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">分类</label>
+      <div class="layui-input-inline">
+        <select name="permission_classify_id">
+          <option value=""></option>
+          @foreach ($classify as $item)
+          <option value="{{$item->id}}">{{$item->name}}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('display_name')}}</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">排序</label>
+      <div class="layui-input-inline">
+        <input type="text" name="sort" placeholder="数字越小越在前" class="layui-input" value="{{old('sort')}}">
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('sort')}}</div>
+    </div>
   </div>
 </form>
 @endsection

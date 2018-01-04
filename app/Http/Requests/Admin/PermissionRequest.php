@@ -30,7 +30,9 @@ class PermissionRequest extends FormRequest
             'guard_name' => [
                 'required',
                 Rule::in(['web', 'admin'])
-            ]
+            ],
+            'sort' => 'sometimes|nullable|integer',
+            'permission_classify_id' => 'sometimes|nullable|integer|exists:permission_classifies,id'
         ];
     }
 }

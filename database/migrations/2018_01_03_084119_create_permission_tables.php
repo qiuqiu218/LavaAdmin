@@ -17,8 +17,10 @@ class CreatePermissionTables extends Migration
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedSmallInteger('permission_classify_id')->comment('分类id')->nullable();
             $table->string('name', 30)->comment('标识');
             $table->string('display_name', 30)->comment('名称');
+            $table->unsignedTinyInteger('sort')->comment('排序')->nullable();
             $table->string('guard_name');
             $table->timestamps();
         });

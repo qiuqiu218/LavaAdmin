@@ -4,7 +4,9 @@
 <div class="d-padding-10">
   <div>
     <div>
+      @can('menu_create')
       <button class="layui-btn layui-btn-normal" route="{{ url('admin/menu/create') }}">添加菜单</button>
+      @endcan
     </div>
   </div>
   <table class="layui-table">
@@ -12,7 +14,7 @@
       <col width="80">
       <col>
       <col>
-      <col width="250">
+      <col>
       <col width="100">
       <col width="150">
     </colgroup>

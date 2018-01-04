@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Admin\PermissionClassify;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
+use App\Models\Admin\Permission;
 
 class PermissionController extends BaseController
 {
@@ -17,7 +17,7 @@ class PermissionController extends BaseController
     public function index(Request $request)
     {
         $guard_name = $request->input('guard_name');
-        $data = Permission::all();
+        $data = Permission::query()->with('permission_classify')->orderBy('sort')->get();
         return view('admin.permission.index', [
             'data' => $data,
             'guard_name' => $guard_name
@@ -31,9 +31,11 @@ class PermissionController extends BaseController
      */
     public function create(Request $request)
     {
+        $classify = PermissionClassify::query()->orderBy('sort')->get();
         $guard_name = $request->input('guard_name');
         return view('admin.permission.create', [
-            'guard_name' => $guard_name
+            'guard_name' => $guard_name,
+            'classify' => $classify
         ]);
     }
 
@@ -43,7 +45,7 @@ class PermissionController extends BaseController
      */
     public function store(Request $request)
     {
-        $input = $request->only('name', 'display_name', 'guard_name');
+        $input = $request->only('name', 'display_name', 'guard_name', 'sort', 'permission_classify_id');
         $res = Permission::query()->create($input);
         return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
@@ -56,9 +58,11 @@ class PermissionController extends BaseController
      */
     public function edit($id)
     {
+        $classify = PermissionClassify::query()->orderBy('sort')->get();
         $data = Permission::query()->findOrFail($id);
         return view('admin.permission.edit', [
-            'data' => $data
+            'data' => $data,
+            'classify' => $classify
         ]);
     }
 
@@ -69,7 +73,7 @@ class PermissionController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $input = $request->only('name', 'display_name');
+        $input = $request->only('name', 'display_name', 'sort', 'permission_classify_id');
         $res = Permission::query()->findOrFail($id)->update($input);
         return $res ? $this->setAutoClose()->success('更新成功') : $this->error('更新失败');
     }
@@ -82,6 +86,6 @@ class PermissionController extends BaseController
     public function destroy($id)
     {
         $res = Permission::query()->findOrFail($id)->delete();
-        return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
+        return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

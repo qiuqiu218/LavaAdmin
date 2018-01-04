@@ -36,8 +36,11 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::get('getTree', 'MenuController@getTree');
     // 管理员
     Route::resource('admin', 'AdminController');
-    //角色管理
+    // 角色管理
     Route::resource('role', 'RoleController');
-    //权限管理
+    Route::match(['get', 'post'], 'role/{id}/permission', 'RoleController@permission');
+    // 权限管理
     Route::resource('permission', 'PermissionController');
+    // 权限分类
+    Route::resource('permission_classify', 'PermissionClassifyController');
 });

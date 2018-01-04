@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\RoleRequest;
+use App\Models\Admin\PermissionClassify;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -83,5 +84,33 @@ class RoleController extends BaseController
     {
         $res = Role::query()->findOrFail($id)->delete();
         return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
+    public function permission(Request $request, $id)
+    {
+        if ($request->method() === 'GET') {
+            $data = PermissionClassify::query()->with('permission')->orderBy('sort')->get();
+            $permission = Role::query()
+                                ->findOrFail($id)
+                                ->permissions
+                                ->map(function ($item) {
+                                    return $item->name;
+                                  })
+                                ->toArray();
+            return view('admin.role.permission', [
+                'data' => $data,
+                'id' => $id,
+                'permission' => $permission
+            ]);
+        } else {
+            $role = Role::query()->findOrFail($id);
+            $res = $role->syncPermissions($request->input('permission'));
+            return $res ? $this->success() : $this->error();
+        }
     }
 }
