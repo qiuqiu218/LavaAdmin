@@ -10,6 +10,18 @@
   </div>
   <div class="d-padding-10">
     <div class="layui-form-item">
+      <label class="layui-form-label">角色</label>
+      <div class="layui-input-inline">
+        <select name="role">
+          <option value=""></option>
+          @foreach ($role as $item)
+          <option value="{{$item->name}}"{{$data->role === $item->name ? ' selected' : ''}}>{{$item->display_name}}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('role')}}</div>
+    </div>
+    <div class="layui-form-item">
       <label class="layui-form-label">账户</label>
       <div class="layui-input-inline">
         <input type="text" name="username" required lay-verify="required" placeholder="请输入账户" class="layui-input" value="{{old('username') ? old('username') : $data->username}}">
