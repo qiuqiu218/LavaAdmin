@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\RoleRequest;
+use App\Models\Admin\Menu;
 use App\Models\Admin\PermissionClassify;
+use App\Models\Admin\Role;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class RoleController extends BaseController
 {
@@ -94,23 +95,31 @@ class RoleController extends BaseController
     public function permission(Request $request, $id)
     {
         if ($request->method() === 'GET') {
-            $data = PermissionClassify::query()->with('permission')->orderBy('sort')->get();
-            $permission = Role::query()
-                                ->findOrFail($id)
-                                ->permissions
-                                ->map(function ($item) {
-                                    return $item->name;
-                                  })
-                                ->toArray();
+            // 获取该角色所有的权限
+            $permission = Role::getPermission($id);
+            // 根据分类获取所有权限列表
+            $data = PermissionClassify::getAllPermission();
+            foreach ($data as $classify) {
+                foreach ($classify->permission as $item) {
+                    $item->checked = in_array($item->name, $permission);
+                }
+            }
+
+            $menu = Menu::all();
+            foreach ($menu as $item) {
+                $item->checked = in_array('menu_'.$item->id, $permission);
+            }
+            $menu = $menu->toHierarchy();
+
             return view('admin.role.permission', [
                 'data' => $data,
                 'id' => $id,
-                'permission' => $permission
+                'menu' => $menu
             ]);
         } else {
             $role = Role::query()->findOrFail($id);
             $res = $role->syncPermissions($request->input('permission'));
-            return $res ? $this->success() : $this->error();
+            return $res ? $this->setAutoClose()->success() : $this->error();
         }
     }
 }

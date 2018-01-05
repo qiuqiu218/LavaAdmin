@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 class MenuController extends BaseController
 {
     /**
+     * 实例化一个新的控制器实例。
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:menu_create')->only(['create', 'store']);
+        $this->middleware('permission:menu_edit')->only(['edit', 'update']);
+        $this->middleware('permission:menu_delete')->only('destroy');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -43,17 +55,6 @@ class MenuController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -83,10 +84,9 @@ class MenuController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {

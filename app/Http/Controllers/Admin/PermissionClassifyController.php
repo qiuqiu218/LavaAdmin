@@ -16,7 +16,7 @@ class PermissionClassifyController extends BaseController
      */
     public function index()
     {
-        $data = PermissionClassify::query()->orderBy('sort')->get();
+        $data = PermissionClassify::query()->where('name', '<>', '菜单管理')->orderBy('sort')->get();
         return view('admin.permission_classify.index', [
             'data' => $data
         ]);

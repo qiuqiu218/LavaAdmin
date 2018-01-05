@@ -31,4 +31,13 @@ class PermissionClassify extends Model
     {
         return $this->hasMany('App\Models\Admin\Permission');
     }
+
+    public static function getAllPermission()
+    {
+        return self::query()
+                    ->with('permission')
+                    ->where('name', '<>', '菜单管理')
+                    ->orderBy('sort')
+                    ->get();
+    }
 }

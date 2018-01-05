@@ -17,7 +17,11 @@ class PermissionController extends BaseController
     public function index(Request $request)
     {
         $guard_name = $request->input('guard_name');
-        $data = Permission::query()->with('permission_classify')->orderBy('sort')->get();
+        $data = Permission::query()
+                            ->with('permission_classify')
+                            ->where('permission_classify_id', '<>', Permission::findByClassifyId('菜单管理'))
+                            ->orderBy('sort')
+                            ->get();
         return view('admin.permission.index', [
             'data' => $data,
             'guard_name' => $guard_name

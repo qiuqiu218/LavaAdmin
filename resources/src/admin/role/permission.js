@@ -1,1 +1,1 @@
-layui.use(['form'])
+layui.use(['form', 'element'])

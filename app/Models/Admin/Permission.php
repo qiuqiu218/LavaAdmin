@@ -11,4 +11,9 @@ class Permission extends \Spatie\Permission\Models\Permission
     {
         return $this->belongsTo('App\Models\Admin\PermissionClassify');
     }
+
+    public static function findByClassifyId($name)
+    {
+        return PermissionClassify::query()->where('name', $name)->first()->id;
+    }
 }

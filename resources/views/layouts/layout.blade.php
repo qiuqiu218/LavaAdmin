@@ -4,16 +4,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>lavaAdmin</title>
+  <title>LavaAdmin</title>
   @include('layouts.head')
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo">layui 后台布局</div>
+    <div class="layui-logo">LavaAdmin</div>
     <ul class="layui-nav layui-layout-left">
       @foreach ($data as $item)
-      <li class="layui-nav-item"><a href="{{url('admin/sidebar')}}?parent_id={{$item->id}}" target="sidebar">{{$item['title']}}</a></li>
+        @can('menu_'.$item->id)
+          <li class="layui-nav-item"><a href="{{url('admin/sidebar')}}?parent_id={{$item->id}}" target="sidebar">{{$item['title']}}</a></li>
+        @endcan
       @endforeach
     </ul>
     <ul class="layui-nav layui-layout-right">
