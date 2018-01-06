@@ -1,4 +1,4 @@
-import './success.styl'
+import './success_view.styl'
 import redirect from '_assets/script/tools/redirect'
 
 $.fn.extend({redirect})

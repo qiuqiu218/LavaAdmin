@@ -1,4 +1,4 @@
-import './error.styl'
+import './error_view.styl'
 import redirect from '_assets/script/tools/redirect'
 
 $.fn.extend({redirect})

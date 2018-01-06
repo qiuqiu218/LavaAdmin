@@ -15,5 +15,16 @@ return [
                 1 => '系统菜单'
             ]
         ]
+    ],
+    'Admin' => [
+        'search' => [
+            'default' => '用户名',
+            'data' => [
+                'username' => '用户名',
+                'nickname' => '昵称',
+                'email' => 'Email',
+                'phone' => '手机号'
+            ]
+        ]
     ]
 ];
