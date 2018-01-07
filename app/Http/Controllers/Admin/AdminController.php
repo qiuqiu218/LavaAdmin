@@ -71,7 +71,10 @@ class AdminController extends BaseController
     {
         $role = Role::query()->where('guard_name', 'admin')->get();
         $data = Admin::query()->findOrFail($id);
-        $data->role = $data->getRoleNames()[0];
+        $roleName = $data->getRoleNames();
+        if (count($roleName) > 0) {
+            $data->role = $roleName[0];
+        }
         return view('admin.admin.edit', [
             'data' => $data,
             'role' => $role

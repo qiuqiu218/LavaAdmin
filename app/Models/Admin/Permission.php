@@ -14,6 +14,7 @@ class Permission extends \Spatie\Permission\Models\Permission
 
     public static function findByClassifyId($name)
     {
-        return PermissionClassify::query()->where('name', $name)->first()->id;
+        $res = PermissionClassify::query()->where('name', $name)->first();
+        return $res ? $res->id : 0;
     }
 }
