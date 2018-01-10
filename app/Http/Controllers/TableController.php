@@ -62,7 +62,7 @@ class TableController extends BaseController
      */
     public function update(TableRequest $request, $id)
     {
-        $input = $request->only('name', 'display_name', 'type');
+        $input = $request->only('display_name');
         $res = Table::query()->findOrFail($id)->update($input);
         return $res ? $this->setAutoClose()->success('更新成功') : $this->error('更新失败');
     }
