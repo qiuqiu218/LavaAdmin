@@ -43,4 +43,10 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::resource('permission', 'PermissionController');
     // 权限分类
     Route::resource('permission_classify', 'PermissionClassifyController');
+
+});
+
+$this->middleware('auth:admin')->group(function () {
+    // 数据表
+    Route::resource('table', 'TableController');
 });
