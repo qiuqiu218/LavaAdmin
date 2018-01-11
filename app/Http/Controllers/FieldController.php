@@ -12,6 +12,7 @@ class FieldController extends BaseController
 
     public function __construct()
     {
+        parent::__construct();
         $this->field = new Field();
     }
     /**
@@ -19,22 +20,26 @@ class FieldController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = $this->field->all();
         return view('common.field.index', [
-            'data' => $data
+            'data' => $data,
+            'table_id' => $request->input('table_id')
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('common.field.create');
+        $type = config('enum.Field.type');
+        return view('common.field.create', [
+            'type' => $type,
+            'table_id' => $request->input('table_id')
+        ]);
     }
 
     /**
@@ -45,7 +50,7 @@ class FieldController extends BaseController
     {
         $input = $request->only($this->field->getFillable());
         $res = $this->field->query()->create($input);
-        return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
+        return $res ? $this->success('创建成功', 'admin/field?table_id='.$input['table_id']) : $this->error('创建失败');
     }
 
     /**
@@ -77,10 +82,11 @@ class FieldController extends BaseController
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
         $res = $this->field->query()->findOrFail($id)->delete();
-        return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
+        return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

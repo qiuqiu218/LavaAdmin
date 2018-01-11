@@ -19,4 +19,22 @@ class Field extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+
+    /**
+     * @param $value
+     */
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = array_search($value, config('enum.Field.type.data'));
+    }
+
+    /**
+     * @param $value
+     * @return \Illuminate\Config\Repository|mixed
+     */
+    public function getTypeAttribute($value)
+    {
+        $field = config('enum.Field.type.data');
+        return isset($field[$value]) ? $field[$value] : config('enum.Field.type.default');
+    }
 }

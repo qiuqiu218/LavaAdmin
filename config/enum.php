@@ -26,5 +26,24 @@ return [
                 'phone' => '手机号'
             ]
         ]
+    ],
+    'Field' => [
+        'type' => [
+            'default' => '单行文本框',
+            'data' => [
+                'text' => '单行文本框',
+                'password' => '密码框',
+                'select' => '下拉框',
+                'radio' => '单选框',
+                'checkbox' => '复选框',
+                'textarea' => '文本框',
+                'edit' => '编辑器',
+                'img' => '单图上传',
+                'imgs' => '多图上传',
+                'file' => '单文件上传',
+                'files' => '多文件上传',
+                'date' => '日期'
+            ]
+        ]
     ]
 ];
