@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TableRequest;
-use App\Models\Table;
+use App\Http\Requests\FieldRequest;
+use App\Models\Field;
+use Illuminate\Http\Request;
 
-class TableController extends BaseController
+class FieldController extends BaseController
 {
+    protected $field = null;
+
+    public function __construct()
+    {
+        $this->field = new Field();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +21,8 @@ class TableController extends BaseController
      */
     public function index()
     {
-        $data = Table::all();
-        return view('common.table.index', [
+        $data = $this->field->all();
+        return view('common.field.index', [
             'data' => $data
         ]);
     }
@@ -27,17 +34,17 @@ class TableController extends BaseController
      */
     public function create()
     {
-        return view('common.table.create');
+        return view('common.field.create');
     }
 
     /**
-     * @param TableRequest $request
+     * @param FieldRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(TableRequest $request)
+    public function store(FieldRequest $request)
     {
-        $input = $request->only('name', 'display_name', 'type');
-        $res = Table::query()->create($input);
+        $input = $request->only($this->field->getFillable());
+        $res = $this->field->query()->create($input);
         return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
@@ -49,32 +56,31 @@ class TableController extends BaseController
      */
     public function edit($id)
     {
-        $data = Table::query()->findOrFail($id);
-        return view('common.table.edit', [
+        $data = $this->field->query()->findOrFail($id);
+        return view('admin.menu.edit', [
             'data' => $data
         ]);
     }
 
     /**
-     * @param TableRequest $request
+     * @param FieldRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(TableRequest $request, $id)
+    public function update(FieldRequest $request, $id)
     {
-        $input = $request->only('display_name');
-        $res = Table::query()->findOrFail($id)->update($input);
+        $input = $request->only($this->field->getFillable());
+        $res = $this->field->query()->findOrFail($id)->update($input);
         return $res ? $this->setAutoClose()->success('更新成功') : $this->error('更新失败');
     }
 
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
      */
     public function destroy($id)
     {
-        $res = Table::query()->findOrFail($id)->delete();
+        $res = $this->field->query()->findOrFail($id)->delete();
         return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
     }
 }

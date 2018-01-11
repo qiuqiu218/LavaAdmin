@@ -23,10 +23,16 @@ class TableRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|string|max:20|unique:tables,name',
-            'display_name' => 'required|string|max:30',
-            'type' => 'required|integer'
-        ];
+        if ($this->method() === 'POST') {
+            return [
+                'name' => 'required|string|max:20|unique:tables,name',
+                'display_name' => 'required|string|max:30',
+                'type' => 'required|integer'
+            ];
+        } else {
+            return [
+                'display_name' => 'required|string|max:30',
+            ];
+        }
     }
 }
