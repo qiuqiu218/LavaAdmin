@@ -498,3 +498,7 @@
 .layui-footer + div {
   margin-bottom: 80px;
 }
+.layui-form-pane .layui-input .layui-form-switch,
+.layui-form-pane .layui-input .layui-form-radio {
+  margin-left: 0;
+}

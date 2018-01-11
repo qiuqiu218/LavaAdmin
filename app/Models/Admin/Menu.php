@@ -7,11 +7,6 @@ use Baum\Node;
 class Menu extends Node
 {
     /**
-     * @var string
-     */
-    protected $table = 'menus';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array

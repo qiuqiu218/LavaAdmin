@@ -60,28 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 146);
+/******/ 	return __webpack_require__(__webpack_require__.s = 148);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 146:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(18);
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ajax = __webpack_require__(19);
+var _ajax = __webpack_require__(12);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -156,7 +146,7 @@ function unfoldMenu(parentId) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -211,6 +201,16 @@ function ajax(param) {
 exports.default = {
   deleteInfo: deleteInfo
 };
+
+/***/ }),
+
+/***/ 148:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(11);
 
 /***/ })
 

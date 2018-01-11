@@ -43,7 +43,8 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::resource('permission', 'PermissionController');
     // 权限分类
     Route::resource('permission_classify', 'PermissionClassifyController');
-
+    // 新闻系统
+    Route::resource('news', 'NewsController');
 });
 
 $this->middleware('auth:admin')->group(function () {
