@@ -24,6 +24,16 @@
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('display_name')}}</div>
     </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">是否有副表</label>
+      <div class="layui-input-inline">
+        <div class="layui-input">
+          <input type="radio" name="is_sub_table" value="1" title="有"{{$data->is_sub_table ? ' checked' : ''}}>
+          <input type="radio" name="is_sub_table" value="0" title="无"{{$data->is_sub_table ? '' : ' checked'}}>
+        </div>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('is_sub_table')}}</div>
+    </div>
   </div>
 </form>
 @endsection

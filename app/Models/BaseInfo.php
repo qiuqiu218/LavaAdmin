@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\Tools\Resource;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseInfo extends Model
 {
+    use Resource;
     /**
      * @var array
      */
@@ -14,12 +16,14 @@ class BaseInfo extends Model
     public function __construct()
     {
         parent::__construct();
+
         $this->initFillable();
     }
 
     public function initFillable()
     {
-        $table = $this->getTable();
-        dd($table);
+        $this->fillable = (new Table())->getField('News')->map(function ($item) {
+            return $item->name;
+        })->toArray();
     }
 }

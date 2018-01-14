@@ -65,7 +65,22 @@ class MenuTableSeeder extends Seeder
                 ]
             ],
             [
-                'title' => '信息管理'
+                'title' => '信息管理',
+                'children' => [
+                    [
+                        'title' => '新闻管理',
+                        'children' => [
+                            [
+                                'title' => '新闻列表',
+                                'route' => 'admin/news'
+                            ],
+                            [
+                                'title' => '新闻分类',
+                                'route' => 'admin/news_classify'
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ];
         foreach ($data as $item) {

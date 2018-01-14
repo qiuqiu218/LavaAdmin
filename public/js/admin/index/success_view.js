@@ -81,11 +81,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 $.fn.extend({ redirect: _redirect2.default });
 
-$("#jump").redirect({
-  sec: $("#sec").text(),
-  jumpUrl: $("#jump").attr('href'),
-  autoClose: _autoClose
-});
+// $("#jump").redirect({
+//   sec: $("#sec").text(),
+//   jumpUrl: $("#jump").attr('href'),
+//   autoClose: _autoClose
+// })
 
 /***/ }),
 

@@ -7,6 +7,15 @@ use App\Models\Table;
 
 class TableController extends BaseController
 {
+    protected $model = null;
+
+    /**
+     * TableController constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new Table();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,7 @@ class TableController extends BaseController
      */
     public function index()
     {
-        $data = Table::all();
+        $data = $this->model->all();
         return view('common.table.index', [
             'data' => $data
         ]);
@@ -36,8 +45,8 @@ class TableController extends BaseController
      */
     public function store(TableRequest $request)
     {
-        $input = $request->only('name', 'display_name', 'type');
-        $res = Table::query()->create($input);
+        $input = $request->only($this->model->getFillable());
+        $res = $this->model->query()->create($input);
         return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
@@ -49,7 +58,7 @@ class TableController extends BaseController
      */
     public function edit($id)
     {
-        $data = Table::query()->findOrFail($id);
+        $data = $this->model->query()->findOrFail($id);
         return view('common.table.edit', [
             'data' => $data
         ]);
@@ -62,8 +71,8 @@ class TableController extends BaseController
      */
     public function update(TableRequest $request, $id)
     {
-        $input = $request->only('display_name');
-        $res = Table::query()->findOrFail($id)->update($input);
+        $input = $request->only($this->model->getFillable());
+        $res = $this->model->query()->findOrFail($id)->update($input);
         return $res ? $this->setAutoClose()->success('更新成功') : $this->error('更新失败');
     }
 
@@ -74,7 +83,7 @@ class TableController extends BaseController
      */
     public function destroy($id)
     {
-        $res = Table::query()->findOrFail($id)->delete();
+        $res = $this->model->query()->findOrFail($id)->delete();
         return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
     }
 }

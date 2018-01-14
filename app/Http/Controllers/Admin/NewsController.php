@@ -9,13 +9,9 @@ class NewsController extends BaseController
 {
     protected $model = null;
 
-    protected $modelPath = '';
-
     public function __construct()
     {
-        parent::__construct();
-        $this->modelPath = $this->getModel();
-        $this->model = new $this->modelPath();
+        $this->model = $this->getInstantiationModel();
     }
     /**
      * Display a listing of the resource.

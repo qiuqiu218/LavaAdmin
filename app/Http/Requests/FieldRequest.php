@@ -29,6 +29,8 @@ class FieldRequest extends FormRequest
             'display_name' => 'required|string|max:30',
             'type' => 'required|string|max:20',
             'is_show' => 'required|integer',
+            'is_import' => 'required|integer',
+            'belong' => 'required|integer',
             'sort' => 'sometimes|nullable|integer'
         ];
     }

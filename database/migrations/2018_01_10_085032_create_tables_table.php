@@ -18,6 +18,7 @@ class CreateTablesTable extends Migration
             $table->string('name', 20)->comment('表标识');
             $table->string('display_name', 30)->comment('表名');
             $table->unsignedTinyInteger('type')->comment('类型(0系统表,1普通表)');
+            $table->unsignedTinyInteger('is_sub_table')->comment('是否有副表');
             $table->timestamps();
         });
     }

@@ -43,6 +43,16 @@
       <div class="layui-form-mid layui-word-aux">{{$errors->first('default_value')}}</div>
     </div>
     <div class="layui-form-item">
+      <label class="layui-form-label">字段所属</label>
+      <div class="layui-input-inline">
+        <div class="layui-input">
+          <input type="radio" name="belong" value="1" title="主表" checked>
+          <input type="radio" name="belong" value="2" title="副表">
+        </div>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('belong')}}</div>
+    </div>
+    <div class="layui-form-item">
       <label class="layui-form-label">是否显示</label>
       <div class="layui-input-inline">
         <div class="layui-input">
@@ -51,6 +61,16 @@
         </div>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('is_show')}}</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">是否输入</label>
+      <div class="layui-input-inline">
+        <div class="layui-input">
+          <input type="radio" name="is_import" value="1" title="开启" checked>
+          <input type="radio" name="is_import" value="0" title="关闭">
+        </div>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('is_import')}}</div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">排序</label>

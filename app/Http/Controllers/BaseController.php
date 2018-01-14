@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\ResJson;
-use App\Http\Controllers\Traits\Tools;
+use App\Traits\Tools\Resource;
 
 class BaseController extends Controller
 {
-    use ResJson, Tools;
+    use ResJson, Resource;
 }
