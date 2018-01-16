@@ -23,8 +23,7 @@ class FieldRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'table_id' => 'required|integer|exists:tables,id',
+        $rules = [
             'name' => 'required|string|max:20',
             'display_name' => 'required|string|max:30',
             'type' => 'required|string|max:20',
@@ -33,5 +32,11 @@ class FieldRequest extends FormRequest
             'belong' => 'required|integer',
             'sort' => 'sometimes|nullable|integer'
         ];
+        if ($this->method() === 'POST') {
+            $rules['table_id'] = 'required|integer|exists:tables,id';
+            return $rules;
+        } else {
+            return $rules;
+        }
     }
 }

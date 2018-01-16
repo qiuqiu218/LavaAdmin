@@ -53,7 +53,7 @@
       <div class="layui-form-mid layui-word-aux">{{$errors->first('belong')}}</div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">是否显示</label>
+      <label class="layui-form-label">后台列表</label>
       <div class="layui-input-inline">
         <div class="layui-input">
           <input type="radio" name="is_show" value="1" title="显示" checked>

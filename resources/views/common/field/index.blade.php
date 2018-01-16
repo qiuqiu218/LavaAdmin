@@ -32,7 +32,7 @@
       <td>{{$item->display_name}}</td>
       <td>{{$item->type}}</td>
       <td align="center">
-        <button class="layui-btn layui-btn-xs layui-btn-normal" route="{{ url('admin/field/'.$item->id.'/edit') }}">编辑</button>
+        <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/field/'.$item->id.'/edit') }}">编辑</a>
         <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/field/'.$item->id) }}">删除</button>
       </td>
     </tr>

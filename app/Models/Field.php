@@ -29,8 +29,8 @@ class Field extends Model
     }
 
     /**
-     * @param $value
-     * @return \Illuminate\Config\Repository|mixed
+     * @param string $value
+     * @return string
      */
     public function getTypeAttribute($value)
     {
