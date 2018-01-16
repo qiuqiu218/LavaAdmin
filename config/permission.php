@@ -75,6 +75,6 @@ return [
      * By default all permissions will be cached for 24 hours unless a permission or
      * role is updated. Then the cache will be flushed immediately.
      */
-
-    'cache_expiration_time' => 60 * 24,
+    // 60 * 24
+    'cache_expiration_time' => 0,
 ];
