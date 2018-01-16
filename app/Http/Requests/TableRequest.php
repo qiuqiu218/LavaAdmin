@@ -23,19 +23,16 @@ class TableRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = [
+            'display_name' => 'required|string|max:30',
+            'is_sub_table' => 'sometimes|nullable|integer',
+            'type' => 'required|integer'
+        ];
         if ($this->method() === 'POST') {
-            return [
-                'name' => 'required|string|max:20|unique:tables,name',
-                'display_name' => 'required|string|max:30',
-                'is_sub_table' => 'sometimes|nullable|integer',
-                'type' => 'required|integer'
-            ];
+            $rules['name'] = 'required|string|max:20|unique:tables,name';
+            return $rules;
         } else {
-            return [
-                'display_name' => 'required|string|max:30',
-                'is_sub_table' => 'sometimes|nullable|integer',
-                'type' => 'required|integer'
-            ];
+            return $rules;
         }
     }
 }

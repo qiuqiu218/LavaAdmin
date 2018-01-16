@@ -13,7 +13,7 @@ class TableTableSeeder extends Seeder
     {
         $table = \App\Models\Table::query()->create([
             'name' => 'News',
-            'display_name' => '新闻表',
+            'display_name' => '新闻',
             'is_sub_table' => 1,
             'type' => 1
         ]);
