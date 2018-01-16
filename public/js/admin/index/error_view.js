@@ -71,8 +71,6 @@
 "use strict";
 
 
-__webpack_require__(135);
-
 var _redirect = __webpack_require__(66);
 
 var _redirect2 = _interopRequireDefault(_redirect);
@@ -86,13 +84,6 @@ $("#jump").redirect({
   jumpUrl: $("#jump").attr('href'),
   autoClose: _autoClose
 });
-
-/***/ }),
-
-/***/ 135:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ }),
 

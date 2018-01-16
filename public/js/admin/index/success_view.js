@@ -71,8 +71,6 @@
 "use strict";
 
 
-__webpack_require__(140);
-
 var _redirect = __webpack_require__(66);
 
 var _redirect2 = _interopRequireDefault(_redirect);
@@ -81,18 +79,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 $.fn.extend({ redirect: _redirect2.default });
 
-// $("#jump").redirect({
-//   sec: $("#sec").text(),
-//   jumpUrl: $("#jump").attr('href'),
-//   autoClose: _autoClose
-// })
-
-/***/ }),
-
-/***/ 140:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+$("#jump").redirect({
+  sec: $("#sec").text(),
+  jumpUrl: $("#jump").attr('href'),
+  autoClose: _autoClose
+});
 
 /***/ }),
 

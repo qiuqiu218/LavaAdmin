@@ -1,5 +1,17 @@
 @extends('layouts.default')
 
+@section('head')
+  @parent
+  <style>
+    html, 
+    body, 
+    .layui-row, 
+    .layui-row > div{
+      height: 100%
+    }
+  </style>
+@endsection
+
 @section('content')
   <div class="layui-row">
     <div class="layui-col-sm4 layui-col-sm-offset4 layui-col-xs6 layui-col-xs-offset3">
