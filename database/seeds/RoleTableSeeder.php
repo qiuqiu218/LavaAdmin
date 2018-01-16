@@ -12,10 +12,10 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
         $role = \App\Models\Admin\Role::query()->create([
-           'name' => 'super_admin',
-           'display_name' => '超级管理员',
+            'name' => 'super_admin',
+            'display_name' => '超级管理员',
             'guard_name' => 'admin'
         ]);
-        $role->syncPermissions(\App\Models\Admin\Permission::query()->select(['name'])->get()->toArray());
+//        $role->syncPermissions(\App\Models\Admin\Permission::query()->select(['name'])->get()->toArray());
     }
 }
