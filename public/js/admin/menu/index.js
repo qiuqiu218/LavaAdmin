@@ -60,45 +60,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 143);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 11:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _ajax = __webpack_require__(12);
+__webpack_require__(134);
 
-var _ajax2 = _interopRequireDefault(_ajax);
+/***/ }),
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+/***/ 134:
+/***/ (function(module, exports, __webpack_require__) {
 
-layui.use(['layer'], function () {
+"use strict";
 
-  $("button[route]").click(function () {
-    var route = $(this).attr('route');
-    layer.open({
-      type: 2,
-      title: $(this).text(),
-      shadeClose: true,
-      shade: 0.8,
-      area: ['60%', '80%'],
-      content: route
-    });
-  });
-
-  $("button[url]").click(function () {
-    var url = $(this).attr('url');
-    var confirm = $(this).attr('confirm');
-    _ajax2.default.deleteInfo(url, function (res) {
-      location.reload();
-    }, confirm);
-  });
-});
 
 // 点击菜单进行折叠或展开
 $("table a").click(function () {
@@ -143,74 +124,6 @@ function unfoldMenu(parentId) {
     });
   }
 }
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-
-var _param = {
-  url: '',
-  type: 'get',
-  contentType: 'application/json',
-  dataType: 'json',
-  data: {}
-};
-
-function isConfirm(msg) {
-  return new Promise(function (resolve, reject) {
-    if (msg) {
-      layer.confirm(msg, function (index) {
-        layer.close(index);
-        resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
-}
-
-function deleteInfo(route, callback) {
-  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
-    return ajax({
-      url: route,
-      success: callback,
-      type: 'delete'
-    });
-  });
-}
-
-function ajax(param) {
-  $.ajax(Object.assign(_param, param));
-}
-
-exports.default = {
-  deleteInfo: deleteInfo
-};
-
-/***/ }),
-
-/***/ 143:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(11);
 
 /***/ })
 

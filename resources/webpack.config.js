@@ -18,7 +18,7 @@ files.forEach(file => {
   var name = file.match(/src\/(.*?).js/)[1]
   entry[name] = file
 });
-entry.vendor = ['jquery', 'babel-polyfill', './src/stylus/main.styl']
+entry.vendor = ['jquery', 'babel-polyfill', './src/stylus/main.styl', './assets/script/common/main.js']
 
 module.exports = {
   entry: entry,

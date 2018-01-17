@@ -15,6 +15,9 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title', 60)->comment('标题');
+            $table->unsignedInteger('read')->comment('阅读数')->default(0);
+            $table->unsignedTinyInteger('select')->comment('select')->default(0);
             $table->timestamps();
         });
     }

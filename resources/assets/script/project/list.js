@@ -1,28 +1,3 @@
-import ajax from '_assets/script/tools/ajax'
-
-layui.use(['layer'], function () {
-
-  $("button[route]").click(function () {
-    let route = $(this).attr('route')
-    layer.open({
-      type: 2,
-      title: $(this).text(),
-      shadeClose: true,
-      shade: 0.8,
-      area: ['60%', '80%'],
-      content: route
-    })
-  })
-
-  $("button[url]").click(function () {
-    let url = $(this).attr('url')
-    let confirm = $(this).attr('confirm')
-    ajax.deleteInfo(url, res => {
-      location.reload()
-    }, confirm)
-  })
-
-})
 
 // 点击菜单进行折叠或展开
 $("table a").click(function () {

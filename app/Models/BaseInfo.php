@@ -22,7 +22,38 @@ class BaseInfo extends Model
 
     public function initFillable()
     {
-        $this->fillable = (new Table())->getField('News')->map(function ($item) {
+        $this->fillable = (new Table())->getField($this->getModel())->map(function ($item) {
+            return $item->name;
+        })->toArray();
+    }
+
+    public function getTableCol()
+    {
+        return (new Table())
+                    ->getField($this->getModel())
+                    ->filter(function ($item) {
+                        return $item->belong === 1 && $item->is_show;
+                    });
+    }
+
+    public function getTableDetailField()
+    {
+        return (new Table())
+                    ->getField($this->getModel())
+                    ->filter(function ($item) {
+                        return $item->is_import === 1;
+                    });
+    }
+
+    public function getTableData()
+    {
+        $data = self::query()->select($this->getTableListField())->get();
+
+    }
+
+    public function getTableListField()
+    {
+        return $this->getTableCol()->map(function ($item) {
             return $item->name;
         })->toArray();
     }

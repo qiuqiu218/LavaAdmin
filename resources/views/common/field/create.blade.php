@@ -38,7 +38,8 @@
     <div class="layui-form-item">
       <label class="layui-form-label">默认值</label>
       <div class="layui-input-inline">
-        <input type="text" name="default_value" placeholder="请输入默认值" class="layui-input" value="{{old('default_value')}}">
+        <textarea name="default_value" placeholder="请输入默认值" class="layui-textarea">{{old('default_value')}}</textarea>
+        <div class="d-text-right word-count"><span>0</span>/255</div>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('default_value')}}</div>
     </div>
