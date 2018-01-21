@@ -83,7 +83,7 @@ trait Resource {
         $controller = snake_case($this->getController());
         $action = snake_case($this->getAction());
         $prefix = snake_case($this->getPrefix());
-        $cssPath = 'js/'.$prefix.'/'.$controller.'/'.$action.'.css';
+        $cssPath = 'css/'.$prefix.'/'.$controller.'/'.$action.'.css';
         $cssBasePath = public_path($cssPath);
         if (is_file($cssBasePath)) {
             return '<link rel="stylesheet" href="'.asset($cssPath).'?'.time().'">';

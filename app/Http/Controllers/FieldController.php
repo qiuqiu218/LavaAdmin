@@ -51,6 +51,7 @@ class FieldController extends BaseController
     public function store(FieldRequest $request)
     {
         $input = $request->only($this->model->getFillable());
+        dd($input);
         $res = $this->model->query()->create($input);
         return $res ? $this->success('创建成功', 'admin/field?table_id='.$input['table_id']) : $this->error('创建失败');
     }

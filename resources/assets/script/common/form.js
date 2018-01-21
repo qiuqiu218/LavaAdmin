@@ -4,3 +4,10 @@ $(".layui-form").on('keyup', 'textarea', function () {
     wordCount.children('span').text($(this).val().length)
   }
 })
+
+$(".layui-form textarea").each(function () {
+  let wordCount = $(this).siblings('.word-count')
+  if (wordCount.length > 0) {
+    wordCount.children('span').text($(this).val().length)
+  }
+})

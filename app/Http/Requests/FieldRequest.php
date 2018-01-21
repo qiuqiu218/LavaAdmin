@@ -29,6 +29,7 @@ class FieldRequest extends FormRequest
             'type' => 'required|string|max:20',
             'is_show' => 'required|integer',
             'is_import' => 'required|integer',
+            'collect' => 'sometimes|nullable|array',
             'belong' => 'required|integer',
             'sort' => 'sometimes|nullable|integer'
         ];

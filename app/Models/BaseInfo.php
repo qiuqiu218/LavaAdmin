@@ -27,6 +27,10 @@ class BaseInfo extends Model
         })->toArray();
     }
 
+    /**
+     * 获取列表显示的字段 返回object，用于显示名称
+     * @return mixed
+     */
     public function getTableCol()
     {
         return (new Table())
@@ -36,21 +40,34 @@ class BaseInfo extends Model
                     });
     }
 
+    /**
+     * 获取可输入的内容字段
+     * @return mixed
+     */
     public function getTableDetailField()
     {
-        return (new Table())
+        $data = (new Table())
                     ->getField($this->getModel())
                     ->filter(function ($item) {
                         return $item->is_import === 1;
                     });
+        return $data;
     }
 
+    /**
+     * 获取当前模型数据
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getTableData()
     {
-        $data = self::query()->select($this->getTableListField())->get();
-
+        return self::query()->get();
     }
 
+    /**
+     * 获取列表显示字段 ['id', 'name']
+     * @return mixed
+     */
     public function getTableListField()
     {
         return $this->getTableCol()->map(function ($item) {

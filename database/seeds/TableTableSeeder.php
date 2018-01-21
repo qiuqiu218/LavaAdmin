@@ -27,10 +27,10 @@ class TableTableSeeder extends Seeder
                 'is_import' => 1
             ],
             [
-                'name' => 'content',
-                'display_name' => '内容',
-                'type' => '编辑器',
-                'belong' => 2,
+                'name' => 'select',
+                'display_name' => 'select',
+                'type' => '下拉框',
+                'belong' => 1,
                 'is_show' => 1,
                 'is_import' => 1
             ]

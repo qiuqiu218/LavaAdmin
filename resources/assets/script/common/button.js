@@ -7,7 +7,7 @@ $("button[route]").click(function () {
     title: $(this).text(),
     shadeClose: true,
     shade: 0.8,
-    area: ['60%', '80%'],
+    area: ['60%', '90%'],
     content: route
   })
 })

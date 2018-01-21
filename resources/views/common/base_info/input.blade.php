@@ -18,6 +18,10 @@
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
     @break
+  
+  @case('下拉框')
+    
+    @break
 
   @default
         {{$item->type}}

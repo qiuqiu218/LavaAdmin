@@ -60,70 +60,49 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(136);
+__webpack_require__(128);
+
+$("#openCollect").click(function () {
+  $("#form,#formBtn").addClass('layui-hide');
+  $("#collect,#collectBtn").removeClass('layui-hide');
+});
+
+$("#closeCollect").click(function () {
+  $("#form,#formBtn").removeClass('layui-hide');
+  $("#collect,#collectBtn").addClass('layui-hide');
+});
+
+$("#openItem").click(addItem);
+
+$("#deleteItem").click(function () {
+  $("#collect").find('.checked:checked').each(function () {
+    $(this).parents('.layui-form-item').remove();
+  });
+});
+
+function addItem() {
+  $("#collect").append($("#collectTemplate").html());
+  layui.form.render('checkbox');
+}
+addItem();
 
 /***/ }),
 
-/***/ 136:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 128:
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-// 点击菜单进行折叠或展开
-$("table a").click(function () {
-  var tr = $(this).parents('tr');
-  var id = tr.data('id');
-  var status = tr.data('status');
-  if (status === 'fold') {
-    tr.data('status', 'unfold');
-    $(this).find('i').html('&#xe625;');
-    unfoldMenu(id);
-  } else {
-    tr.data('status', 'fold');
-    $(this).find('i').html('&#xe623;');
-    foldMenu(id);
-  }
-});
-
-// 折叠菜单
-function foldMenu(parentId) {
-  var dom = $("tr[data-parentId='" + parentId + "']");
-  if (dom.length) {
-    dom.addClass('layui-hide');
-    dom.each(function () {
-      foldMenu($(this).data('id'));
-    });
-  }
-}
-
-// 展开菜单
-function unfoldMenu(parentId) {
-  var parent = $("tr[data-id='" + parentId + "']");
-  var dom = $("tr[data-parentId='" + parentId + "']");
-  if (dom.length) {
-    dom.each(function () {
-      var status = parent.data('status');
-      if (status === 'fold') {
-        $(this).addClass('layui-hide');
-      } else {
-        $(this).removeClass('layui-hide');
-      }
-      unfoldMenu($(this).data('id'));
-    });
-  }
-}
+// removed by extract-text-webpack-plugin
 
 /***/ })
 
