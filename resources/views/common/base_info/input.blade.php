@@ -20,7 +20,40 @@
     @break
   
   @case('下拉框')
-    
+    <div class="layui-form-item">
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-inline">
+        <select name="{{$item->name}}">
+          <option value=""></option>
+          @foreach ($item->default_value as $option)
+          <option value="{{$option['value']}}"{{$option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
+    </div>
+    @break
+
+  @case('单选框')
+    <div class="layui-form-item" pane>
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-block">
+        @foreach ($item->default_value as $option)
+          <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$option['active'] ? ' checked' : ''}}>
+        @endforeach
+      </div>
+    </div>
+    @break
+
+  @case('复选框')
+    <div class="layui-form-item" pane>
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-block">
+        @foreach ($item->default_value as $option)
+          <input type="checkbox" name="{{$item->name}}[]" value="{{$option['value']}}" title="{{$option['text']}}" lay-skin="primary"{{$option['active'] ? ' checked' : ''}}>
+        @endforeach
+      </div>
+    </div>
     @break
 
   @default

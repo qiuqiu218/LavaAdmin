@@ -5,21 +5,8 @@
   {{ csrf_field() }}
   <input type="hidden" name="table_id" value="{{$table_id}}">
   <div class="layui-footer d-text-center">
-    <div id="formBtn">
-      <button class="layui-btn" lay-submit>确认添加</button>
-      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-    </div>
-    <div id="collectBtn" class="layui-hide">
-      <div class="layui-row">
-        <div class="layui-col-xs3 d-text-left">
-          <button type="button" class="layui-btn d-margin-l-10" id="closeCollect">返回</button>
-        </div>
-        <div class="layui-col-xs6">
-          <button type="button" class="layui-btn layui-btn-primary" id="openItem">添加</button>
-          <button type="button" class="layui-btn layui-btn-danger" id="deleteItem">删除</button>
-        </div>
-      </div>
-    </div>
+    <button class="layui-btn" lay-submit>确认添加</button>
+    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
   </div>
   <div class="d-padding-10" style="height: 100%">
     <div id="form">
@@ -47,7 +34,6 @@
             @endforeach
           </select>
         </div>
-        <div class="layui-form-mid layui-word-aux"><a href="javascript:;" id="openCollect">设置选项数据</a></div>
         <div class="layui-form-mid layui-word-aux">{{$errors->first('type')}}</div>
       </div>
       <div class="layui-form-item">
@@ -96,10 +82,6 @@
         <div class="layui-form-mid layui-word-aux">{{$errors->first('sort')}}</div>
       </div>
     </div>
-    <div id="collect" class="layui-hide" style="height: 100%"></div>
   </div>
 </form>
-<script type="template" id="collectTemplate">
-  @include('common.field.collect')
-</script>
 @endsection

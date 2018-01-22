@@ -33,6 +33,8 @@ class Table extends Model
     }
 
     /**
+     * // 获取当前表的字段集合
+     *
      * @param $name
      * @return mixed|null
      */
