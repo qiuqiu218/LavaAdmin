@@ -44,21 +44,25 @@ class Field extends Model
     {
         if (in_array($this->type, ['下拉框', '单选框', '复选框']) && $this->getModel() !== 'Field') {
             $select = collect(explode("\r\n", $value));
-            $obj = $select->map(function ($item) {
-                list($val, $text) = explode("==", $item);
-                $active = 0;
-                if (str_contains($text, ':default')) {
-                    $text = str_before($text, ':default');
-                    $active = 1;
-                }
+            try {
+                $obj = $select->map(function ($item) {
+                    list($val, $text) = explode("==", $item);
+                    $active = 0;
+                    if (str_contains($text, ':default')) {
+                        $text = str_before($text, ':default');
+                        $active = 1;
+                    }
 
-                return [
-                    'value' => $val,
-                    'text' => $text,
-                    'active' => $active
-                ];
-            })->toArray();
-            return $obj;
+                    return [
+                        'value' => $val,
+                        'text' => $text,
+                        'active' => $active
+                    ];
+                })->toArray();
+                return $obj;
+            } catch (\Exception $e) {
+                return [];
+            }
         } else {
             return $value;
         }

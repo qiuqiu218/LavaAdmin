@@ -511,3 +511,39 @@
 .layui-form-pane .layui-input .layui-form-radio {
   margin-left: 0;
 }
+.layui-input-block .upload {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.layui-input-block .upload ~ .layui-input {
+  padding-right: 120px;
+}
+.layui-row .square {
+  width: 100%;
+  padding-bottom: 100%;
+  height: 0;
+  position: relative;
+}
+.layui-row .square > img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.layui-row .square > .mask {
+  padding: 5px 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+}
+.layui-row .square > .mask a {
+  color: #fff;
+  font-size: 12px;
+}
+.layui-row .square > .mask a i {
+  vertical-align: bottom;
+}

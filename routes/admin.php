@@ -50,5 +50,8 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
 $this->middleware('auth:admin')->group(function () {
     // 数据表
     Route::resource('table', 'TableController');
+    // 数据表字段
     Route::resource('field', 'FieldController');
+    // 文件管理
+    Route::resource('file', 'FileController');
 });
