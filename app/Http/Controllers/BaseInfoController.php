@@ -12,7 +12,7 @@ class BaseInfoController extends BaseController
     public function __construct()
     {
         $this->model = $this->getInstantiationModel();
-        View::share('controller', snake_case($this->getController()));
+        View::share('controller', $this->getController());
     }
     /**
      * Display a listing of the resource.

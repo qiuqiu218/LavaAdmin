@@ -4,7 +4,7 @@
 <div class="d-padding-10">
 <div class="layui-row">
     <div class="layui-col-xs6">
-      <button class="layui-btn layui-btn-normal" route="{{ url('admin/'.$controller.'/create') }}">添加信息</button>
+      <a class="layui-btn layui-btn-normal" href="{{ url('admin/'.snake_case($controller).'/create') }}">添加信息</a>
     </div>
   </div>
   <table class="layui-table">

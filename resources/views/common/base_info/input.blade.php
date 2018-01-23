@@ -56,6 +56,31 @@
     </div>
     @break
 
+  @case('文本框')
+    <div class="layui-form-item">
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-inline">
+        <textarea name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-textarea">{{old($item->name)}}</textarea>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
+    </div>
+    @break
+
+  @case('单图上传')
+    <div class="layui-form-item">
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-block">
+        <div class="upload">
+          <button type="button" class="layui-btn" route="{{ url('admin/file/create') }}">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+          </button>
+        </div>
+        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
+    </div>
+    @break
+
   @default
         {{$item->type}}
 @endswitch
