@@ -71,7 +71,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/file/create') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name) }}">
             <i class="layui-icon">&#xe67c;</i>上传图片
           </button>
         </div>

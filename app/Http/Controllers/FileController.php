@@ -17,7 +17,10 @@ class FileController extends BaseController
      */
     public function index()
     {
-        //
+        $data = File::query()->whereNull('info_id')->get();
+        return view('common.file.index', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -27,10 +30,7 @@ class FileController extends BaseController
      */
     public function create()
     {
-        $data = File::query()->whereNull('info_id')->get();
-        return view('common.file.create', [
-            'data' => $data
-        ]);
+        return view('common.file.create');
     }
 
     /**

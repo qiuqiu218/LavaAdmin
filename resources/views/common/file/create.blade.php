@@ -1,6 +1,10 @@
 @extends('layouts.default')
 
 @section('content')
+<div class="layui-footer d-text-center">
+  <button class="layui-btn" id="submit">确认上传</button>
+  <a class="layui-btn layui-btn-primary" href="{{ url('admin/file') }}">返回列表</a>
+</div>
 <div class="layui-upload d-padding-10">
   <button type="button" class="layui-btn layui-btn-normal image">选择多文件</button> 
   <div class="layui-upload-list">
@@ -13,29 +17,6 @@
       </tr></thead>
       <tbody id="listView"></tbody>
     </table>
-  </div>
-  <button type="button" class="layui-btn" id="submit">开始上传</button>
-</div>
-<div class="d-padding-10">
-  <div class="layui-row layui-col-space25">
-    @foreach ($data as $item)
-      <div class="layui-col-xs3">
-        <div class="square">
-          <img src="{{$item->path}}">
-          <div class="mask">
-            <div class="layui-row">
-              <div class="layui-col-xs6">
-                <a href="javascript:;"><i class="layui-icon">&#xe605;</i>选择</a>
-              </div>
-              <div class="layui-col-xs6 d-text-right">
-                <a href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="d-text-center">{{$item->name}}</div>
-      </div>
-    @endforeach
   </div>
 </div>
 @endsection
