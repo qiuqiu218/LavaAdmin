@@ -16,3 +16,8 @@
   </div>
 </form>
 @endsection
+
+@section('script')
+  @parent
+  <script src="{{ asset('js/admin/base_info/create.js?'.time()) }}"></script>
+@endsection

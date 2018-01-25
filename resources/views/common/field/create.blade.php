@@ -27,7 +27,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">类型</label>
         <div class="layui-input-inline">
-          <select name="type">
+          <select name="type" lay-filter="type">
             <option value="">默认{{$type['default']}}</option>
             @foreach ($type['data'] as $name)
             <option value="{{$name}}"{{ $type['default'] === $name ? ' selected' : '' }}>{{$name}}</option>

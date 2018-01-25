@@ -60,91 +60,24 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 136);
+/******/ 	return __webpack_require__(__webpack_require__.s = 131);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 136:
+/***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _redirect = __webpack_require__(66);
-
-var _redirect2 = _interopRequireDefault(_redirect);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-$.fn.extend({ redirect: _redirect2.default });
-
-$("#jump").redirect({
-  sec: $("#sec").text(),
-  jumpUrl: $("#jump").attr('href'),
-  autoClose: _autoClose
+layui.form.on('select(type)', function (data) {
+  if (['下拉框', '单选框'].includes(data.value)) {
+    $("textarea[name='default_value']").attr('placeholder', '格式如：\n1==文本1:default\n2==文本2\n3==文本3');
+  } else if (data.value === '复选框') {
+    $("textarea[name='default_value']").attr('placeholder', '格式如：\n1==文本1:default\n2==文本2:default\n3==文本3');
+  }
 });
-
-/***/ }),
-
-/***/ 66:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _sec = 3,
-    _jumpUrl = '',
-    _autoClose = false,
-    _this = null;
-
-function init(arg) {
-  _this = $(this);
-  _sec = arg.sec;
-  _jumpUrl = arg.jumpUrl;
-  _autoClose = arg.autoClose;
-  _this.click(function (event) {
-    event.preventDefault();
-    gotoJumpUrl();
-  });
-  countDown();
-}
-
-function autoClose() {
-  if (window.self.location.toString() !== window.top.location.toString()) {
-    // 如果当前页面是在框架内打开的
-    window.parent.location.reload();
-    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-    parent.layer.close(index); //再执行关闭
-  }
-}
-
-function gotoJumpUrl(href) {
-  if (_autoClose) {
-    // 如果需要自动关闭
-    autoClose();
-  } else if (_jumpUrl) {
-    window.location.href = _jumpUrl;
-  } else {
-    history.back();
-  }
-}
-
-function countDown() {
-  if (_sec !== 0) {
-    setTimeout(function () {
-      $("#sec").text(--_sec);
-      countDown();
-    }, 1000);
-  } else {
-    gotoJumpUrl();
-  }
-}
-
-exports.default = init;
 
 /***/ })
 

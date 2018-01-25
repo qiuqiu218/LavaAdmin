@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "A Laravel CMS",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --watch",
-    "build": "NODE_ENV=production webpack -p --progress --profile --colors"
+    "dev": "webpack --watch",
+    "build": "webpack -p --progress --profile --colors"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,8 @@
   "dependencies": {
     "babel-polyfill": "^6.16.0",
     "expose-loader": "^0.7.4",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "store2": "^2.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

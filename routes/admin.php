@@ -54,4 +54,6 @@ $this->middleware('auth:admin')->group(function () {
     Route::resource('field', 'FieldController');
     // 文件管理
     Route::resource('file', 'FileController');
+    // 图片管理
+    Route::resource('image', 'ImageController');
 });

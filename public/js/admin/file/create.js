@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 128);
+/******/ 	return __webpack_require__(__webpack_require__.s = 132);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 128:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80,10 +80,11 @@ var uploadListIns = layui.upload.render({
     mark: $('input[name="mark"]', window.parent.document).val(),
     _token: $('meta[name="csrf-token"]').attr('content')
   },
-  accept: 'images',
+  accept: 'file',
+  exts: 'zip|rar|7z|doc|pdf|xls',
   auto: false,
   bindAction: '#submit',
-  field: 'img',
+  field: 'file',
   multiple: true,
   choose: function choose(obj) {
     var files = this.files = obj.pushFile();

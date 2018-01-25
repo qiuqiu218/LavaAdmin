@@ -27,9 +27,13 @@ function isConfirm (msg) {
 
 function deleteInfo (route, callback, confirm = true) {
   isConfirm(confirm === true ? '您真的要删除吗?' : confirm)
-    .then(res => ajax({
+    .then(res => layer.load())
+    .then(index => ajax({
       url: route,
-      success: callback,
+      success: function (res) {
+        layer.close(index)
+        callback(res)
+      },
       type: 'delete'
     }))
 }

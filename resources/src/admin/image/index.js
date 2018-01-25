@@ -3,7 +3,7 @@ import ajax from '_assets/script/tools/ajax'
 
 // 获取url上面的参数
 let field = getUrlParam('field')
-// 获取上传类型 1=单文件2=多文件
+// 获取上传类型 1=单图2=多图
 let uploadType = Number(getUrlParam('type'))
 // 初始化图片选中状态
 renderSelected()
@@ -22,9 +22,9 @@ window.selected = function (index) {
 
 // 删除事件
 window.deleted = function (index) {
-  ajax.deleteInfo(`/admin/file/${_data.data[index].id}`, res => {
+  ajax.deleteInfo(`/admin/image/${_data.data[index].id}`, res => {
     if (res.status === 'success') {
-      $("#file"+_data.data[index].id).remove()
+      $("#img"+_data.data[index].id).remove()
     }
   })
 }
@@ -44,9 +44,9 @@ function closeFrame () {
 // 渲染选中/未选中的状态
 function renderSelected () {
   let collect = $.store.array.get(`baseInfo_input_${field}`)
-  $("table").find('.selected').removeClass('d-font-main').text('选择')
+  $("#list").find('.selected').removeClass('active').children('span').text('选择')
   collect.forEach(res => {
-    $("#file" + res.id).find('.selected').addClass('d-font-main').text('取消选择')
+    $("#img" + res.id).find('.selected').addClass('active').children('span').text('取消选择')
   })
 }
 
@@ -54,15 +54,17 @@ function renderSelected () {
 function renderImages () {
   let collect = $.store.array.get(`baseInfo_input_${field}`)
   let data = collect.map(res => {
-    return `<tr data-id="${res.id}">
-              <td>${res.name}</td>
-              <td>${res.mime}</td>
-              <td>${(res.size / 1000).toFixed(1)}KB</td>
-              <td>
-                <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
+    return `<div class="layui-col-xs2" data-id="${res.id}">
+              <div class="square">
+                <img src="${res.path}">
+                <div class="mask">
+                  <div class="d-text-right">
+                    <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
+                  </div>
+                </div>
                 <input type="hidden" name="${field}[]" value="${res.path}">
-              </td>
-            </tr>`
+              </div>
+            </div>`
   })
   $(`#${field}List`, window.parent.document).html(data)
 }

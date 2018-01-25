@@ -419,6 +419,9 @@
 .d-scroll-x {
   overflow-x: auto !important;
 }
+.d-hidden {
+  overflow: hidden;
+}
 .d-border,
 .d-panel {
   border: 1px solid #eee;
@@ -489,6 +492,22 @@
 .d-panel footer a {
   color: #3498db;
 }
+.d-table {
+  display: table;
+  width: 80%;
+  border: 1px solid #eee;
+  border-radius: 2px;
+}
+.d-table > * {
+  display: table-cell;
+  float: none;
+  vertical-align: middle;
+  overflow: visible !important;
+  border-width: 0px !important;
+}
+.d-table > *:first-child {
+  border-right: 1px solid #eee !important;
+}
 .layui-body {
   overflow-y: hidden;
 }
@@ -519,20 +538,20 @@
 .layui-input-block .upload ~ .layui-input {
   padding-right: 120px;
 }
-.layui-row .square {
+.layui-row .square .square-img {
   width: 100%;
   padding-bottom: 100%;
   height: 0;
   position: relative;
 }
-.layui-row .square > img {
+.layui-row .square .square-img > img {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.layui-row .square > .mask {
+.layui-row .square .square-img > .mask {
   padding: 5px 10px;
   position: absolute;
   bottom: 0;
@@ -540,10 +559,17 @@
   right: 0;
   background: rgba(0,0,0,0.6);
 }
-.layui-row .square > .mask a {
+.layui-row .square .square-img > .mask a {
   color: #fff;
   font-size: 12px;
 }
-.layui-row .square > .mask a i {
+.layui-row .square .square-img > .mask a i {
   vertical-align: bottom;
+}
+.layui-row .square .square-img > .mask a.active {
+  color: #ff0;
+}
+.layui-row .square .name {
+  height: 40px;
+  overflow: hidden;
 }

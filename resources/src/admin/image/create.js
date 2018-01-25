@@ -2,17 +2,16 @@
 let listView = $('#listView')
 let uploadListIns = layui.upload.render({
   elem: '.image',
-  url: '/admin/file',
+  url: '/admin/image',
   data: {
     model: $('input[name="model"]', window.parent.document).val(),
     mark: $('input[name="mark"]', window.parent.document).val(),
     _token: $('meta[name="csrf-token"]').attr('content')
   },
-  accept: 'file',
-  exts: 'zip|rar|7z|doc|pdf|xls',
+  accept: 'images',
   auto: false,
   bindAction: '#submit',
-  field: 'file',
+  field: 'img',
   multiple: true,
   choose (obj) {
     let files = this.files = obj.pushFile()

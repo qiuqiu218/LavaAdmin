@@ -60,91 +60,70 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 136);
+/******/ 	return __webpack_require__(__webpack_require__.s = 134);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 136:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _redirect = __webpack_require__(66);
+var listView = $('#listView');
+var uploadListIns = layui.upload.render({
+  elem: '.image',
+  url: '/admin/image',
+  data: {
+    model: $('input[name="model"]', window.parent.document).val(),
+    mark: $('input[name="mark"]', window.parent.document).val(),
+    _token: $('meta[name="csrf-token"]').attr('content')
+  },
+  accept: 'images',
+  auto: false,
+  bindAction: '#submit',
+  field: 'img',
+  multiple: true,
+  choose: function choose(obj) {
+    var files = this.files = obj.pushFile();
 
-var _redirect2 = _interopRequireDefault(_redirect);
+    obj.preview(function (index, file, result) {
+      var tr = $(['<tr id="upload-' + index + '">', '<td>' + file.name + '</td>', '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>', '<td>等待上传</td>', '<td>', '<button class="layui-btn layui-btn-mini upload-reload layui-hide">重传</button>', '<button class="layui-btn layui-btn-mini layui-btn-danger upload-delete">删除</button>', '</td>', '</tr>'].join(''));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+      //单个重传
+      tr.find('.upload-reload').on('click', function () {
+        obj.upload(index, file);
+      });
 
-$.fn.extend({ redirect: _redirect2.default });
+      //删除
+      tr.find('.upload-delete').on('click', function () {
+        delete files[index]; //删除对应的文件
+        tr.remove();
+        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+      });
 
-$("#jump").redirect({
-  sec: $("#sec").text(),
-  jumpUrl: $("#jump").attr('href'),
-  autoClose: _autoClose
+      listView.append(tr);
+    });
+  },
+  done: function done(res, index, upload) {
+    if (res.status === 'success') {
+      //上传成功
+      var tr = listView.find('tr#upload-' + index);
+      var tds = tr.children();
+      tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+      tds.eq(3).html(''); //清空操作
+      return delete this.files[index]; //删除文件队列已经上传成功的文件
+    }
+    this.error(index, upload);
+  },
+  error: function error(index, upload) {
+    var tr = listView.find('tr#upload-' + index);
+    var tds = tr.children();
+    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+    tds.eq(3).find('.upload-reload').removeClass('layui-hide'); //显示重传
+  }
 });
-
-/***/ }),
-
-/***/ 66:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _sec = 3,
-    _jumpUrl = '',
-    _autoClose = false,
-    _this = null;
-
-function init(arg) {
-  _this = $(this);
-  _sec = arg.sec;
-  _jumpUrl = arg.jumpUrl;
-  _autoClose = arg.autoClose;
-  _this.click(function (event) {
-    event.preventDefault();
-    gotoJumpUrl();
-  });
-  countDown();
-}
-
-function autoClose() {
-  if (window.self.location.toString() !== window.top.location.toString()) {
-    // 如果当前页面是在框架内打开的
-    window.parent.location.reload();
-    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-    parent.layer.close(index); //再执行关闭
-  }
-}
-
-function gotoJumpUrl(href) {
-  if (_autoClose) {
-    // 如果需要自动关闭
-    autoClose();
-  } else if (_jumpUrl) {
-    window.location.href = _jumpUrl;
-  } else {
-    history.back();
-  }
-}
-
-function countDown() {
-  if (_sec !== 0) {
-    setTimeout(function () {
-      $("#sec").text(--_sec);
-      countDown();
-    }, 1000);
-  } else {
-    gotoJumpUrl();
-  }
-}
-
-exports.default = init;
 
 /***/ })
 

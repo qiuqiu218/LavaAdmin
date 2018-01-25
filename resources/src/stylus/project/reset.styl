@@ -33,31 +33,40 @@
 // 自适应正方形图片
 .layui-row {
   .square {
-    width:100%
-    padding-bottom: 100%
-    height: 0
-    position: relative
-    & > img {
-      position: absolute
+    .square-img {
       width:100%
-      height:100%
-      object-fit: cover
-      display: block
-    }
-    & > .mask {
-      padding: 5px 10px
-      position: absolute
-      bottom: 0
-      left: 0
-      right: 0
-      background: rgba(0, 0, 0, 0.6)
-      a {
-        color: $color-font-white
-        font-size: 12px
-        i {
-          vertical-align: bottom
+      padding-bottom: 100%
+      height: 0
+      position: relative
+      & > img {
+        position: absolute
+        width:100%
+        height:100%
+        object-fit: cover
+        display: block
+      }
+      & > .mask {
+        padding: 5px 10px
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+        background: rgba(0, 0, 0, 0.6)
+        a {
+          color: $color-font-white
+          font-size: 12px
+          i {
+            vertical-align: bottom
+          }
+        }
+        a.active {
+          color: yellow
         }
       }
     }
-  } 
+    .name {
+      height: 40px
+      overflow: hidden  
+    }
+  }
 }

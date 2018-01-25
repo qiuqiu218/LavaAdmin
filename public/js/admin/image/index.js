@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 133:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,7 +81,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // 获取url上面的参数
 var field = (0, _other.getUrlParam)('field');
-// 获取上传类型 1=单文件2=多文件
+// 获取上传类型 1=单图2=多图
 var uploadType = Number((0, _other.getUrlParam)('type'));
 // 初始化图片选中状态
 renderSelected();
@@ -100,9 +100,9 @@ window.selected = function (index) {
 
 // 删除事件
 window.deleted = function (index) {
-  _ajax2.default.deleteInfo('/admin/file/' + _data.data[index].id, function (res) {
+  _ajax2.default.deleteInfo('/admin/image/' + _data.data[index].id, function (res) {
     if (res.status === 'success') {
-      $("#file" + _data.data[index].id).remove();
+      $("#img" + _data.data[index].id).remove();
     }
   });
 };
@@ -122,9 +122,9 @@ function closeFrame() {
 // 渲染选中/未选中的状态
 function renderSelected() {
   var collect = $.store.array.get('baseInfo_input_' + field);
-  $("table").find('.selected').removeClass('d-font-main').text('选择');
+  $("#list").find('.selected').removeClass('active').children('span').text('选择');
   collect.forEach(function (res) {
-    $("#file" + res.id).find('.selected').addClass('d-font-main').text('取消选择');
+    $("#img" + res.id).find('.selected').addClass('active').children('span').text('取消选择');
   });
 }
 
@@ -132,7 +132,7 @@ function renderSelected() {
 function renderImages() {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<tr data-id="' + res.id + '">\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </td>\n            </tr>';
+    return '<div class="layui-col-xs2" data-id="' + res.id + '">\n              <div class="square">\n                <img src="' + res.path + '">\n                <div class="mask">\n                  <div class="d-text-right">\n                    <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
   });
   $('#' + field + 'List', window.parent.document).html(data);
 }
