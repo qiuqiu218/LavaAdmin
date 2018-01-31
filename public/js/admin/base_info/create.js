@@ -66,30 +66,9 @@
 /******/ ({
 
 /***/ 129:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-// 多图上传 - 图片删除
-$("#images").on('click', '.deleted', function () {
-  var field = $("#images").attr('name');
-  var parent = $(this).parents('.layui-col-xs2');
-  $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
-  parent.remove();
-});
-
-// 多文件上传 - 文件删除
-$("#files").on('click', '.deleted', function () {
-  var field = $("#files").attr('name');
-  var parent = $(this).parents('tr');
-  $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
-  parent.remove();
-});
-
-layui.laydate.render({
-  elem: 'input[date]'
-});
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/wanxin/project/LavaAdmin/resources/src/admin/base_info/create.js'");
 
 /***/ })
 

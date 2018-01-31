@@ -3,21 +3,31 @@ import ajax from '_assets/script/tools/ajax'
 
 // 获取url上面的参数
 let field = getUrlParam('field')
-// 获取上传类型 1=单图2=多图
-let uploadType = Number(getUrlParam('type'))
+/**
+ * 获取图片上传类型
+ * Image 单图上传
+ * Images 多图上传
+ * File 单文件上传
+ * Files 多文件上传
+ * Editor 编辑器
+ */
+let uploadType = getUrlParam('type')
 // 初始化图片选中状态
 renderSelected()
 
 // 选中/取消事件
 window.selected = function (index) {
   let v = _data.data[index]
-  if (uploadType === 1) {
-    $('input[name="'+field+'"]', window.parent.document).val(v.path)
-    closeFrame()
-  } else {
-    $.store.array.toggle(`baseInfo_input_${field}`, v)
-    renderSelected()
+  if ($.isFunction(parent[`render${uploadType}`])) {
+    parent[`selected${uploadType}`](field, v)
   }
+  // if (uploadType === 1) {
+  //   $('input[name="'+field+'"]', window.parent.document).val(v.path)
+  //   closeFrame()
+  // } else {
+  //   $.store.array.toggle(`baseInfo_input_${field}`, v)
+  //   renderSelected()
+  // }
 }
 
 // 删除事件
@@ -56,10 +66,12 @@ function renderImages () {
   let data = collect.map(res => {
     return `<div class="layui-col-xs2" data-id="${res.id}">
               <div class="square">
-                <img src="${res.path}">
-                <div class="mask">
-                  <div class="d-text-right">
-                    <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
+                <div class="square-img">
+                  <img src="${res.path}">
+                  <div class="mask">
+                    <div class="d-text-right">
+                      <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
+                    </div>
                   </div>
                 </div>
                 <input type="hidden" name="${field}[]" value="${res.path}">

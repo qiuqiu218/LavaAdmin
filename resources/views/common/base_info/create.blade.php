@@ -19,5 +19,5 @@
 
 @section('script')
   @parent
-  <script src="{{ asset('js/admin/base_info/create.js?'.time()) }}"></script>
+  @include('common.base_info.input_js')
 @endsection

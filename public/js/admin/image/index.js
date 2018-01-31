@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,21 +81,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // 获取url上面的参数
 var field = (0, _other.getUrlParam)('field');
-// 获取上传类型 1=单图2=多图
-var uploadType = Number((0, _other.getUrlParam)('type'));
+/**
+ * 获取图片上传类型
+ * Image 单图上传
+ * Images 多图上传
+ * File 单文件上传
+ * Files 多文件上传
+ * Editor 编辑器
+ */
+var uploadType = (0, _other.getUrlParam)('type');
 // 初始化图片选中状态
 renderSelected();
 
 // 选中/取消事件
 window.selected = function (index) {
   var v = _data.data[index];
-  if (uploadType === 1) {
-    $('input[name="' + field + '"]', window.parent.document).val(v.path);
-    closeFrame();
-  } else {
-    $.store.array.toggle('baseInfo_input_' + field, v);
-    renderSelected();
+  if ($.isFunction(parent['render' + uploadType])) {
+    parent['selected' + uploadType](field, v);
   }
+  // if (uploadType === 1) {
+  //   $('input[name="'+field+'"]', window.parent.document).val(v.path)
+  //   closeFrame()
+  // } else {
+  //   $.store.array.toggle(`baseInfo_input_${field}`, v)
+  //   renderSelected()
+  // }
 };
 
 // 删除事件
@@ -132,7 +142,7 @@ function renderSelected() {
 function renderImages() {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<div class="layui-col-xs2" data-id="' + res.id + '">\n              <div class="square">\n                <img src="' + res.path + '">\n                <div class="mask">\n                  <div class="d-text-right">\n                    <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
+    return '<div class="layui-col-xs2" data-id="' + res.id + '">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
   });
   $('#' + field + 'List', window.parent.document).html(data);
 }

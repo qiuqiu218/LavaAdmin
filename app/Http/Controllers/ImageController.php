@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FileRequest;
 use App\Http\Requests\ImageRequest;
 use App\Models\File;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -54,9 +55,16 @@ class ImageController extends BaseController
         $res['path'] = Storage::disk('images')->putFile(snake_case($res['model']), $img);
         File::query()->create($res);
 
-        return $this->setParams([
-            'url' => Storage::disk('images')->url($res['path'])
-        ])->success('上传成功');
+//        return $this->setParams([
+//            'url' => Storage::disk('images')->url($res['path'])
+//        ])->success('上传成功');
+
+        return new JsonResponse([
+            'errno' => 0,
+            'data' => [
+                Storage::disk('images')->url($res['path'])
+            ]
+        ], $this->statusCode);
     }
 
     /**

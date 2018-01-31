@@ -71,7 +71,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=1') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Image') }}">
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
@@ -82,7 +82,7 @@
     @break
 
   @case('多图上传')
-    <div class="layui-form-item d-table" id="images" name="{{$item->name}}">
+    <div class="layui-form-item d-table d-border" id="images" name="{{$item->name}}">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="d-padding-10">
@@ -113,7 +113,7 @@
     @break
 
   @case('多文件上传')
-    <div class="layui-form-item d-table" id="files" name="{{$item->name}}">
+    <div class="layui-form-item d-table d-border" id="files" name="{{$item->name}}">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="d-padding-10">
@@ -152,6 +152,38 @@
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
+    @break
+
+  @case('编辑器')
+    <div class="layui-form-item d-table">
+      <label class="layui-form-label">{{$item->display_name}}</label>
+      <div class="layui-input-block">
+        <div id="{{$item->name}}" editor></div>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
+    </div>
+    <script>
+      _menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'backColor',  // 背景颜色
+        'link',  // 插入链接
+        'list',  // 列表
+        'justify',  // 对齐方式
+        'quote',  // 引用
+        'emoticon',  // 表情
+        'images',  // 插入图片
+        'table',  // 表格
+        'video',  // 插入视频
+        'code',  // 插入代码
+        'undo',  // 撤销
+        'redo'  // 重复
+      ]
+    </script>
     @break
 
   @default

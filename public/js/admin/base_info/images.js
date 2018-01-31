@@ -60,15 +60,27 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 128);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 128:
-/***/ (function(module, exports) {
+/***/ 135:
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\web\\app\\LavaAdmin\\resources\\src\\admin\\base_info\\images.js'");
+"use strict";
+
+
+$("#images").on('click', '.deleted', function () {
+  var field = $("#images").attr('name');
+  var parent = $(this).parents('.layui-col-xs2');
+  $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
+  parent.remove();
+});
+
+window.selectedImages = function (field, data) {
+  $.store.array.toggle('baseInfo_input_' + field, data);
+};
 
 /***/ })
 

@@ -39,8 +39,10 @@ $.extend({
         
         if (this.has(key, data.id, field)) {
           this.remove(key, data.id, field)
+          return false
         } else {
           this.set(key, data)
+          return true
         }
       }
     }
