@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 139);
+/******/ 	return __webpack_require__(__webpack_require__.s = 138);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 139:
+/***/ 138:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -81,19 +81,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // 获取url上面的参数
 var field = (0, _other.getUrlParam)('field');
-// 获取上传类型 1=单文件2=多文件
-var uploadType = Number((0, _other.getUrlParam)('type'));
+/**
+ * 获取图片上传类型
+ * File 单文件上传
+ * Files 多文件上传
+ * Editor 编辑器
+ */
+var uploadType = (0, _other.getUrlParam)('type');
 // 初始化图片选中状态
-renderSelected();
+// renderSelected()
 
 // 选中/取消事件
 window.selected = function (index) {
   var v = _data.data[index];
-  if (uploadType === 1) {
-    $('input[name="' + field + '"]', window.parent.document).val(v.path);
-    closeFrame();
-  } else {
-    $.store.array.toggle('baseInfo_input_' + field, v);
+  if ($.isFunction(parent['selected' + uploadType])) {
+    parent['selected' + uploadType](field, v);
+  }
+  if (uploadType === 'Files') {
     renderSelected();
   }
 };
@@ -109,8 +113,9 @@ window.deleted = function (index) {
 
 // 确认选择
 $("#submit").click(function () {
-  renderImages();
-  closeFrame();
+  if ($.isFunction(parent['render' + uploadType])) {
+    parent['render' + uploadType](field);
+  }
 });
 
 // 关闭当前窗口

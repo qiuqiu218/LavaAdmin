@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 141);
+/******/ 	return __webpack_require__(__webpack_require__.s = 140);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 141:
+/***/ 140:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85,27 +85,24 @@ var field = (0, _other.getUrlParam)('field');
  * 获取图片上传类型
  * Image 单图上传
  * Images 多图上传
- * File 单文件上传
- * Files 多文件上传
  * Editor 编辑器
  */
 var uploadType = (0, _other.getUrlParam)('type');
 // 初始化图片选中状态
-renderSelected();
+// renderSelected()
+
+// 每次打开清空缓存
+$.store.remove('baseInfo_input_' + field);
 
 // 选中/取消事件
 window.selected = function (index) {
   var v = _data.data[index];
-  if ($.isFunction(parent['render' + uploadType])) {
+  if ($.isFunction(parent['selected' + uploadType])) {
     parent['selected' + uploadType](field, v);
   }
-  // if (uploadType === 1) {
-  //   $('input[name="'+field+'"]', window.parent.document).val(v.path)
-  //   closeFrame()
-  // } else {
-  //   $.store.array.toggle(`baseInfo_input_${field}`, v)
-  //   renderSelected()
-  // }
+  if (uploadType === 'Images' || uploadType === 'Editor') {
+    renderSelected();
+  }
 };
 
 // 删除事件
@@ -119,8 +116,9 @@ window.deleted = function (index) {
 
 // 确认选择
 $("#submit").click(function () {
-  renderImages();
-  closeFrame();
+  if ($.isFunction(parent['render' + uploadType])) {
+    parent['render' + uploadType](field);
+  }
 });
 
 // 关闭当前窗口
@@ -136,15 +134,6 @@ function renderSelected() {
   collect.forEach(function (res) {
     $("#img" + res.id).find('.selected').addClass('active').children('span').text('取消选择');
   });
-}
-
-// 渲染选中的图片到表单中
-function renderImages() {
-  var collect = $.store.array.get('baseInfo_input_' + field);
-  var data = collect.map(function (res) {
-    return '<div class="layui-col-xs2" data-id="' + res.id + '">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
-  });
-  $('#' + field + 'List', window.parent.document).html(data);
 }
 
 /***/ }),

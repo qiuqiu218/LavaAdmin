@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 132);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 133:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77,6 +77,20 @@ $("#files").on('click', '.deleted', function () {
   $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
   parent.remove();
 });
+
+window.selectedFiles = function (field, data) {
+  $.store.array.toggle('baseInfo_input_' + field, data);
+};
+
+// 渲染选中的图片到表单中
+window.renderFiles = function (field) {
+  var collect = $.store.array.get('baseInfo_input_' + field);
+  var data = collect.map(function (res) {
+    return '<tr data-id="' + res.id + '">\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </td>\n            </tr>';
+  });
+  $('#' + field + 'List').html(data);
+  layer.close(layer.index);
+};
 
 /***/ })
 

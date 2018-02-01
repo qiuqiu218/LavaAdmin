@@ -71,9 +71,11 @@
 "use strict";
 
 
-var _wangeditor = __webpack_require__(131);
+var _wangeditor = __webpack_require__(372);
 
 var _wangeditor2 = _interopRequireDefault(_wangeditor);
+
+__webpack_require__(373);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -97,7 +99,9 @@ var defaultMenus = ['head', // 标题
 'redo' // 重复
 ];
 
-function Images(id, index) {
+var MenuConstructors = {};
+// 生成图片按钮并绑定事件
+MenuConstructors.images = function (id, index) {
   var elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>');
   elem.on('click', function () {
     layui.layer.open({
@@ -106,7 +110,7 @@ function Images(id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: '/admin/image?field=' + id + '&type=3'
+      content: '/admin/image?field=' + id + '&type=Editor'
     });
   });
   if (_menus.length - 1 === index) {
@@ -114,9 +118,7 @@ function Images(id, index) {
   } else {
     $('#' + id + ' .w-e-toolbar .w-e-menu').eq(index).before(elem);
   }
-}
-var MenuConstructors = {};
-MenuConstructors.images = Images;
+};
 
 var editor = {};
 $("[editor]").each(function () {
@@ -124,9 +126,12 @@ $("[editor]").each(function () {
   editor[id] = new _wangeditor2.default('#' + id);
   editor[id].customConfig.menus = _menus;
   editor[id].create();
+
+  // 获得自定义的栏目
   var customMenus = _menus.filter(function (res) {
     return !defaultMenus.includes(res);
   });
+  // 生产自定义栏目并绑定点击事件
   customMenus.forEach(function (menu) {
     if (MenuConstructors[menu] && typeof MenuConstructors[menu] === 'function') {
       MenuConstructors[menu](id, _menus.findIndex(function (res) {
@@ -136,11 +141,24 @@ $("[editor]").each(function () {
   });
 });
 
-// w-e-icon-image
+// 选择图片后执行的事件
+window.selectedEditor = function (field, data) {
+  $.store.array.toggle('baseInfo_input_' + field, data);
+};
+
+// 渲染选中的图片到编辑器中
+window.renderEditor = function (field) {
+  var collect = $.store.array.get('baseInfo_input_' + field);
+  var data = collect.map(function (res) {
+    return '<p><img src="' + res.path + '" alt="' + res.name + '" width="100%"/></p>';
+  });
+  editor[field].cmd.do('insertHtml', data.join(''));
+  layer.close(layer.index);
+};
 
 /***/ }),
 
-/***/ 131:
+/***/ 372:
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
@@ -4772,6 +4790,96 @@ return index;
 
 })));
 
+
+/***/ }),
+
+/***/ 373:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$.fn.extend({
+  editorImage: function editorImage() {
+    var _this = $(this);
+    var is_add_css = false;
+    var data = {
+      width: '100%',
+      name: '',
+      link: ''
+      // 渲染image属性界面
+    };function renderImageAttr() {
+      $("#imageAttr").remove();
+
+      var imageAttr = $('\n        <div id="imageAttr" class="layui-form d-padding-10">\n          <div class="layui-form-item">\n            <div class="layui-inline">\n              <label class="layui-form-label">\u5BBD\u5EA6</label>\n              <div class="layui-input-inline" style="width: 50px">\n                <input type="text" name="width" class="layui-input" value="' + data.width + '">\n              </div>\n            </div>\n            <div class="layui-inline">\n              <label class="layui-form-label">\u63CF\u8FF0</label>\n              <div class="layui-input-inline" style="width: 100px">\n                <input type="text" name="name" class="layui-input" value="' + data.name + '">\n              </div>\n            </div>\n            <div class="layui-inline">\n              <label class="layui-form-label">\u94FE\u63A5</label>\n              <div class="layui-input-inline" style="width: 150px">\n                <input type="text" name="link" class="layui-input" value="' + data.link + '">\n              </div>\n            </div>\n            <div class="layui-inline">\n              <div class="layui-input-inline">\n                <button type="button" class="layui-btn layui-btn-xs">\u786E\u5B9A</button>\n              </div>\n            </div>\n          </div>\n        </div>\n      ');
+
+      imageAttr.find('button').on('click', function () {
+        _this.attr({
+          'width': imageAttr.find('input[name="width"]').val(),
+          'alt': imageAttr.find('input[name="name"]').val()
+        });
+        var link = imageAttr.find('input[name="link"]').val();
+        if (_this.parent().get(0).tagName === 'A') {
+          if (link) {
+            _this.parent().attr('href', link);
+          } else {
+            _this.parent().replaceWith(_this);
+          }
+        } else {
+          if (link) {
+            _this.wrap('<a href="' + link + '"></a>');
+          }
+        }
+        imageAttr.remove();
+      });
+
+      _this.parents('.w-e-text-container').append(imageAttr);
+    }
+
+    function getImageAttr() {
+      data.width = _this.attr('width');
+      data.name = _this.attr('alt');
+      data.link = '';
+      if (_this.parent().get(0).tagName === 'A') {
+        data.link = _this.parent().attr('href');
+      }
+    }
+
+    function initCss() {
+      if (is_add_css) return;
+      var inlinecss = '\n                  #imageAttr {background: #F1F1F1; position: absolute; bottom: 0; left: 0; right: 0}\n                  #imageAttr .layui-inline {margin: 0}\n                  #imageAttr .layui-form-label, #imageAttr .layui-form-item .layui-input-inline {width: auto}\n                  #imageAttr .layui-input-inline {margin: 0}\n                  #imageAttr .layui-form-label {padding: 4px 10px; height: 28px}\n                  #imageAttr .layui-input {height: 28px; padding-left: 5px}\n                  #imageAttr .layui-btn-xs {padding: 0 5px}\n                ';
+      // 将 css 代码添加到 <style> 中
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = inlinecss;
+      document.getElementsByTagName('HEAD').item(0).appendChild(style);
+    }
+
+    return {
+      onEdit: function onEdit() {
+        initCss();
+        getImageAttr();
+        renderImageAttr();
+      },
+      offEdit: function offEdit() {
+        $("#imageAttr").remove();
+      }
+    };
+  }
+});
+
+// 监听图片点击事件
+$('.w-e-text-container').on('click', function (e) {
+  var parent = $(e.target).parents('.w-e-text-container');
+  if (e.target.tagName === 'IMG' && !$(e.target).attr('data-w-e')) {
+    $(e.target).editorImage().onEdit();
+  } else {
+    $(e.target).editorImage().offEdit();
+  }
+});
+$('.w-e-text-container').on('click', '#imageAttr', function (e) {
+  e.stopPropagation();
+});
 
 /***/ })
 
