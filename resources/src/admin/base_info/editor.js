@@ -1,4 +1,5 @@
 import wangEditor from 'wangeditor'
+import '_assets/script/project/editor/image'
 
 let defaultMenus = [
   'head',  // 标题
@@ -21,7 +22,9 @@ let defaultMenus = [
   'redo'  // 重复
 ]
 
-function Images (id, index) {
+let MenuConstructors = {}
+// 生成图片按钮并绑定事件
+MenuConstructors.images = function (id, index) {
   let elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>')
   elem.on('click', function () {
     layui.layer.open({
@@ -30,7 +33,7 @@ function Images (id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: `/admin/image?field=${id}&type=3`
+      content: `/admin/image?field=${id}&type=Editor`
     })
   })
   if (_menus.length - 1 === index) {
@@ -39,8 +42,7 @@ function Images (id, index) {
     $(`#${id} .w-e-toolbar .w-e-menu`).eq(index).before(elem)
   }
 }
-let MenuConstructors = {}
-MenuConstructors.images = Images
+
 
 
 let editor = {}
@@ -49,7 +51,10 @@ $("[editor]").each(function () {
   editor[id]  = new wangEditor('#' + id)
   editor[id].customConfig.menus = _menus
   editor[id].create()
+  
+  // 获得自定义的栏目
   let customMenus = _menus.filter(res => !defaultMenus.includes(res))
+  // 生产自定义栏目并绑定点击事件
   customMenus.forEach(menu => {
     if (MenuConstructors[menu] && typeof MenuConstructors[menu] === 'function') {
       MenuConstructors[menu](id, _menus.findIndex(res => res === menu))
@@ -57,5 +62,17 @@ $("[editor]").each(function () {
   })
 })
 
+// 选择图片后执行的事件
+window.selectedEditor = function (field, data) {
+  $.store.array.toggle(`baseInfo_input_${field}`, data)
+}
 
-// w-e-icon-image
+// 渲染选中的图片到编辑器中
+window.renderEditor = function (field) {
+  let collect = $.store.array.get(`baseInfo_input_${field}`)
+  let data = collect.map(res => {
+    return `<p><img src="${res.path}" alt="${res.name}" width="100%"/></p>`
+  })
+  editor[field].cmd.do('insertHtml', data.join(''))
+  layer.close(layer.index)
+}

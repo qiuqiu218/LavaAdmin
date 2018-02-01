@@ -87,7 +87,7 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=2') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Images') }}">
               <i class="layui-icon">&#xe67c;</i>添加图片
             </button>
           </div>
@@ -102,7 +102,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=1') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=File') }}">
             <i class="layui-icon">&#xe67c;</i>添加文件
           </button>
         </div>
@@ -118,7 +118,7 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=2') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=Files') }}">
               <i class="layui-icon">&#xe67c;</i>添加文件
             </button>
           </div>

@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-@if (intval($type) === 2)
+@if ($type === 'Files')
 <div class="layui-footer d-text-center">
   <button class="layui-btn layui-btn-normal" id="submit">确认选择</button> 
 </div>

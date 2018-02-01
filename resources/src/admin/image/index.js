@@ -7,27 +7,24 @@ let field = getUrlParam('field')
  * 获取图片上传类型
  * Image 单图上传
  * Images 多图上传
- * File 单文件上传
- * Files 多文件上传
  * Editor 编辑器
  */
 let uploadType = getUrlParam('type')
 // 初始化图片选中状态
-renderSelected()
+// renderSelected()
+
+// 每次打开清空缓存
+$.store.remove(`baseInfo_input_${field}`)
 
 // 选中/取消事件
 window.selected = function (index) {
   let v = _data.data[index]
-  if ($.isFunction(parent[`render${uploadType}`])) {
+  if ($.isFunction(parent[`selected${uploadType}`])) {
     parent[`selected${uploadType}`](field, v)
   }
-  // if (uploadType === 1) {
-  //   $('input[name="'+field+'"]', window.parent.document).val(v.path)
-  //   closeFrame()
-  // } else {
-  //   $.store.array.toggle(`baseInfo_input_${field}`, v)
-  //   renderSelected()
-  // }
+  if (uploadType === 'Images' || uploadType === 'Editor') {
+    renderSelected()
+  }
 }
 
 // 删除事件
@@ -41,8 +38,9 @@ window.deleted = function (index) {
 
 // 确认选择
 $("#submit").click(function () {
-  renderImages()
-  closeFrame()
+  if ($.isFunction(parent[`render${uploadType}`])) {
+    parent[`render${uploadType}`](field)
+  }
 })
 
 // 关闭当前窗口
@@ -58,25 +56,4 @@ function renderSelected () {
   collect.forEach(res => {
     $("#img" + res.id).find('.selected').addClass('active').children('span').text('取消选择')
   })
-}
-
-// 渲染选中的图片到表单中
-function renderImages () {
-  let collect = $.store.array.get(`baseInfo_input_${field}`)
-  let data = collect.map(res => {
-    return `<div class="layui-col-xs2" data-id="${res.id}">
-              <div class="square">
-                <div class="square-img">
-                  <img src="${res.path}">
-                  <div class="mask">
-                    <div class="d-text-right">
-                      <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
-                    </div>
-                  </div>
-                </div>
-                <input type="hidden" name="${field}[]" value="${res.path}">
-              </div>
-            </div>`
-  })
-  $(`#${field}List`, window.parent.document).html(data)
 }

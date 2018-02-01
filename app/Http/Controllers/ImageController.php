@@ -33,7 +33,8 @@ class ImageController extends BaseController
     public function create(Request $request)
     {
         return view('common.image.create', [
-            'field' => $request->get('field')
+            'field' => $request->get('field'),
+            'type' => $request->get('type')
         ]);
     }
 
@@ -54,17 +55,9 @@ class ImageController extends BaseController
         $res['size'] = $img->getSize();
         $res['path'] = Storage::disk('images')->putFile(snake_case($res['model']), $img);
         File::query()->create($res);
-
-//        return $this->setParams([
-//            'url' => Storage::disk('images')->url($res['path'])
-//        ])->success('上传成功');
-
-        return new JsonResponse([
-            'errno' => 0,
-            'data' => [
-                Storage::disk('images')->url($res['path'])
-            ]
-        ], $this->statusCode);
+        return $this->setParams([
+            'url' => Storage::disk('images')->url($res['path'])
+        ])->success('上传成功');
     }
 
     /**

@@ -3,19 +3,23 @@ import ajax from '_assets/script/tools/ajax'
 
 // 获取url上面的参数
 let field = getUrlParam('field')
-// 获取上传类型 1=单文件2=多文件
-let uploadType = Number(getUrlParam('type'))
+/**
+ * 获取图片上传类型
+ * File 单文件上传
+ * Files 多文件上传
+ * Editor 编辑器
+ */
+let uploadType = getUrlParam('type')
 // 初始化图片选中状态
-renderSelected()
+// renderSelected()
 
 // 选中/取消事件
 window.selected = function (index) {
   let v = _data.data[index]
-  if (uploadType === 1) {
-    $('input[name="'+field+'"]', window.parent.document).val(v.path)
-    closeFrame()
-  } else {
-    $.store.array.toggle(`baseInfo_input_${field}`, v)
+  if ($.isFunction(parent[`selected${uploadType}`])) {
+    parent[`selected${uploadType}`](field, v)
+  }
+  if (uploadType === 'Files') {
     renderSelected()
   }
 }
@@ -31,8 +35,9 @@ window.deleted = function (index) {
 
 // 确认选择
 $("#submit").click(function () {
-  renderImages()
-  closeFrame()
+  if ($.isFunction(parent[`render${uploadType}`])) {
+    parent[`render${uploadType}`](field)
+  }
 })
 
 // 关闭当前窗口
