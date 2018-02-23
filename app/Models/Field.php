@@ -43,7 +43,11 @@ class Field extends Model
     public function getDefaultValueAttribute($value)
     {
         if (in_array($this->type, ['下拉框', '单选框', '复选框']) && $this->getModel() !== 'Field') {
-            $select = collect(explode("\r\n", $value));
+            if (str_contains($value, "\r\n")) {
+                $select = collect(explode("\r\n", $value));
+            } else {
+                $select = collect(explode("\n", $value));
+            }
             try {
                 $obj = $select->map(function ($item) {
                     list($val, $text) = explode("==", $item);

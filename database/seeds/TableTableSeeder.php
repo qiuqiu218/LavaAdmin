@@ -29,7 +29,8 @@ class TableTableSeeder extends Seeder
             [
                 'name' => 'select',
                 'display_name' => 'select',
-                'type' => '下拉框',
+                'type' => '单选框',
+                'default_value' => '1==文本1:default'.chr(10).'2==文本2',
                 'belong' => 1,
                 'is_show' => 1,
                 'is_import' => 1

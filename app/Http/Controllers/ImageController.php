@@ -16,7 +16,7 @@ class ImageController extends BaseController
     {
         $data = File::query()
             ->whereNull('info_id')
-            ->where('type', 1)
+            ->where('type', 1) // 图片类型
             ->paginate(8);
         return view('common.image.index', [
             'data' => $data,
@@ -58,17 +58,6 @@ class ImageController extends BaseController
         return $this->setParams([
             'url' => Storage::disk('images')->url($res['path'])
         ])->success('上传成功');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

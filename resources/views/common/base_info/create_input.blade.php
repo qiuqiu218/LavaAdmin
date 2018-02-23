@@ -3,7 +3,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -13,7 +13,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="password" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
+        <input type="password" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -26,7 +26,7 @@
         <select name="{{$item->name}}">
           <option value=""></option>
           @foreach ($item->default_value as $option)
-          <option value="{{$option['value']}}"{{$data[$item->name] === $option['value'] ? ' selected' : $option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
+          <option value="{{$option['value']}}"{{$option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
           @endforeach
         </select>
       </div>
@@ -39,7 +39,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         @foreach ($item->default_value as $option)
-          <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$data[$item->name] === $option['value'] ? ' selected' : $option['active'] ? ' checked' : ''}}>
+          <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$option['active'] ? ' checked' : ''}}>
         @endforeach
       </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <textarea name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-textarea">{{$data[$item->name] or old($item->name)}}</textarea>
+        <textarea name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-textarea">{{old($item->name)}}</textarea>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -75,7 +75,7 @@
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
-        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -106,7 +106,7 @@
             <i class="layui-icon">&#xe67c;</i>添加文件
           </button>
         </div>
-        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -148,7 +148,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}" date>
+        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}" date>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>

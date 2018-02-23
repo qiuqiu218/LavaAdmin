@@ -17,7 +17,7 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             $table->string('title', 60)->comment('标题');
             $table->unsignedInteger('read')->comment('阅读数')->default(0);
-            $table->unsignedTinyInteger('select')->comment('select')->default(0);
+            $table->json('select')->comment('select');
             $table->timestamps();
         });
     }

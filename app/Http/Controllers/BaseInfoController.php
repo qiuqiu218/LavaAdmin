@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
 class BaseInfoController extends BaseController
 {
-    protected $model = null;
+    protected $module = null;
 
     public function __construct()
     {
-        $this->model = $this->getInstantiationModel();
+        $this->module = $this->getInstantiationModel();
         View::share('controller', $this->getController());
     }
     /**
@@ -22,9 +23,9 @@ class BaseInfoController extends BaseController
     public function index()
     {
         return view('common.base_info.index', [
-            'tableCol' => $this->model->getTableCol(),
-            'tableData' => $this->model->getTableData(),
-            'tableField' => $this->model->getTableListField()
+            'tableCol' => $this->module->getTableCol(),
+            'tableData' => $this->module->getTableData(),
+            'tableField' => $this->module->getTableListField()
         ]);
     }
 
@@ -36,30 +37,24 @@ class BaseInfoController extends BaseController
     public function create()
     {
         return view('common.base_info.create', [
-            'data' => $this->model->getTableDetailField()
+            'fields' => $this->module->getTableDetailField()
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $mark = $request->get('mark');
+        $input = $request->only($this->module->getFillable());
+        $res = $this->module->create($input);
+        File::query()->where('mark', $mark)->update([
+            'info_id' => $res->id,
+            'mark' => 0
+        ]);
+        return $res ? $this->success('发布成功', url('admin/'.snake_case($this->getController()))) : $this->error('发布失败');
     }
 
     /**
@@ -70,19 +65,24 @@ class BaseInfoController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $data = $this->module->findOrFail($id);
+        return view('common.base_info.edit', [
+            'data' => $data,
+            'fields' => $this->module->getTableDetailField()
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $this->module->findOrFail($id);
+        $input = $request->only($this->module->getFillable());
+        $res = $data->update($input);
+        return $res ? $this->success('修改成功', url('admin/'.snake_case($this->getController()))) : $this->error('修改失败');
     }
 
     /**

@@ -71,11 +71,11 @@
 "use strict";
 
 
-var _wangeditor = __webpack_require__(372);
+var _wangeditor = __webpack_require__(131);
 
 var _wangeditor2 = _interopRequireDefault(_wangeditor);
 
-__webpack_require__(373);
+__webpack_require__(132);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -158,7 +158,7 @@ window.renderEditor = function (field) {
 
 /***/ }),
 
-/***/ 372:
+/***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
@@ -4793,7 +4793,7 @@ return index;
 
 /***/ }),
 
-/***/ 373:
+/***/ 132:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
