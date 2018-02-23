@@ -71,9 +71,9 @@
 "use strict";
 
 
-var _other = __webpack_require__(65);
+var _other = __webpack_require__(46);
 
-var _ajax = __webpack_require__(46);
+var _ajax = __webpack_require__(47);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -153,6 +153,27 @@ function renderImages() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 $.ajaxSetup({
   headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -204,27 +225,6 @@ function ajax(param) {
 exports.default = {
   deleteInfo: deleteInfo
 };
-
-/***/ }),
-
-/***/ 65:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getUrlParam = getUrlParam;
-function getUrlParam(name) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
-  }
-  return null;
-}
 
 /***/ })
 

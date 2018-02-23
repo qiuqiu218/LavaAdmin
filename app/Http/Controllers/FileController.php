@@ -6,6 +6,7 @@ use App\Http\Requests\FileRequest;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends BaseController
@@ -17,14 +18,21 @@ class FileController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = File::query()
-                    ->whereNull('info_id')
-                    ->where('type', 3)
-                    ->paginate();
+        $info_id = $request->get('info_id', 0);
+        $model = $request->get('model');
+        $sql = File::query()->where('model', $model);
+        if ($info_id && $model) {
+            $sql = $sql->where('info_id', $info_id);
+        } else {
+            $sql = $sql->whereNull('info_id');
+        }
+        $data = $sql->where('type', 3)->paginate(8);
         return view('common.file.index', [
             'data' => $data,
             'field' => $request->get('field'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
+            'info_id' => $info_id,
+            'model' => $model
         ]);
     }
 
@@ -37,7 +45,9 @@ class FileController extends BaseController
     {
         return view('common.file.create', [
             'field' => $request->get('field'),
-            'type' => $request->get('type')
+            'type' => $request->get('type'),
+            'info_id' => $request->get('info_id', 0),
+            'model' => $request->get('model')
         ]);
     }
 
@@ -47,7 +57,7 @@ class FileController extends BaseController
      */
     public function store(FileRequest $request)
     {
-        $res = $request->only('model', 'mark', 'info_id');
+        $res = array_filter($request->only('model', 'mark', 'info_id'));
         $file = $request->file('file');
         $file->isValid();
         $res['user_id'] = Auth::id();
@@ -56,34 +66,22 @@ class FileController extends BaseController
         $res['name'] = $file->getClientOriginalName();
         $res['mime'] = $file->getMimeType();
         $res['size'] = $file->getSize();
-        $res['path'] = Storage::disk('files')->putFile(snake_case($res['model']), $file);
-        File::query()->create($res);
 
-        return $this->setParams([
-            'url' => Storage::disk('files')->url($res['path'])
-        ])->success('上传成功');
-    }
+        // 执行事务
+        DB::beginTransaction();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        try {
+            $res['path'] = Storage::disk('files')->putFile(snake_case($res['model']), $file);
+            File::query()->create($res);
+            DB::commit();
+            return $this->setParams([
+                'url' => Storage::disk('files')->url($res['path'])
+            ])->success('上传成功');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::info($e->getMessage());
+            return $this->error('上传失败');
+        }
     }
 
     /**

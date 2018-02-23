@@ -71,7 +71,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Image') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&field='.$item->name.'&type=Image') }}">
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
@@ -82,12 +82,12 @@
     @break
 
   @case('多图上传')
-    <div class="layui-form-item d-table d-border" id="images" name="{{$item->name}}">
+    <div class="layui-form-item d-table d-border" id="images">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Images') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&field='.$item->name.'&type=Images') }}">
               <i class="layui-icon">&#xe67c;</i>添加图片
             </button>
           </div>
@@ -102,7 +102,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=File') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&field='.$item->name.'&type=File') }}">
             <i class="layui-icon">&#xe67c;</i>添加文件
           </button>
         </div>
@@ -118,7 +118,7 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=Files') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&field='.$item->name.'&type=Files') }}">
               <i class="layui-icon">&#xe67c;</i>添加文件
             </button>
           </div>

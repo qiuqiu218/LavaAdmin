@@ -27,10 +27,10 @@ class TableTableSeeder extends Seeder
                 'is_import' => 1
             ],
             [
-                'name' => 'select',
-                'display_name' => 'select',
-                'type' => '单选框',
-                'default_value' => '1==文本1:default'.chr(10).'2==文本2',
+                'name' => 'image',
+                'display_name' => '封面图',
+                'type' => '多图上传',
+                'default_value' => '',
                 'belong' => 1,
                 'is_show' => 1,
                 'is_import' => 1

@@ -71,10 +71,8 @@
 "use strict";
 
 
-$("#images").on('click', '.deleted', function () {
-  var field = $("#images").attr('name');
+$("#images").on('click', '[deleted]', function () {
   var parent = $(this).parents('.layui-col-xs2');
-  $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
   parent.remove();
 });
 
@@ -86,9 +84,11 @@ window.selectedImages = function (field, data) {
 window.renderImages = function (field) {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<div class="layui-col-xs2" data-id="' + res.id + '">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
+    return '<div class="layui-col-xs2">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
   });
-  $('#' + field + 'List').html(data);
+  if (data.length > 0) {
+    $('#' + field + 'List').append(data);
+  }
   layer.close(layer.index);
 };
 

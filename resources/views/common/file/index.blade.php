@@ -7,7 +7,7 @@
 </div>
 @endif
 <div class="d-padding-10">
-  <div class="d-margin-b-10"><a class="layui-btn layui-btn-normal" href="{{ url('admin/file/create?field='.$field.'&type='.$type) }}">添加文件</a></div>
+  <div class="d-margin-b-10"><a class="layui-btn layui-btn-normal" href="{{ url('admin/file/create?model='.$model.'&info_id='.$info_id.'&field='.$field.'&type='.$type) }}">添加文件</a></div>
   <table class="layui-table">
     <colgroup>
       <col>

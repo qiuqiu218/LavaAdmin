@@ -25,7 +25,8 @@ class FileRequest extends FormRequest
     {
         return [
             'model' => 'required|string|exists:tables,name',
-            'mark' => 'required|integer'
+            'mark' => 'sometimes|nullable|integer',
+            'info_id' => 'sometimes|nullable|integer'
         ];
     }
 }

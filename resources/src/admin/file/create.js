@@ -1,11 +1,13 @@
+import {getUrlParam} from '_assets/script/tools/other'
 
 let listView = $('#listView')
 let uploadListIns = layui.upload.render({
   elem: '.image',
   url: '/admin/file',
   data: {
-    model: $('input[name="model"]', window.parent.document).val(),
-    mark: $('input[name="mark"]', window.parent.document).val(),
+    model: getUrlParam('model'),
+    info_id: getUrlParam('info_id'),
+    mark: $('input[name="mark"]', window.parent.document).val() || '',
     _token: $('meta[name="csrf-token"]').attr('content')
   },
   accept: 'file',

@@ -71,7 +71,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Image') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Image') }}">
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
@@ -82,16 +82,32 @@
     @break
 
   @case('多图上传')
-    <div class="layui-form-item d-table d-border" id="images" name="{{$item->name}}">
+    <div class="layui-form-item d-table d-border" id="images">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/image?field='.$item->name.'&type=Images') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Images') }}">
               <i class="layui-icon">&#xe67c;</i>添加图片
             </button>
           </div>
-          <div class="layui-row layui-col-space20" id="{{$item->name}}List"></div>
+          <div class="layui-row layui-col-space20" id="{{$item->name}}List">
+            @foreach ($data[$item->name] as $img)
+            <div class="layui-col-xs2">
+              <div class="square">
+                <div class="square-img">
+                  <img src="{{$img}}">
+                  <div class="mask">
+                    <div class="d-text-right">
+                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="{{$item->name}}[]" value="{{$img}}">
+              </div>
+            </div>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
@@ -102,7 +118,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=File') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=File') }}">
             <i class="layui-icon">&#xe67c;</i>添加文件
           </button>
         </div>
@@ -118,7 +134,7 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/file?field='.$item->name.'&type=Files') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Files') }}">
               <i class="layui-icon">&#xe67c;</i>添加文件
             </button>
           </div>

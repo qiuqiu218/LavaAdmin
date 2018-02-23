@@ -71,13 +71,16 @@
 "use strict";
 
 
+var _other = __webpack_require__(46);
+
 var listView = $('#listView');
 var uploadListIns = layui.upload.render({
   elem: '.image',
   url: '/admin/image',
   data: {
-    model: $('input[name="model"]', window.parent.document).val(),
-    mark: $('input[name="mark"]', window.parent.document).val(),
+    model: (0, _other.getUrlParam)('model'),
+    info_id: (0, _other.getUrlParam)('info_id'),
+    mark: $('input[name="mark"]', window.parent.document).val() || '',
     _token: $('meta[name="csrf-token"]').attr('content')
   },
   accept: 'images',
@@ -124,6 +127,27 @@ var uploadListIns = layui.upload.render({
     tds.eq(3).find('.upload-reload').removeClass('layui-hide'); //显示重传
   }
 });
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
 
 /***/ })
 

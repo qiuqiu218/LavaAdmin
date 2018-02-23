@@ -37,7 +37,7 @@ class BaseInfo extends Model
     {
         $field = (new Table())->getField($this->getModel());
         foreach ($field as $item) {
-            if ($item->type === '复选框') {
+            if (in_array($item->type, ['复选框', '多图上传', '多文件上传'])) {
                 $this->casts[$item->name] = 'array';
             }
         }
@@ -55,6 +55,17 @@ class BaseInfo extends Model
                     ->filter(function ($item) {
                         return $item->belong === 1 && $item->is_show;
                     });
+    }
+
+    /**
+     * 获取列表显示字段 ['id', 'name']
+     * @return mixed
+     */
+    public function getTableListField()
+    {
+        return $this->getTableCol()->map(function ($item) {
+            return $item->name;
+        })->toArray();
     }
 
     /**
@@ -80,48 +91,81 @@ class BaseInfo extends Model
     {
         $data = self::query()->get();
         $field = (new Table())->getField($this->getModel());
-        // 获取下拉框，单选框，复选框字段
-        $changeField = $field
-            ->filter(function ($item) {
-                return $item->type === '复选框' || $item->type === '单选框' || $item->type === '下拉框';
-            })
-            ->values()
-            ->map(function ($item) {
-                return $item->name;
-            })
-            ->toArray();
 
-        // 将值转换为文本
-        foreach ($changeField as $key) {
-            $f = $field->where('name', $key)->values()[0];
-            $data = $data->map(function ($item) use ($key, $f) {
-                if (is_array($item->$key)) {
-                    $item->$key = collect($f->default_value)
-                                ->whereIn('value', $item->$key)
-                                ->map(function ($item) {
-                                    return $item['text'];
-                                })
-                                ->implode(',');
-                } else {
-                    $arr = collect($f->default_value)->where('value', $item->$key)->values();
-                    if (count($arr) > 0) {
-                       $item->$key = $arr[0]['text'];
+        // 获取要替换的字段
+        $changeField = $field->filter(function ($item) {
+            return in_array($item->type, ['下拉框', '单选框', '复选框', '多图上传', '多文件上传']);
+        });
+
+        if ($changeField->count()) {
+            $data = $data->each(function ($item) use ($changeField) {
+                $changeField->each(function ($f) use ($item) {
+                    switch ($f->type) {
+                        case '多图上传':
+                            $item[$f->name] = $this->replaceImages($item[$f->name]);
+                            break;
+                        case '多文件上传':
+                            $item[$f->name] = $this->replaceFiles($item[$f->name]);
+                            break;
+                        case '下拉框':
+                            $item[$f->name] = $this->replaceSelect($item[$f->name], $f);
+                            break;
+                        case '单选框':
+                            $item[$f->name] = $this->replaceRadio($item[$f->name], $f);
+                            break;
+                        case '复选框':
+                            $item[$f->name] = $this->replaceCheckbox($item[$f->name], $f);
+                            break;
                     }
-                }
-                return $item;
+                });
             });
         }
+
         return $data;
     }
 
-    /**
-     * 获取列表显示字段 ['id', 'name']
-     * @return mixed
-     */
-    public function getTableListField()
+    // 获取下拉框的替换文本
+    public function replaceSelect($value, $field)
     {
-        return $this->getTableCol()->map(function ($item) {
-            return $item->name;
-        })->toArray();
+        foreach ($field->default_value as $item) {
+            if ($item['value'] === $value) {
+                return $item['text'];
+                break;
+            }
+        }
+        return $value;
+    }
+
+    // 获取单选框的替换文本
+    public function replaceRadio($value, $field)
+    {
+        return $this->replaceSelect($value, $field);
+    }
+
+    // 获取复选框的替换文本
+    public function replaceCheckbox($value, $field)
+    {
+        return collect($field->default_value)
+            ->whereIn('value', $value)
+            ->map(function ($item) {
+                return $item['text'];
+            })
+            ->implode(',');
+    }
+    
+    // 获取多图上传字段的替换文本
+    public function replaceImages($value)
+    {
+        if (is_array($value)) {
+            return implode(",", $value);
+        } else {
+            return $value;
+        }
+    }
+
+    // 获取多文件上传字段的替换文本
+    public function replaceFiles($value)
+    {
+        return $this->replaceImages($value);
     }
 }

@@ -25,7 +25,7 @@ class CreateFilesTable extends Migration
             $table->unsignedTinyInteger('type')->comment('文件类型(1图片2媒体3附件)');
             $table->unsignedTinyInteger('is_admin')->comment('是否管理员上传')->default(0);
             // 添加信息时会附带相同的标记，用于更新该数据的info_id
-            $table->unsignedInteger('mark')->comment('标记');
+            $table->unsignedInteger('mark')->comment('标记')->default(0);
 
             $table->timestamps();
         });

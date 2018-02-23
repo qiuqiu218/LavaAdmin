@@ -7,7 +7,7 @@
 </div>
 @endif
 <div class="d-padding-10 d-hidden">
-  <div class="d-margin-b-10"><a class="layui-btn layui-btn-normal" href="{{ url('admin/image/create?field='.$field.'&type='.$type) }}">添加图片</a></div>
+  <div class="d-margin-b-10"><a class="layui-btn layui-btn-normal" href="{{ url('admin/image/create?model='.$model.'&info_id='.$info_id.'&field='.$field.'&type='.$type) }}">添加图片</a></div>
   <div class="layui-row layui-col-space25 d-hidden" id="list">
     @foreach ($data as $item)
       <div class="layui-col-xs3" id="img{{$item->id}}">
