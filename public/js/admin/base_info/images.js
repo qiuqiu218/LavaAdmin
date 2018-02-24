@@ -84,7 +84,7 @@ window.selectedImages = function (field, data) {
 window.renderImages = function (field) {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<div class="layui-col-xs2">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </div>\n            </div>';
+    return '<div class="layui-col-xs2">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </div>\n            </div>';
   });
   if (data.length > 0) {
     $('#' + field + 'List').append(data);

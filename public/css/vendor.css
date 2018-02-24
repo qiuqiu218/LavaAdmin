@@ -502,7 +502,6 @@
   float: none;
   vertical-align: middle;
   overflow: visible !important;
-  border-width: 0px !important;
 }
 .d-table > *:first-child {
   border-right: 1px solid #eee !important;

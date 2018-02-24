@@ -1,7 +1,5 @@
-$("#files").on('click', '.deleted', function () {
-  let field = $("#files").attr('name')
+$("#files").on('click', '[deleted]', function () {
   let parent = $(this).parents('tr')
-  $.store.array.remove(`baseInfo_input_${field}`, parent.data('id'))
   parent.remove()
 })
 
@@ -13,16 +11,18 @@ window.selectedFiles = function (field, data) {
 window.renderFiles = function (field) {
   let collect = $.store.array.get(`baseInfo_input_${field}`)
   let data = collect.map(res => {
-    return `<tr data-id="${res.id}">
+    return `<tr>
               <td>${res.name}</td>
               <td>${res.mime}</td>
               <td>${(res.size / 1000).toFixed(1)}KB</td>
               <td>
-                <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>删除</a>
-                <input type="hidden" name="${field}[]" value="${res.path}">
+                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
+                <input type="hidden" name="${field}[]" value="${res.id}">
               </td>
             </tr>`
   })
-  $(`#${field}List`).html(data)
+  if (data.length > 0) {
+    $(`#${field}List`).append(data)
+  }
   layer.close(layer.index)
 }

@@ -21,7 +21,7 @@ window.renderImages = function (field) {
                     </div>
                   </div>
                 </div>
-                <input type="hidden" name="${field}[]" value="${res.path}">
+                <input type="hidden" name="${field}[]" value="${res.id}">
               </div>
             </div>`
   })

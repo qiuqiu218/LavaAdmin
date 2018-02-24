@@ -26,16 +26,26 @@ class BaseInfo extends Model
         parent::__construct($attributes);
     }
 
+    /**
+     * 如果存在副表则与副表关联
+     * @return $this|\Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function subTable()
+    {
+        if ($this->isSubTable()) {
+            return $this->hasOne('App\Models\Admin\\'.$this->getModel().'Sub');
+        }
+        return $this;
+    }
+
     public function initFillable()
     {
-        $this->fillable = (new Table())->getField($this->getModel())->map(function ($item) {
-            return $item->name;
-        })->toArray();
+        $this->fillable = $this->getMainFieldNames();
     }
 
     public function initCasts()
     {
-        $field = (new Table())->getField($this->getModel());
+        $field = $this->getMainFields();
         foreach ($field as $item) {
             if (in_array($item->type, ['复选框', '多图上传', '多文件上传'])) {
                 $this->casts[$item->name] = 'array';
@@ -44,42 +54,96 @@ class BaseInfo extends Model
     }
 
     /**
+     * 获得主表字段
+     * @return mixed
+     */
+    public function getMainFields()
+    {
+        return (new Table())->getField($this->getModel())
+            ->filter(function ($item) {
+                return $item->belong === 1;
+            })
+            ->values();
+    }
+
+    /**
+     * 获取主表字段名称
+     * @return mixed
+     */
+    public function getMainFieldNames()
+    {
+        return $this->getMainFields()->map(function ($item) {
+            return $item->name;
+        })->toArray();
+    }
+
+    /**
+     * 获得副表字段
+     * @return mixed
+     */
+    public function getSubFields()
+    {
+        return (new Table())->getField($this->getModel())
+            ->filter(function ($item) {
+                return $item->belong === 2;
+            })
+            ->values();
+    }
+
+    /**
+     * 获取副表字段名称
+     * @return mixed
+     */
+    public function getSubFieldNames()
+    {
+        return $this->getSubFields()->map(function ($item) {
+           return $item->name;
+        })->toArray();
+    }
+
+    // 是否存在副表
+    public function isSubTable()
+    {
+        $res = (new Table())->getTableInfo($this->getModel())->is_sub_table;
+        return $res;
+    }
+
+    /**
      * 获取列表显示的字段 返回object，用于显示名称
      * 字段必须为主表且可显示
      * @return mixed
      */
-    public function getTableCol()
+    public function getTableListFields()
     {
-        return (new Table())
-                    ->getField($this->getModel())
-                    ->filter(function ($item) {
-                        return $item->belong === 1 && $item->is_show;
-                    });
+        return $this->getMainFields()
+                ->filter(function ($item) {
+                    return $item->is_show;
+                })
+                ->values();
     }
 
     /**
      * 获取列表显示字段 ['id', 'name']
      * @return mixed
      */
-    public function getTableListField()
+    public function getTableListFieldNames()
     {
-        return $this->getTableCol()->map(function ($item) {
+        return $this->getTableListFields()->map(function ($item) {
             return $item->name;
         })->toArray();
     }
 
     /**
-     * 获取可输入的内容字段
+     * 获取可输入的表单内容字段
      * @return mixed
      */
-    public function getTableDetailField()
+    public function getFormDetailFields()
     {
-        $data = (new Table())
-                    ->getField($this->getModel())
+        return (new Table())->getField($this->getModel())
                     ->filter(function ($item) {
                         return $item->is_import === 1;
-                    });
-        return $data;
+                    })
+                    ->values();
     }
 
     /**

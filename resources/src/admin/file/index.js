@@ -13,6 +13,9 @@ let uploadType = getUrlParam('type')
 // 初始化图片选中状态
 // renderSelected()
 
+// 每次打开清空缓存
+$.store.remove(`baseInfo_input_${field}`)
+
 // 选中/取消事件
 window.selected = function (index) {
   let v = _data.data[index]

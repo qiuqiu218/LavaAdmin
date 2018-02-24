@@ -25,7 +25,11 @@ class Table extends Model
      *
      * @var null
      */
-    protected $field_collect = null;
+    protected $field_cache = [
+        "name" => '',
+        "fields" => null,
+        "table" => null
+    ];
 
     public function field()
     {
@@ -40,11 +44,24 @@ class Table extends Model
      */
     public function getField($name)
     {
-        if ($this->field_collect) {
-           return $this->field_collect;
+        if ($this->field_cache['name'] === $name) {
+            return $this->field_cache['fields'];
         }
-        $table = self::query()->where('name', $name)->first();
-        $this->field_collect = $table->field;
-        return $table->field;
+        $this->field_cache['fields'] = $this->getTableInfo($name)->field;
+        return $this->field_cache['fields'];
+    }
+
+    /**
+     * 查询当前表信息
+     * @param $name
+     * @return mixed
+     */
+    public function getTableInfo($name)
+    {
+        if ($this->field_cache['name'] === $name) {
+            return $this->field_cache['table'];
+        }
+        $this->field_cache['table'] = self::query()->where('name', $name)->first();
+        return $this->field_cache['table'];
     }
 }

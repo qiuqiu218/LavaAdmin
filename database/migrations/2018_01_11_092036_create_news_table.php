@@ -17,7 +17,13 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             $table->string('title', 60)->comment('标题');
             $table->unsignedInteger('read')->comment('阅读数')->default(0);
-            $table->json('image')->comment('封面图')->nullable();
+            $table->string('cover_img', 120)->comment('封面图')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('news_subs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('news_id');
+            $table->text('detail')->comment('详情')->defualt('');
             $table->timestamps();
         });
     }
@@ -30,5 +36,6 @@ class CreateNewsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('news');
+        Schema::dropIfExists('news_subs');
     }
 }

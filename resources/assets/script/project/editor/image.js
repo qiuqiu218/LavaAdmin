@@ -103,16 +103,3 @@ $.fn.extend({
     }
   }
 })
-
-// 监听图片点击事件
-$('.w-e-text-container').on('click', function (e) {
-  let parent = $(e.target).parents('.w-e-text-container')
-  if (e.target.tagName === 'IMG' && !$(e.target).attr('data-w-e')) {
-    $(e.target).editorImage().onEdit()
-  } else {
-    $(e.target).editorImage().offEdit()
-  }
-})
-$('.w-e-text-container').on('click', '#imageAttr', function (e) {
-  e.stopPropagation()
-})

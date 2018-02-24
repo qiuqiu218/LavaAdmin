@@ -96,14 +96,15 @@
             <div class="layui-col-xs2">
               <div class="square">
                 <div class="square-img">
-                  <img src="{{$img}}">
+                  <img src="{{$img['path']}}">
                   <div class="mask">
                     <div class="d-text-right">
                       <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
                     </div>
                   </div>
                 </div>
-                <input type="hidden" name="{{$item->name}}[]" value="{{$img}}">
+                <h5 class="d-margin-t-5 d-text-center layui-elip">{{$img['name']}}</h5>
+                <input type="hidden" name="{{$item->name}}[]" value="{{$img['id']}}">
               </div>
             </div>
             @endforeach
@@ -153,7 +154,19 @@
                 <th>操作</th>
               </tr> 
             </thead>
-            <tbody id="{{$item->name}}List"></tbody>
+            <tbody id="{{$item->name}}List">
+            @foreach ($data[$item->name] as $file)
+            <tr>
+              <td>{{$file['name']}}</td>
+              <td>{{$file['mime']}}</td>
+              <td>{{sprintf("%.1f", $file['size'] / 1000)}}KB</td>
+              <td>
+                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
+                <input type="hidden" name="{{$item->name}}[]" value="{{$file['id']}}">
+              </td>
+            </tr>
+            @endforeach
+            </tbody>
           </table>
         </div>
       </div>
@@ -175,6 +188,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div id="{{$item->name}}" editor></div>
+        <textarea name="{{$item->name}}" id="{{$item->name}}_textarea" style="display: none">{{$data[$item->name] or old($item->name)}}</textarea>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>

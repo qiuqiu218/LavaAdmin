@@ -35,7 +35,7 @@
       @endforeach
       <td align="center">
         <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/'.snake_case($controller).'/'.$item->id.'/edit') }}">编辑</a>
-        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/field/'.$item->id) }}">删除</button>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/'.snake_case($controller).'/'.$item->id) }}">删除</button>
       </td>
     </tr>
     @endforeach

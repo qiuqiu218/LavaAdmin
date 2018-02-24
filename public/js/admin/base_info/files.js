@@ -71,10 +71,8 @@
 "use strict";
 
 
-$("#files").on('click', '.deleted', function () {
-  var field = $("#files").attr('name');
+$("#files").on('click', '[deleted]', function () {
   var parent = $(this).parents('tr');
-  $.store.array.remove('baseInfo_input_' + field, parent.data('id'));
   parent.remove();
 });
 
@@ -86,9 +84,11 @@ window.selectedFiles = function (field, data) {
 window.renderFiles = function (field) {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<tr data-id="' + res.id + '">\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" class="deleted"><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.path + '">\n              </td>\n            </tr>';
+    return '<tr>\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </td>\n            </tr>';
   });
-  $('#' + field + 'List').html(data);
+  if (data.length > 0) {
+    $('#' + field + 'List').append(data);
+  }
   layer.close(layer.index);
 };
 

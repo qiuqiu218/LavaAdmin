@@ -27,9 +27,9 @@ class TableTableSeeder extends Seeder
                 'is_import' => 1
             ],
             [
-                'name' => 'image',
-                'display_name' => '封面图',
-                'type' => '多图上传',
+                'name' => 'cover_img',
+                'display_name' => '详情',
+                'type' => '单图上传',
                 'default_value' => '',
                 'belong' => 1,
                 'is_show' => 1,

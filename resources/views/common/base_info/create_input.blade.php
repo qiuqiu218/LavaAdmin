@@ -158,7 +158,8 @@
     <div class="layui-form-item d-table">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
-        <div id="{{$item->name}}" editor></div>
+        <div id="{{$item->name}}" editor>{{old($item->name)}}</div>
+        <textarea name="{{$item->name}}" id="{{$item->name}}_textarea" style="display: none">{{old($item->name)}}</textarea>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>

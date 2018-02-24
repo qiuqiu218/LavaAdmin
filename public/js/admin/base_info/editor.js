@@ -103,6 +103,7 @@ var MenuConstructors = {};
 // 生成图片按钮并绑定事件
 MenuConstructors.images = function (id, index) {
   var elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>');
+  var model = $("input[name='model']").val();
   elem.on('click', function () {
     layui.layer.open({
       type: 2,
@@ -110,7 +111,7 @@ MenuConstructors.images = function (id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: '/admin/image?field=' + id + '&type=Editor'
+      content: '/admin/image?model=' + model + '&field=' + id + '&type=Editor'
     });
   });
   if (_menus.length - 1 === index) {
@@ -123,9 +124,19 @@ MenuConstructors.images = function (id, index) {
 var editor = {};
 $("[editor]").each(function () {
   var id = $(this).attr('id');
+
+  // 实例化编辑器
   editor[id] = new _wangeditor2.default('#' + id);
+  // 自定义栏目
   editor[id].customConfig.menus = _menus;
+  // 监控变化，同步更新到 textarea
+  editor[id].customConfig.onchange = function (html) {
+    $('#' + id + '_textarea').val(html);
+  };
+  // 创建编辑器
   editor[id].create();
+  // 初始化内容
+  editor[id].txt.html($('#' + id + '_textarea').val());
 
   // 获得自定义的栏目
   var customMenus = _menus.filter(function (res) {
@@ -155,6 +166,19 @@ window.renderEditor = function (field) {
   editor[field].cmd.do('insertHtml', data.join(''));
   layer.close(layer.index);
 };
+
+// 图片修改功能
+$('.w-e-text-container').on('click', function (e) {
+  var parent = $(e.target).parents('.w-e-text-container');
+  if (e.target.tagName === 'IMG' && !$(e.target).attr('data-w-e')) {
+    $(e.target).editorImage().onEdit();
+  } else {
+    $(e.target).editorImage().offEdit();
+  }
+});
+$('.w-e-text-container').on('click', '#imageAttr', function (e) {
+  e.stopPropagation();
+});
 
 /***/ }),
 
@@ -4866,19 +4890,6 @@ $.fn.extend({
       }
     };
   }
-});
-
-// 监听图片点击事件
-$('.w-e-text-container').on('click', function (e) {
-  var parent = $(e.target).parents('.w-e-text-container');
-  if (e.target.tagName === 'IMG' && !$(e.target).attr('data-w-e')) {
-    $(e.target).editorImage().onEdit();
-  } else {
-    $(e.target).editorImage().offEdit();
-  }
-});
-$('.w-e-text-container').on('click', '#imageAttr', function (e) {
-  e.stopPropagation();
 });
 
 /***/ })
