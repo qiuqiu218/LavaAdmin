@@ -18,4 +18,14 @@ class File extends Model
     {
         return Storage::disk('images')->url($value);
     }
+
+    public static function deleteImages($path)
+    {
+        Storage::disk('images')->delete($path);
+    }
+
+    public static function deleteFiles($path)
+    {
+        Storage::disk('files')->delete($path);
+    }
 }

@@ -14,7 +14,7 @@ class TableTableSeeder extends Seeder
         $table = \App\Models\Table::query()->create([
             'name' => 'News',
             'display_name' => '新闻',
-            'is_sub_table' => 1,
+            'is_sub_table' => 0,
             'type' => 1
         ]);
         $data = [

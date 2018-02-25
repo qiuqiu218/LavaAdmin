@@ -15,11 +15,12 @@ class ImageController extends BaseController
     {
         $info_id = $request->get('info_id', 0);
         $model = $request->get('model');
+        $mark = $request->get('mark');
         $sql = File::query()->where('model', $model);
         if ($info_id && $model) {
             $sql = $sql->where('info_id', $info_id);
         } else {
-            $sql = $sql->whereNull('info_id');
+            $sql = $sql->where('mark', $mark);
         }
         $data = $sql->where('type', 1)->paginate(8);
         return view('common.image.index', [
@@ -27,7 +28,8 @@ class ImageController extends BaseController
             'field' => $request->get('field'),
             'type' => $request->get('type'),
             'info_id' => $info_id,
-            'model' => $model
+            'model' => $model,
+            'mark' => $mark
         ]);
     }
 
@@ -42,13 +44,15 @@ class ImageController extends BaseController
             'field' => $request->get('field'),
             'type' => $request->get('type'),
             'info_id' => $request->get('info_id', 0),
-            'model' => $request->get('model')
+            'model' => $request->get('model'),
+            'mark' => $request->get('mark', 0)
         ]);
     }
 
     /**
      * @param ImageRequest $request
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function store(ImageRequest $request)
     {
@@ -80,38 +84,15 @@ class ImageController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
     public function destroy($id)
     {
-        $data = File::query()->findOrFail($id);
+        $data = DB::table('files')->where('id', $id)->first();
         Storage::disk('images')->delete($data->path);
-        $res = $data->delete();
+        $res = DB::table('files')->where('id', $id)->delete();
         return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

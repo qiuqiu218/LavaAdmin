@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 class BaseInfoController extends BaseController
@@ -39,13 +38,15 @@ class BaseInfoController extends BaseController
     public function create()
     {
         return view('common.base_info.create', [
-            'fields' => $this->module->getFormDetailFields()
+            'fields' => $this->module->getFormDetailFields(),
+            'mark' => time()
         ]);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -112,6 +113,7 @@ class BaseInfoController extends BaseController
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function update(Request $request, $id)
     {
@@ -139,6 +141,7 @@ class BaseInfoController extends BaseController
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
@@ -153,7 +156,7 @@ class BaseInfoController extends BaseController
             }
 
             // 获取关联的文件数据
-            $file_sql = File::query()
+            $file_sql = DB::table('files')
                 ->where('model', $this->getModel())
                 ->where('info_id', $data->id);
             // 删除文件
@@ -161,10 +164,10 @@ class BaseInfoController extends BaseController
             foreach ($files as $file) {
                 switch ($file->type) {
                     case 1:
-                        Storage::disk('images')->delete($file->path);
+                        File::deleteImages($file->path);
                         break;
                     case 3:
-                        Storage::disk('files')->delete($file->path);
+                        File::deleteFiles($file->path);
                         break;
                 }
             }
@@ -177,6 +180,7 @@ class BaseInfoController extends BaseController
             DB::commit();
             return $this->success('删除成功', url('admin/'.snake_case($this->getController())));
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
             DB::rollBack();
             return $this->error('删除失败');
         }

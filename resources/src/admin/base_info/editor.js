@@ -27,6 +27,8 @@ let MenuConstructors = {}
 MenuConstructors.images = function (id, index) {
   let elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>')
   let model = $("input[name='model']").val()
+  let mark = $("input[name='mark']").val() || 0
+  let info_id = $("input[name='id']").val() || 0
   elem.on('click', function () {
     layui.layer.open({
       type: 2,
@@ -34,7 +36,7 @@ MenuConstructors.images = function (id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: `/admin/image?model=${model}&field=${id}&type=Editor`
+      content: `/admin/image?model=${model}&mark=${mark}&info_id=${info_id}&field=${id}&type=Editor`
     })
   })
   if (_menus.length - 1 === index) {
