@@ -21,8 +21,9 @@ class CreateFieldsTable extends Migration
             $table->string('type', 20)->comment('字段类型');
             $table->string('default_value', 255)->comment('默认值')->nullable();
             $table->unsignedTinyInteger('belong')->comment('1主表,2副表')->default(1);
-            $table->unsignedTinyInteger('is_show')->comment('是否显示');
-            $table->unsignedTinyInteger('is_import')->comment('是否可输入');
+            $table->unsignedTinyInteger('is_show')->comment('是否显示')->default(0);
+            $table->unsignedTinyInteger('is_import')->comment('是否可输入')->default(1);
+            $table->unsignedTinyInteger('is_system')->comment('是否系统字段')->default(0);
             $table->unsignedTinyInteger('sort')->comment('排序')->nullable();
             $table->timestamps();
         });

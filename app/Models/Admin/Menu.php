@@ -2,10 +2,12 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\Tools\Baum;
 use Baum\Node;
 
 class Menu extends Node
 {
+    use Baum;
     /**
      * The attributes that are mass assignable.
      *
@@ -40,19 +42,5 @@ class Menu extends Node
     {
         $value = $value ? $value : 0;
         return config('enum.Menu.type.data')[$value];
-    }
-
-    public function getPath()
-    {
-        return $this->getAncestors(['id'])->map(function ($item) {
-            return $item->id;
-        });
-    }
-
-    public function getChildrenAndSelf()
-    {
-        return $this->getDescendantsAndSelf(['id'])->map(function ($item) {
-            return $item->id;
-        });
     }
 }

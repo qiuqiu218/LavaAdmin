@@ -12,9 +12,10 @@
   <div class="layui-form-item">
     <label class="layui-form-label">标识</label>
     <div class="layui-input-inline">
-      <input type="text" name="name" required lay-verify="required" placeholder="请输入字段标识" class="layui-input" value="{{old('name') ? old('name') : $data->name}}">
+      <input type="text" name="name" required lay-verify="required" placeholder="请输入字段标识" class="layui-input" value="{{old('name') ? old('name') : $data->name}}"{{$data->is_system ? ' readonly' : ''}}>
     </div>
     <div class="layui-form-mid layui-word-aux">{{$errors->first('name')}}</div>
+    <div class="layui-form-mid layui-word-aux">{{$data->is_system ? '系统字段不可修改' : ''}}</div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">名称</label>
@@ -26,7 +27,7 @@
   <div class="layui-form-item">
     <label class="layui-form-label">类型</label>
     <div class="layui-input-inline">
-      <select name="type" lay-filter="type">
+      <select name="type" lay-filter="type"{{$data->is_system ? ' disabled' : ''}}>
         <option value="">默认{{$type['default']}}</option>
         @foreach ($type['data'] as $name)
         <option value="{{$name}}"{{ $data->type === $name ? ' selected' : '' }}>{{$name}}</option>
@@ -34,6 +35,7 @@
       </select>
     </div>
     <div class="layui-form-mid layui-word-aux">{{$errors->first('type')}}</div>
+    <div class="layui-form-mid layui-word-aux">{{$data->is_system ? '系统字段不可修改' : ''}}</div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">默认值</label>

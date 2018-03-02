@@ -34,6 +34,7 @@ return [
                 'text' => '单行文本框',
                 'password' => '密码框',
                 'select' => '下拉框',
+                'linkage_select' => '联动下拉框',
                 'radio' => '单选框',
                 'checkbox' => '复选框',
                 'textarea' => '文本框',

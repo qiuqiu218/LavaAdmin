@@ -12,7 +12,7 @@ class Field extends Model
      * @var array
      */
     protected $fillable = [
-        'table_id', 'name', 'display_name', 'type', 'default_value', 'belong', 'is_show', 'is_import', 'sort'
+        'table_id', 'name', 'display_name', 'type', 'default_value', 'belong', 'is_show', 'is_import', 'is_system', 'sort'
     ];
 
     /**

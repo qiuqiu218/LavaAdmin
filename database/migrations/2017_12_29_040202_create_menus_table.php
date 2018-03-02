@@ -18,6 +18,7 @@ class CreateMenusTable extends Migration {
       // Take a look at the model scaffold comments for details.
       // We add indexes on parent_id, lft, rgt columns by default.
         $table->increments('id');
+        $table->unsignedInteger('table_id')->comment('关联的表id')->default(0);
         $table->integer('parent_id')->comment('父级id')->nullable();
         $table->integer('lft')->comment('左边界')->nullable();
         $table->integer('rgt')->comment('右边界')->nullable();
@@ -30,6 +31,7 @@ class CreateMenusTable extends Migration {
         $table->timestamps();
 
         $table->index('parent_id');
+        $table->index('table_id');
         $table->index('lft');
         $table->index('rgt');
 

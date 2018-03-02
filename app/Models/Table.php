@@ -10,7 +10,7 @@ class Table extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name', 'is_sub_table', 'type'
+        'name', 'display_name', 'is_sub_table', 'is_classify', 'type'
     ];
 
     /**
@@ -31,14 +31,26 @@ class Table extends Model
         "table" => null
     ];
 
+    /**
+     * 关联字段表
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function field()
     {
         return $this->hasMany('App\Models\Field');
     }
 
     /**
-     * // 获取当前表的字段集合
-     *
+     * 关联栏目表
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function menu_table()
+    {
+        return $this->hasMany('App\Models\Admin\Menu');
+    }
+
+    /**
+     * 获取当前表的字段集合
      * @param $name
      * @return mixed|null
      */

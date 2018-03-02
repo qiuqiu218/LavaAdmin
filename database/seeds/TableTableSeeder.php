@@ -15,6 +15,7 @@ class TableTableSeeder extends Seeder
             'name' => 'News',
             'display_name' => '新闻',
             'is_sub_table' => 0,
+            'is_classify' => 1,
             'type' => 1
         ]);
         $data = [
@@ -36,6 +37,18 @@ class TableTableSeeder extends Seeder
                 'is_import' => 1
             ]
         ];
+        if ($table->is_classify) {
+            $data[] = [
+                'name' => 'classify_id',
+                'display_name' => '分类',
+                'type' => '联动下拉框',
+                'default_value' => '',
+                'belong' => 1,
+                'is_show' => 1,
+                'is_import' => 1,
+                'is_system' => 1
+            ];
+        }
         foreach ($data as $item) {
             $table->field()->create($item);
         }

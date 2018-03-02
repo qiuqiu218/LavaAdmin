@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\View;
 
 class BaseInfoController extends BaseController
 {
-    protected $module = null;
+    protected $model = null;
 
     public function __construct()
     {
-        $this->module = $this->getInstantiationModel();
+        $this->model = $this->getInstantiationModel();
         View::share('controller', $this->getController());
     }
     /**
@@ -24,9 +24,9 @@ class BaseInfoController extends BaseController
     public function index()
     {
         return view('common.base_info.index', [
-            'tableCol' => $this->module->getTableListFields(),
-            'tableData' => $this->module->getTableData(),
-            'tableField' => $this->module->getTableListFieldNames()
+            'tableCol' => $this->model->getTableListFields(),
+            'tableData' => $this->model->getTableData(),
+            'tableField' => $this->model->getTableListFieldNames()
         ]);
     }
 
@@ -38,7 +38,7 @@ class BaseInfoController extends BaseController
     public function create()
     {
         return view('common.base_info.create', [
-            'fields' => $this->module->getFormDetailFields(),
+            'fields' => $this->model->getFormDetailFields(),
             'mark' => time()
         ]);
     }
@@ -51,14 +51,14 @@ class BaseInfoController extends BaseController
     public function store(Request $request)
     {
         $mark = $request->get('mark');
-        $input = $request->only($this->module->getMainFieldNames());
+        $input = $request->only($this->model->getMainFieldNames());
 
         DB::beginTransaction();
         try {
-            $data = $this->module->create($input);
+            $data = $this->model->create($input);
             // 如果存在副表则增加到副表
-            if ($this->module->isSubTable()) {
-                $subInput = $request->only($this->module->getSubFieldNames());
+            if ($this->model->isSubTable()) {
+                $subInput = $request->only($this->model->getSubFieldNames());
                 $data->subTable()->create($subInput);
             }
             File::query()->where('mark', $mark)->update([
@@ -82,20 +82,20 @@ class BaseInfoController extends BaseController
      */
     public function edit($id)
     {
-        $data = $this->module->findOrFail($id);
+        $data = $this->model->findOrFail($id);
         // 如果有副表，将副表字段追加到data中去
-        if ($this->module->isSubTable()) {
+        if ($this->model->isSubTable()) {
             // 通过关联获取当前模型的副表
             $sub_data = $data->subTable;
             // 获取副表字段名称
-            $sub_fields = $this->module->getSubFieldNames();
+            $sub_fields = $this->model->getSubFieldNames();
             // 将副表的字段追加到data中去
             foreach ($sub_fields as $field) {
                 $data->$field = $sub_data->$field;
             }
         }
         // 获取表单需要输入的字段(包含主表与副表)
-        $fields = $this->module->getFormDetailFields();
+        $fields = $this->model->getFormDetailFields();
         // 如果有以下两种字段, 则查询files表的数据，追加到data中
         $fields->each(function ($item) use ($data) {
             if ($item->type === '多文件上传' || $item->type === '多图上传') {
@@ -117,16 +117,16 @@ class BaseInfoController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $data = $this->module->findOrFail($id);
-        $input = $request->only($this->module->getMainFieldNames());
+        $data = $this->model->findOrFail($id);
+        $input = $request->only($this->model->getMainFieldNames());
 
         DB::beginTransaction();
 
         try {
             $data->update($input);
             // 如果存在副表则更新副表
-            if ($this->module->isSubTable()) {
-                $subInput = $request->only($this->module->getSubFieldNames());
+            if ($this->model->isSubTable()) {
+                $subInput = $request->only($this->model->getSubFieldNames());
                 $data->subTable()->update($subInput);
             }
 
@@ -145,13 +145,13 @@ class BaseInfoController extends BaseController
      */
     public function destroy($id)
     {
-        $data = $this->module->findOrFail($id);
+        $data = $this->model->findOrFail($id);
 
         DB::beginTransaction();
 
         try {
             // 如果存在副表则删除副表
-            if ($this->module->isSubTable()) {
+            if ($this->model->isSubTable()) {
                 $data->subTable()->delete();
             }
 
