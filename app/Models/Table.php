@@ -20,6 +20,10 @@ class Table extends Model
         'created_at', 'updated_at'
     ];
 
+    protected $casts = [
+      'is_classify' => 'integer'
+    ];
+
     /**
      * 根据table表关联查找出的field表集合
      *
@@ -35,7 +39,7 @@ class Table extends Model
      * 关联字段表
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function field()
+    public function field_table()
     {
         return $this->hasMany('App\Models\Field');
     }
@@ -47,6 +51,15 @@ class Table extends Model
     public function menu_table()
     {
         return $this->hasMany('App\Models\Admin\Menu');
+    }
+
+    /**
+     * 关联分类表
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function classify_table()
+    {
+        return $this->hasMany('App\Models\Admin\Classify');
     }
 
     /**
