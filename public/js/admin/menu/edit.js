@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 148);
+/******/ 	return __webpack_require__(__webpack_require__.s = 153);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 148:
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _selectTree = __webpack_require__(67);
+var _selectTree = __webpack_require__(27);
 
 var _selectTree2 = _interopRequireDefault(_selectTree);
 
@@ -83,13 +83,15 @@ $.fn.extend({
   selectTree: _selectTree2.default
 });
 
+var id = $("input[name='id']").val();
+
 $("[selectTree]").selectTree({
-  url: '/admin/getTree'
+  url: '/admin/getTree?id=' + id
 });
 
 /***/ }),
 
-/***/ 67:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113,9 +115,13 @@ _form = null,
     _input = '',
     _value = 0;
 
-function init(arg) {
+function init() {
+  var arg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   _this = $(this);
-  _url = arg.url;
+  _url = arg.url || _url;
+  _tree = arg.tree || _tree;
+  _path = arg.path || _path;
   _temp = _this.html();
   _name = _this.attr('selectTree');
   _value = _this.attr('value') ? _this.attr('value') : _value;
@@ -124,10 +130,15 @@ function init(arg) {
 
   layui.use(['form'], function () {
     _form = layui.form;
-    getData().then(function (res) {
+    if (arg.hasOwnProperty('tree')) {
       initNode();
       initBind();
-    });
+    } else {
+      getData().then(function (res) {
+        initNode();
+        initBind();
+      });
+    }
   });
 }
 
@@ -147,7 +158,7 @@ function initNode() {
   }
 
   _form.render('select');
-  _input.val(_path[_path.length - 1]);
+  _input.val(_path[_path.length - 1] || 0);
 }
 
 function appendDom(collect) {
@@ -165,7 +176,7 @@ function appendDom(collect) {
 function getData() {
   return new Promise(function (resolve, reject) {
     var id = getInputId();
-    $.get(_url + '?id=' + id, function (res) {
+    $.get(_url, function (res) {
       _tree = res.data.tree;
       if (res.data.path && Array.isArray(res.data.path)) {
         _path = res.data.path;

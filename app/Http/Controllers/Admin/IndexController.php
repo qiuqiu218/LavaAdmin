@@ -17,7 +17,7 @@ class IndexController extends BaseController
                     ->whereNull('parent_id')
                     ->orderBy('id', 'asc')
                     ->get();
-        return view('admin.index.index', [
+        return $this->view([
             'data' => $data
         ]);
     }
@@ -27,7 +27,7 @@ class IndexController extends BaseController
      */
     public function main()
     {
-        return view('admin.index.main');
+        return $this->view();
     }
 
     /**
@@ -50,24 +50,24 @@ class IndexController extends BaseController
         if ($parent_id) {
             $data = Menu::findOrFail($parent_id)->getDescendants()->toHierarchy();
         }
-        return view('admin.index.sidebar', [
+        return $this->view([
             'data' => $data
         ]);
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function successView()
     {
-        return view('admin.index.success');
+        return $this->view();
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
      */
     public function errorView()
     {
-        return view('admin.index.error');
+        return $this->view();
     }
 }

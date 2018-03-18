@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\BaseController;
+use App\Models\Admin\Classify;
+use App\Models\Admin\Table;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,14 +19,13 @@ class BaseInfoController extends BaseController
         $this->model = $this->getInstantiationModel();
         View::share('controller', $this->getController());
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        return view('common.base_info.index', [
+        return $this->baseInfoView([
             'tableCol' => $this->model->getTableListFields(),
             'tableData' => $this->model->getTableData(),
             'tableField' => $this->model->getTableListFieldNames()
@@ -31,14 +33,20 @@ class BaseInfoController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('common.base_info.create', [
+        $table = (new Table())->getTableInfo($this->getModel());
+
+        $classify = [];
+        if ($table->is_classify) {
+            $classify = $table->classify_table->toHierarchy()->values();
+        }
+
+        return $this->baseInfoView([
             'fields' => $this->model->getFormDetailFields(),
+            'classify' => $classify,
             'mark' => time()
         ]);
     }
@@ -66,7 +74,7 @@ class BaseInfoController extends BaseController
                 'mark' => 0
             ]);
             DB::commit();
-            return $this->success('发布成功', url('admin/'.snake_case($this->getController())));
+            return $this->success('发布成功', url('admin/'.$this->getController()));
         } catch (\Exception $e) {
             \Log::info($e->getMessage());
             DB::rollBack();
@@ -75,10 +83,8 @@ class BaseInfoController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
@@ -103,9 +109,25 @@ class BaseInfoController extends BaseController
             }
         });
 
-        return view('common.base_info.edit', [
+        // 获取当前表信息
+        $table = (new Table())->getTableInfo($this->getModel());
+        // 如果开启了分类，则获取分类树
+        $classify = [];
+        $classify_path = [];
+        if ($table->is_classify) {
+            $classify = $table->classify_table->toHierarchy()->values();
+            if ($data->classify_id > 0) {
+                $item = Classify::query()->findOrFail($data->classify_id);
+                $classify_path = $item->getPath();
+                $classify_path->push($data->classify_id);
+            }
+        }
+
+        return $this->baseInfoView([
             'data' => $data,
-            'fields' => $fields
+            'fields' => $fields,
+            'classify' => $classify,
+            'classify_path' => $classify_path
         ]);
     }
 
@@ -131,8 +153,9 @@ class BaseInfoController extends BaseController
             }
 
             DB::commit();
-            return $this->success('修改成功', url('admin/'.snake_case($this->getController())));
+            return $this->success('修改成功', url('admin/'.$this->getController()));
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
             DB::rollBack();
             return $this->error('修改失败');
         }
@@ -178,7 +201,7 @@ class BaseInfoController extends BaseController
             $data->delete();
 
             DB::commit();
-            return $this->success('删除成功', url('admin/'.snake_case($this->getController())));
+            return $this->success('删除成功', url('admin/'.$this->getController()));
         } catch (\Exception $e) {
             \Log::info($e->getMessage());
             DB::rollBack();

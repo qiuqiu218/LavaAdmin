@@ -16,3 +16,7 @@
 @if ($fields->contains('type', '编辑器'))
   <script src="{{ asset('js/admin/base_info/editor.js?'.time()) }}"></script>
 @endif
+@if ($fields->contains('type', '联动下拉框'))
+  <script src="{{ asset('js/admin/base_info/linkage_select.js?'.time()) }}"></script>
+@endif
+

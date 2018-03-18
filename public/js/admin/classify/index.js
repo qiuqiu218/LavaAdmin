@@ -60,37 +60,70 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
+/***/ 141:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-$("#files").on('click', '[deleted]', function () {
-  var parent = $(this).parents('tr');
-  parent.remove();
+__webpack_require__(67);
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// 点击菜单进行折叠或展开
+$("table a").click(function () {
+  var tr = $(this).parents('tr');
+  var id = tr.data('id');
+  var status = tr.data('status');
+  if (status === 'fold') {
+    tr.data('status', 'unfold');
+    $(this).find('i').html('&#xe625;');
+    unfoldMenu(id);
+  } else {
+    tr.data('status', 'fold');
+    $(this).find('i').html('&#xe623;');
+    foldMenu(id);
+  }
 });
 
-window.selectedFiles = function (field, data) {
-  $.store.array.toggle('baseInfo_input_' + field, data);
-};
-
-// 渲染选中的图片到表单中
-window.renderFiles = function (field) {
-  var collect = $.store.array.get('baseInfo_input_' + field);
-  var data = collect.map(function (res) {
-    return '<tr>\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </td>\n            </tr>';
-  });
-  if (data.length > 0) {
-    $('#' + field + 'List').append(data);
+// 折叠菜单
+function foldMenu(parentId) {
+  var dom = $("tr[data-parentId='" + parentId + "']");
+  if (dom.length) {
+    dom.addClass('layui-hide');
+    dom.each(function () {
+      foldMenu($(this).data('id'));
+    });
   }
-  layer.close(layer.index);
-};
+}
+
+// 展开菜单
+function unfoldMenu(parentId) {
+  var parent = $("tr[data-id='" + parentId + "']");
+  var dom = $("tr[data-parentId='" + parentId + "']");
+  if (dom.length) {
+    dom.each(function () {
+      var status = parent.data('status');
+      if (status === 'fold') {
+        $(this).addClass('layui-hide');
+      } else {
+        $(this).removeClass('layui-hide');
+      }
+      unfoldMenu($(this).data('id'));
+    });
+  }
+}
 
 /***/ })
 

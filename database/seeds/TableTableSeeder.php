@@ -11,8 +11,8 @@ class TableTableSeeder extends Seeder
      */
     public function run()
     {
-        $table = \App\Models\Table::query()->create([
-            'name' => 'News',
+        $table = \App\Models\Admin\Table::query()->create([
+            'name' => 'news',
             'display_name' => '新闻',
             'is_sub_table' => 0,
             'is_classify' => 1,

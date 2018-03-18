@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\TableRequest;
-use App\Models\Table;
+use App\Models\Admin\Table;
 
 class TableController extends BaseController
 {
@@ -16,27 +17,24 @@ class TableController extends BaseController
     {
         $this->model = new Table();
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $data = $this->model->all();
-        return view('common.table.index', [
+        return $this->view([
             'data' => $data
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('common.table.create');
+        return $this->view();
     }
 
     /**
@@ -51,15 +49,13 @@ class TableController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         $data = $this->model->query()->findOrFail($id);
-        return view('common.table.edit', [
+        return $this->view([
             'data' => $data
         ]);
     }

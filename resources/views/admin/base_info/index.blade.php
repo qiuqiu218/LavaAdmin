@@ -4,7 +4,7 @@
 <div class="d-padding-10">
 <div class="layui-row">
     <div class="layui-col-xs6">
-      <a class="layui-btn layui-btn-normal" href="{{ url('admin/'.snake_case($controller).'/create') }}">添加信息</a>
+      <a class="layui-btn layui-btn-normal" href="{{ url('admin/'.$controller.'/create') }}">添加信息</a>
     </div>
   </div>
   <table class="layui-table">
@@ -34,8 +34,8 @@
       </td>
       @endforeach
       <td align="center">
-        <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/'.snake_case($controller).'/'.$item->id.'/edit') }}">编辑</a>
-        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/'.snake_case($controller).'/'.$item->id) }}">删除</button>
+        <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/'.$controller.'/'.$item->id.'/edit') }}">编辑</a>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/'.$controller.'/'.$item->id) }}">删除</button>
       </td>
     </tr>
     @endforeach

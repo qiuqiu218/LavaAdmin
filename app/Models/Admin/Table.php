@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,7 +41,7 @@ class Table extends Model
      */
     public function field_table()
     {
-        return $this->hasMany('App\Models\Field');
+        return $this->hasMany('App\Models\Admin\Field');
     }
 
     /**
@@ -72,7 +72,7 @@ class Table extends Model
         if ($this->field_cache['name'] === $name) {
             return $this->field_cache['fields'];
         }
-        $this->field_cache['fields'] = $this->getTableInfo($name)->field;
+        $this->field_cache['fields'] = $this->getTableInfo($name)->field_table;
         return $this->field_cache['fields'];
     }
 

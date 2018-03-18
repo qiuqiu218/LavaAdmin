@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-<form class="layui-form layui-form-pane" action="{{url('admin/'.snake_case($controller).'/'.$data->id)}}" method="post">
+<form class="layui-form layui-form-pane" action="{{url('admin/'.$controller.'/'.$data->id)}}" method="post">
   {{ csrf_field() }}
   {{ method_field('PUT') }}
   <input type="hidden" name="model" value="{{$controller}}">
@@ -12,7 +12,7 @@
   </div>
   <div class="d-padding-10">
     @foreach ($fields as $item)
-      @include('common.base_info.edit_input')
+      @include('admin.base_info.edit_input')
     @endforeach
   </div>
 </form>
@@ -20,5 +20,5 @@
 
 @section('script')
   @parent
-  @include('common.base_info.input_js')
+  @include('admin.base_info.input_js')
 @endsection

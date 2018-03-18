@@ -3,7 +3,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -13,7 +13,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="password" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+        <input type="password" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -26,7 +26,7 @@
         <select name="{{$item->name}}">
           <option value=""></option>
           @foreach ($item->default_value as $option)
-          <option value="{{$option['value']}}"{{$option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
+          <option value="{{$option['value']}}"{{$data[$item->name] === $option['value'] ? ' selected' : $option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
           @endforeach
         </select>
       </div>
@@ -39,7 +39,7 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         @foreach ($item->default_value as $option)
-          <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$option['active'] ? ' checked' : ''}}>
+          <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$data[$item->name] === $option['value'] ? ' selected' : $option['active'] ? ' checked' : ''}}>
         @endforeach
       </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <textarea name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-textarea">{{old($item->name)}}</textarea>
+        <textarea name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-textarea">{{$data[$item->name] or old($item->name)}}</textarea>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -71,11 +71,11 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&mark='.$mark.'&field='.$item->name.'&type=Image') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Image') }}">
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
-        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -87,11 +87,28 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&mark='.$mark.'&field='.$item->name.'&type=Images') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Images') }}">
               <i class="layui-icon">&#xe67c;</i>添加图片
             </button>
           </div>
-          <div class="layui-row layui-col-space20" id="{{$item->name}}List"></div>
+          <div class="layui-row layui-col-space20" id="{{$item->name}}List">
+            @foreach ($data[$item->name] as $img)
+            <div class="layui-col-xs2">
+              <div class="square">
+                <div class="square-img">
+                  <img src="{{$img['path']}}">
+                  <div class="mask">
+                    <div class="d-text-right">
+                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
+                    </div>
+                  </div>
+                </div>
+                <h5 class="d-margin-t-5 d-text-center layui-elip">{{$img['name']}}</h5>
+                <input type="hidden" name="{{$item->name}}[]" value="{{$img['id']}}">
+              </div>
+            </div>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
@@ -102,11 +119,11 @@
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
         <div class="upload">
-          <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&mark='.$mark.'&field='.$item->name.'&type=File') }}">
+          <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=File') }}">
             <i class="layui-icon">&#xe67c;</i>添加文件
           </button>
         </div>
-        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -118,7 +135,7 @@
       <div class="layui-input-block">
         <div class="d-padding-10">
           <div class="d-margin-b-10">
-            <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&mark='.$mark.'&field='.$item->name.'&type=Files') }}">
+            <button type="button" class="layui-btn" route="{{ url('admin/file?model='.$controller.'&info_id='.$data->id.'&field='.$item->name.'&type=Files') }}">
               <i class="layui-icon">&#xe67c;</i>添加文件
             </button>
           </div>
@@ -137,7 +154,19 @@
                 <th>操作</th>
               </tr> 
             </thead>
-            <tbody id="{{$item->name}}List"></tbody>
+            <tbody id="{{$item->name}}List">
+            @foreach ($data[$item->name] as $file)
+            <tr>
+              <td>{{$file['name']}}</td>
+              <td>{{$file['mime']}}</td>
+              <td>{{sprintf("%.1f", $file['size'] / 1000)}}KB</td>
+              <td>
+                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>删除</a>
+                <input type="hidden" name="{{$item->name}}[]" value="{{$file['id']}}">
+              </td>
+            </tr>
+            @endforeach
+            </tbody>
           </table>
         </div>
       </div>
@@ -148,7 +177,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-inline">
-        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}" date>
+        <input type="text" name="{{$item->name}}" placeholder="请输入{{$item->display_name}}" class="layui-input" value="{{$data[$item->name] or old($item->name)}}" date>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -158,8 +187,8 @@
     <div class="layui-form-item d-table">
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
-        <div id="{{$item->name}}" editor>{{old($item->name)}}</div>
-        <textarea name="{{$item->name}}" id="{{$item->name}}_textarea" style="display: none">{{old($item->name)}}</textarea>
+        <div id="{{$item->name}}" editor></div>
+        <textarea name="{{$item->name}}" id="{{$item->name}}_textarea" style="display: none">{{$data[$item->name] or old($item->name)}}</textarea>
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
@@ -186,6 +215,22 @@
       ]
     </script>
     @break
+
+    @case('联动下拉框')
+      <div class="layui-form-item">
+        <label class="layui-form-label">{{$item->display_name}}</label>
+        <div class="layui-form" selectTree="{{$item->name}}" value="{{$data[$item->name] or old($item->name)}}">
+          <div class="layui-input-inline">
+            <select></select>
+          </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
+        <script>
+        var _classify = @json($classify);
+        var _classify_path = @json($classify_path);
+        </script>
+      </div>
+      @break
 
   @default
         {{$item->type}}

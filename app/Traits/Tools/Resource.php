@@ -8,68 +8,72 @@
 
 namespace App\Traits\Tools;
 
+use Illuminate\Support\Facades\Route;
+
 trait Resource {
 
-    protected $resource = [
-        'route' => '',
-        'action' => '',
-        'controller' => '',
-        'prefix' => ''
-    ];
-
+    /**
+     * 获取当前控制器名称
+     * @return mixed
+     */
     public function getController()
     {
-        if ($this->resource['controller']) {
-            return $this->resource['controller'];
-        }
-        $baseController = class_basename($this->getRoute()['controller']);
-        list($controller, $action) = explode('@', $baseController);
-        $this->resource['controller'] = str_before($controller, 'Controller'); // 函数返回字符串中给定值之前的所有内容 (见辅助函数)
-        return $this->resource['controller'];
+        $baseController = class_basename(Route::currentRouteAction());
+        $controller = explode("@", $baseController)[0];
+        $controller = str_before($controller, 'Controller'); // 函数返回字符串中给定值之前的所有内容 (见辅助函数)
+        $controller = snake_case($controller); // 字符串转蛇形
+        return $controller;
     }
 
+    /**
+     * 获取当前方法名称
+     * @return mixed
+     */
     public function getAction()
     {
-        if ($this->resource['action']) {
-            return $this->resource['action'];
-        }
-        $baseController = class_basename($this->getRoute()['controller']);
-        list($controller, $action) = explode('@', $baseController);
-        $this->resource['action'] = $action;
-        return $this->resource['action'];
+        $baseController = class_basename(Route::currentRouteAction());
+        $action = explode("@", $baseController)[1];
+        $action = snake_case($action); // 字符串转蛇形
+        return $action;
     }
 
-    public function getPrefix()
-    {
-        if ($this->resource['prefix']) {
-            return $this->resource['prefix'];
-        }
-        $route = $this->getRoute();
-        return ucfirst($route['prefix'] ? $route['prefix'] : 'home');
-    }
-
+    /**
+     * 获取当前模型名称
+     * @return mixed
+     */
     public function getModel()
     {
         return $this->getController();
     }
 
+    /**
+     * 获取当前路由前缀名称
+     * @return mixed
+     */
+    public function getPrefix()
+    {
+        return Route::current()->getAction()['prefix'];
+    }
+
+    /**
+     * 返回实例化的模型对象
+     * @return mixed
+     */
     public function getInstantiationModel()
     {
-        $path = 'App\Models\\'.$this->getPrefix().'\\'.$this->getController();
+        $path = 'App\Models\\'.ucfirst($this->getPrefix()).'\\'.ucfirst($this->getController());
         return new $path();
     }
 
-    public function getRoute()
+    /**
+     * 获取模板对应的js文件
+     * @param string $path
+     * @return string
+     */
+    public function getJsPath($path = '')
     {
-        return $this->resource['route'] ? $this->resource['route'] : request()->route()->getAction();
-    }
-
-    public function getJsPath()
-    {
-        $controller = snake_case($this->getController());
-        $action = snake_case($this->getAction());
-        $prefix = snake_case($this->getPrefix());
-        $jsPath = 'js/'.$prefix.'/'.$controller.'/'.$action.'.js';
+        $path = $path ? $path : $this->getResourcePath();
+        $jsPath = 'js/'.$path.'.js';
         $jsBasePath = public_path($jsPath);
         if (is_file($jsBasePath)) {
             return '<script src="'.asset($jsPath).'?'.time().'"></script>';
@@ -78,17 +82,58 @@ trait Resource {
         }
     }
 
-    public function getCssPath()
+    /**
+     * 获取模板对应的css文件
+     * @param string $path
+     * @return string
+     */
+    public function getCssPath($path = '')
     {
-        $controller = snake_case($this->getController());
-        $action = snake_case($this->getAction());
-        $prefix = snake_case($this->getPrefix());
-        $cssPath = 'css/'.$prefix.'/'.$controller.'/'.$action.'.css';
+        $path = $path ? $path : $this->getResourcePath();
+        $cssPath = 'css/'.$path.'.css';
         $cssBasePath = public_path($cssPath);
         if (is_file($cssBasePath)) {
             return '<link rel="stylesheet" href="'.asset($cssPath).'?'.time().'">';
         } else {
             return '';
         }
+    }
+
+    /**
+     * 获取视图路径
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return $this->getPrefix().'.'.$this->getController().'.'.$this->getAction();
+    }
+
+    /**
+     * 获取当前视图的资源路径
+     * @return mixed
+     */
+    public function getResourcePath()
+    {
+        return str_replace(".", "/", $this->getViewPath());
+    }
+
+    /**
+     * 返回视图
+     * @param array $data
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function view(array $data = [])
+    {
+        return view($this->getViewPath(), $data);
+    }
+
+    /**
+     * 返回基本信息视图
+     * @param array $data
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function baseInfoView(array $data = [])
+    {
+        return view($this->getPrefix().'.base_info.'.$this->getAction(), $data);
     }
 }

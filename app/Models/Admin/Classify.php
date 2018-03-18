@@ -2,11 +2,12 @@
 
 namespace App\Models\Admin;
 
+use App\Traits\Tools\Baum;
 use Baum\Node;
 
 class Classify extends Node
 {
-
+    use Baum;
     /**
      * The attributes that are mass assignable.
      *

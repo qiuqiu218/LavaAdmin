@@ -60,37 +60,15 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
+/******/ 	return __webpack_require__(__webpack_require__.s = 141);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 135:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 141:
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-$("#files").on('click', '[deleted]', function () {
-  var parent = $(this).parents('tr');
-  parent.remove();
-});
-
-window.selectedFiles = function (field, data) {
-  $.store.array.toggle('baseInfo_input_' + field, data);
-};
-
-// 渲染选中的图片到表单中
-window.renderFiles = function (field) {
-  var collect = $.store.array.get('baseInfo_input_' + field);
-  var data = collect.map(function (res) {
-    return '<tr>\n              <td>' + res.name + '</td>\n              <td>' + res.mime + '</td>\n              <td>' + (res.size / 1000).toFixed(1) + 'KB</td>\n              <td>\n                <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </td>\n            </tr>';
-  });
-  if (data.length > 0) {
-    $('#' + field + 'List').append(data);
-  }
-  layer.close(layer.index);
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/wanxin/project/LavaAdmin/resources/src/admin/error_view.js'");
 
 /***/ })
 

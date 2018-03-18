@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\FieldRequest;
-use App\Models\Field;
-use App\Models\Table;
+use App\Models\Admin\Field;
+use App\Models\Admin\Table;
 use Illuminate\Http\Request;
 
 class FieldController extends BaseController
@@ -15,17 +16,17 @@ class FieldController extends BaseController
     {
         $this->model = new Field();
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         $table_id = $request->input('table_id');
         // 根据table_id 获取关联的field表数据
-        $data = Table::query()->findOrFail($table_id)->field;
-        return view('common.field.index', [
+        $data = Table::query()->findOrFail($table_id)->field_table;
+        return $this->view([
             'data' => $data,
             'table_id' => $request->input('table_id')
         ]);
@@ -38,7 +39,7 @@ class FieldController extends BaseController
     public function create(Request $request)
     {
         $type = config('enum.Field.type');
-        return view('common.field.create', [
+        return $this->view([
             'type' => $type,
             'table_id' => $request->input('table_id')
         ]);
@@ -56,16 +57,14 @@ class FieldController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
         $type = config('enum.Field.type');
         $data = $this->model->query()->findOrFail($id);
-        return view('common.field.edit', [
+        return $this->view([
             'data' => $data,
             'type' => $type
         ]);

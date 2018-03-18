@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-<form class="layui-form layui-form-pane" action="{{url('admin/'.snake_case($controller))}}" method="post">
+<form class="layui-form layui-form-pane" action="{{url('admin/'.$controller)}}" method="post">
   {{ csrf_field() }}
   <input type="hidden" name="model" value="{{$controller}}">
   <input type="hidden" name="mark" value="{{$mark}}">
@@ -11,7 +11,7 @@
   </div>
   <div class="d-padding-10">
     @foreach ($fields as $item)
-      @include('common.base_info.create_input')
+      @include('admin.base_info.create_input')
     @endforeach
   </div>
 </form>
@@ -19,5 +19,5 @@
 
 @section('script')
   @parent
-  @include('common.base_info.input_js')
+  @include('admin.base_info.input_js')
 @endsection

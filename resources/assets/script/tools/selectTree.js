@@ -10,9 +10,11 @@ let _this = null, // 当前dom
 
 
 
-function init (arg) {
+function init (arg = {}) {
   _this = $(this)
-  _url = arg.url
+  _url = arg.url || _url
+  _tree = arg.tree || _tree
+  _path = arg.path || _path
   _temp = _this.html()
   _name = _this.attr('selectTree')
   _value = _this.attr('value') ? _this.attr('value') : _value
@@ -21,11 +23,16 @@ function init (arg) {
   
   layui.use(['form'], function () {
     _form = layui.form
-    getData()
-      .then(res => {
-        initNode()
-        initBind()
-      })
+    if (arg.hasOwnProperty('tree')) {
+      initNode()
+      initBind()
+    } else {
+      getData()
+        .then(res => {
+          initNode()
+          initBind()
+        })
+    }
   })
 }
 
@@ -45,7 +52,7 @@ function initNode () {
   }
   
   _form.render('select')
-  _input.val(_path[_path.length - 1])
+  _input.val(_path[_path.length - 1] || 0)
 }
 
 function appendDom (collect, index = 0, value = 0) {
@@ -63,7 +70,7 @@ function appendDom (collect, index = 0, value = 0) {
 function getData () {
   return new Promise((resolve, reject) => {
     let id = getInputId()
-    $.get(`${_url}?id=${id}`, res => {
+    $.get(_url, res => {
       _tree = res.data.tree
       if (res.data.path && Array.isArray(res.data.path)) {
         _path = res.data.path

@@ -6,8 +6,8 @@ $.fn.extend({
   selectTree
 })
 
-let id = $("input[name='id']").val()
+let table_id = $("input[name='table_id']").val()
 
 $("[selectTree]").selectTree({
-  url: `/admin/getTree?id=${id}`
+  url: `/admin/classify/getTree?table_id=${table_id}`
 })

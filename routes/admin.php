@@ -46,14 +46,15 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     // 新闻系统
     Route::resource('news', 'NewsController');
     // 分类管理
+    Route::get('classify/getTree', 'ClassifyController@getTree');
     Route::resource('classify', 'ClassifyController');
-});
-
-$this->middleware('auth:admin')->group(function () {
     // 数据表
     Route::resource('table', 'TableController');
     // 数据表字段
     Route::resource('field', 'FieldController');
+});
+
+$this->middleware('auth:admin')->group(function () {
     // 文件管理
     Route::resource('file', 'FileController');
     // 图片管理

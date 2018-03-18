@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use App\Traits\Tools\Resource;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +33,7 @@ class BaseInfo extends Model
     public function subTable()
     {
         if ($this->isSubTable()) {
-            return $this->hasOne('App\Models\Admin\\'.$this->getModel().'Sub');
+            return $this->hasOne('App\Models\Admin\\'.ucfirst($this->getModel()).'Sub');
         }
         return $this;
     }
