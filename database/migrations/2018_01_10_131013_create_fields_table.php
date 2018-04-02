@@ -20,6 +20,7 @@ class CreateFieldsTable extends Migration
             $table->string('display_name', 30)->comment('字段名称');
             $table->string('type', 20)->comment('字段类型');
             $table->string('default_value', 255)->comment('默认值')->nullable();
+            $table->json('option')->comment('选项(下拉框，复选框，单选框)')->default('[]');
             $table->unsignedTinyInteger('belong')->comment('1主表,2副表')->default(1);
             $table->unsignedTinyInteger('is_show')->comment('是否显示')->default(0);
             $table->unsignedTinyInteger('is_import')->comment('是否可输入')->default(1);

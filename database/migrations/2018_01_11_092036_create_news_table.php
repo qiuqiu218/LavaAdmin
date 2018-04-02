@@ -24,7 +24,7 @@ class CreateNewsTable extends Migration
         Schema::create('news_subs', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('news_id');
-            $table->text('detail')->comment('详情')->defualt('');
+            $table->unsignedInteger('checkbox')->comment('复选框')->defualt('[]');
             $table->timestamps();
         });
     }

@@ -52,7 +52,8 @@ class FieldController extends BaseController
     public function store(FieldRequest $request)
     {
         $input = $request->only($this->model->getFillable());
-        $res = $this->model->query()->create($input);
+        $input['option'] = json_decode($input['option']);
+        $res = $this->model->create($input);
         return $res ? $this->success('创建成功', 'admin/field?table_id='.$input['table_id']) : $this->error('创建失败');
     }
 
@@ -63,7 +64,7 @@ class FieldController extends BaseController
     public function edit($id)
     {
         $type = config('enum.Field.type');
-        $data = $this->model->query()->findOrFail($id);
+        $data = $this->model->findOrFail($id);
         return $this->view([
             'data' => $data,
             'type' => $type
@@ -78,7 +79,8 @@ class FieldController extends BaseController
     public function update(FieldRequest $request, $id)
     {
         $input = $request->only($this->model->getFillable());
-        $data = $this->model->query()->findOrFail($id);
+        $input['option'] = json_decode($input['option']);
+        $data = $this->model->findOrFail($id);
         $res = $data->update($input);
         return $res ? $this->success('更新成功', 'admin/field?table_id='.$data->table_id) : $this->error('更新失败');
     }
@@ -90,7 +92,7 @@ class FieldController extends BaseController
      */
     public function destroy($id)
     {
-        $res = $this->model->query()->findOrFail($id)->delete();
+        $res = $this->model->findOrFail($id)->delete();
         return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

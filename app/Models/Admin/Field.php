@@ -12,7 +12,7 @@ class Field extends Model
      * @var array
      */
     protected $fillable = [
-        'table_id', 'name', 'display_name', 'type', 'default_value', 'belong', 'is_show', 'is_import', 'is_system', 'sort'
+        'table_id', 'name', 'display_name', 'type', 'default_value', 'option', 'belong', 'is_show', 'is_import', 'is_system', 'sort'
     ];
 
     /**
@@ -22,6 +22,13 @@ class Field extends Model
         'created_at', 'updated_at'
     ];
 
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'option' => 'array'
+    ];
+    
     /**
      * @param $value
      */
@@ -40,35 +47,12 @@ class Field extends Model
         return isset($field[$value]) ? $field[$value] : config('enum.Field.type.default');
     }
 
-    public function getDefaultValueAttribute($value)
+    /**
+     * 关联表信息
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function table()
     {
-        if (in_array($this->type, ['下拉框', '单选框', '复选框']) && $this->getModel() !== 'Field') {
-            if (str_contains($value, "\r\n")) {
-                $select = collect(explode("\r\n", $value));
-            } else {
-                $select = collect(explode("\n", $value));
-            }
-            try {
-                $obj = $select->map(function ($item) {
-                    list($val, $text) = explode("==", $item);
-                    $active = 0;
-                    if (str_contains($text, ':default')) {
-                        $text = str_before($text, ':default');
-                        $active = 1;
-                    }
-
-                    return [
-                        'value' => $val,
-                        'text' => $text,
-                        'active' => $active
-                    ];
-                })->toArray();
-                return $obj;
-            } catch (\Exception $e) {
-                return [];
-            }
-        } else {
-            return $value;
-        }
+        return $this->belongsTo('App\Models\Admin\Table');
     }
 }

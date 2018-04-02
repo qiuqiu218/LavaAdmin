@@ -67,6 +67,11 @@ class BaseInfoController extends BaseController
             // 如果存在副表则增加到副表
             if ($this->model->isSubTable()) {
                 $subInput = $request->only($this->model->getSubFieldNames());
+                foreach ($subInput as $key => $item) {
+                    if (is_array($item)) {
+                        $subInput[$key] = array_values($item);
+                    }
+                }
                 $data->subTable()->create($subInput);
             }
             File::query()->where('mark', $mark)->update([
@@ -117,12 +122,10 @@ class BaseInfoController extends BaseController
         if ($table->is_classify) {
             $classify = $table->classify_table->toHierarchy()->values();
             if ($data->classify_id > 0) {
-                $item = Classify::query()->findOrFail($data->classify_id);
-                $classify_path = $item->getPath();
-                $classify_path->push($data->classify_id);
+                // 获取当前分类id的父级节点，包括当前节点
+                $classify_path = Classify::query()->findOrFail($data->classify_id)->getPathAndSelf();
             }
         }
-
         return $this->baseInfoView([
             'data' => $data,
             'fields' => $fields,

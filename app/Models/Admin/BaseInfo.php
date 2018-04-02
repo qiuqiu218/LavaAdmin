@@ -32,10 +32,7 @@ class BaseInfo extends Model
      */
     public function subTable()
     {
-        if ($this->isSubTable()) {
-            return $this->hasOne('App\Models\Admin\\'.ucfirst($this->getModel()).'Sub');
-        }
-        return $this;
+        return $this->hasOne('App\Models\Admin\\'.ucfirst($this->getModel()).'Sub');
     }
 
     public function initFillable()
@@ -101,7 +98,10 @@ class BaseInfo extends Model
         })->toArray();
     }
 
-    // 是否存在副表
+    /**
+     * 是否存在副表
+     * @return mixed
+     */
     public function isSubTable()
     {
         $res = (new Table())->getTableInfo($this->getModel())->is_sub_table;
@@ -147,14 +147,27 @@ class BaseInfo extends Model
     }
 
     /**
+     * 获取列表显示字段
+     * @return mixed
+     */
+    public function getListShowFields()
+    {
+        return (new Table())->getField($this->getModel())
+                    ->filter(function ($item) {
+                        return $item->is_show === 1;
+                    })
+                    ->values();
+    }
+
+    /**
      * 获取当前模型数据
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getTableData()
     {
-        $data = self::query()->get();
-        $field = (new Table())->getField($this->getModel());
+        $data = self::query()->get();// 需要分页
+        $field = $this->getListShowFields();
 
         // 获取要替换的字段
         $changeField = $field->filter(function ($item) {
@@ -191,7 +204,7 @@ class BaseInfo extends Model
     // 获取下拉框的替换文本
     public function replaceSelect($value, $field)
     {
-        foreach ($field->default_value as $item) {
+        foreach ($field->option as $item) {
             if ($item['value'] === $value) {
                 return $item['text'];
                 break;
@@ -209,7 +222,7 @@ class BaseInfo extends Model
     // 获取复选框的替换文本
     public function replaceCheckbox($value, $field)
     {
-        return collect($field->default_value)
+        return collect($field->option)
             ->whereIn('value', $value)
             ->map(function ($item) {
                 return $item['text'];

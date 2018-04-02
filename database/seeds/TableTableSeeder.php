@@ -14,7 +14,7 @@ class TableTableSeeder extends Seeder
         $table = \App\Models\Admin\Table::query()->create([
             'name' => 'news',
             'display_name' => '新闻',
-            'is_sub_table' => 0,
+            'is_sub_table' => 1,
             'is_classify' => 1,
             'type' => 1
         ]);
@@ -34,6 +34,32 @@ class TableTableSeeder extends Seeder
                 'default_value' => '',
                 'belong' => 1,
                 'is_show' => 1,
+                'is_import' => 1
+            ],
+            [
+                'name' => 'checkbox',
+                'display_name' => '下拉框',
+                'type' => '下拉框',
+                'default_value' => '',
+                'option' => [
+                    [
+                        'value' => 1,
+                        'text' => '文本1',
+                        'active' => 0
+                    ],
+                    [
+                        'value' => 2,
+                        'text' => '文本2',
+                        'active' => 0
+                    ],
+                    [
+                        'value' => 3,
+                        'text' => '文本3',
+                        'active' => 0
+                    ]
+                ],
+                'belong' => 2,
+                'is_show' => 0,
                 'is_import' => 1
             ]
         ];

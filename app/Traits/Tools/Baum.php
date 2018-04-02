@@ -22,6 +22,17 @@ trait Baum {
     }
 
     /**
+     * 获取当前模型的父级节点，包括当前节点
+     * @return mixed
+     */
+    public function getPathAndSelf()
+    {
+        return $this->getAncestorsAndSelf(['id'])->map(function ($item) {
+            return $item->id;
+        });
+    }
+
+    /**
      * 获取当前模型的子节点，包括本级。
      * return format [1, 2, 3]
      * @return \Illuminate\Support\Collection|static

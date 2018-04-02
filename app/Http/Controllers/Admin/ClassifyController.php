@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ClassifyController extends BaseController
 {
+    protected $model = null;
+
+    /**
+     * ClassifyController constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new Classify();
+    }
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -15,7 +24,7 @@ class ClassifyController extends BaseController
     public function index(Request $request)
     {
         $table_id = $request->get('table_id');
-        $data = Classify::query()
+        $data = $this->model
                     ->where('table_id', $table_id)
                     ->get()
                     ->toHierarchy();
@@ -43,7 +52,7 @@ class ClassifyController extends BaseController
     public function store(Request $request)
     {
         $input = array_filter($request->only(['parent_id', 'title', 'sort', 'table_id']));
-        $res = Classify::query()->create($input);
+        $res = $this->model->create($input);
         return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
@@ -55,32 +64,32 @@ class ClassifyController extends BaseController
     public function edit(Request $request, $id)
     {
         return $this->view([
-            'data' => Classify::query()->findOrFail($id),
+            'data' => $this->model->findOrFail($id),
             'table_id' => $request->get('table_id')
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = array_filter($request->only($this->model->getFillable()));
+        $res = $this->model->findOrFail($id)->update($input);
+        return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
+        $this->model->findOrFail($id)->delete();
+        return $this->success('删除成功');
     }
 
     /**
@@ -93,15 +102,16 @@ class ClassifyController extends BaseController
         $table_id = $request->get('table_id');
         $id = $request->get('id');
 
-        $data['tree'] = Classify::query()
-                        ->where('table_id', $table_id)
-                        ->get()
-                        ->toHierarchy()
-                        ->values();
+        $query = Classify::query()
+                        ->where('table_id', $table_id);
         if ($id) {
             $item = Classify::query()->findOrFail($id);
             $data['path'] = $item->getPath();
+            $query = $query->whereNotIn('id', $item->getChildrenAndSelf());
         }
+        $data['tree'] = $query->get()
+                              ->toHierarchy()
+                              ->values();
         return $this->setParams($data)->success('获取成功');
     }
 }

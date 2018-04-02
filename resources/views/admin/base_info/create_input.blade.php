@@ -25,7 +25,7 @@
       <div class="layui-input-inline">
         <select name="{{$item->name}}">
           <option value=""></option>
-          @foreach ($item->default_value as $option)
+          @foreach ($item->option as $option)
           <option value="{{$option['value']}}"{{$option['active'] ? ' selected' : ''}}>{{$option['text']}}</option>
           @endforeach
         </select>
@@ -38,7 +38,7 @@
     <div class="layui-form-item" pane>
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
-        @foreach ($item->default_value as $option)
+        @foreach ($item->option as $option)
           <input type="radio" name="{{$item->name}}" value="{{$option['value']}}" title="{{$option['text']}}"{{$option['active'] ? ' checked' : ''}}>
         @endforeach
       </div>
@@ -49,7 +49,7 @@
     <div class="layui-form-item" pane>
       <label class="layui-form-label">{{$item->display_name}}</label>
       <div class="layui-input-block">
-        @foreach ($item->default_value as $option)
+        @foreach ($item->option as $option)
           <input type="checkbox" name="{{$item->name}}[]" value="{{$option['value']}}" title="{{$option['text']}}" lay-skin="primary"{{$option['active'] ? ' checked' : ''}}>
         @endforeach
       </div>
@@ -69,13 +69,15 @@
   @case('单图上传')
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
-      <div class="layui-input-block">
+      <div class="layui-input-inline" style="width: 650px">
+        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
+      </div>
+      <div class="layui-input-inline">
         <div class="upload">
           <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&mark='.$mark.'&field='.$item->name.'&type=Image') }}">
             <i class="layui-icon">&#xe67c;</i>添加图片
           </button>
         </div>
-        <input type="text" name="{{$item->name}}" placeholder="请上传{{$item->display_name}}" class="layui-input" value="{{old($item->name)}}">
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first($item->name)}}</div>
     </div>
