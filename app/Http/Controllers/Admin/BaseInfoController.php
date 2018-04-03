@@ -23,12 +23,29 @@ class BaseInfoController extends BaseController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = [
+            'keywords' => $request->input('keywords', ''),
+            'field' => $request->input('field', '')
+        ];
+
+        $query = $this->model->query();
+
+        if ($search['keywords'] && $search['field']) {
+            $query = $query->where($search['field'], 'like', '%'.$search['keywords'].'%');
+        }
+        $data = $query->orderBy('id', 'desc')->paginate(15);
+
         return $this->baseInfoView([
             'tableCol' => $this->model->getTableListFields(),
-            'tableData' => $this->model->getTableData(),
-            'tableField' => $this->model->getTableListFieldNames()
+            'tableData' => $this->model->getTableData($data),
+            'tableField' => $this->model->getTableListFieldNames(),
+            'search' => [
+                'keywords' => $request->input('keywords') ?? '',
+                'field' => $request->input('field') ?? '',
+                'option' => $this->model->getMainFields()
+            ]
         ]);
     }
 
@@ -109,7 +126,7 @@ class BaseInfoController extends BaseController
         $fields = $this->model->getFormDetailFields();
         // 如果有以下两种字段, 则查询files表的数据，追加到data中
         $fields->each(function ($item) use ($data) {
-            if ($item->type === '多文件上传' || $item->type === '多图上传') {
+            if ($item->element === '多文件上传' || $item->element === '多图上传') {
                 $data[$item->name] = File::query()->whereIn('id', $data[$item->name])->get();
             }
         });

@@ -30,8 +30,8 @@ layui.form.on('submit', function (data) {
   $("input[name='option']").val(JSON.stringify(option))
 })
 
-let is_checkbox = $("select[name='type']").val() === '复选框' ? true : false
-layui.form.on('select(type)', function (data) {
+let is_checkbox = $("select[name='element']").val() === '复选框' ? true : false
+layui.form.on('select(element)', function (data) {
   let field = ['下拉框', '联动下拉框', '单选框', '复选框']
   if (field.includes(data.value)) {
     if (data.value === '复选框') {

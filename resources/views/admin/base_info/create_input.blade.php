@@ -1,4 +1,4 @@
-@switch($item->type)
+@switch($item->element)
   @case('单行文本框')
     <div class="layui-form-item">
       <label class="layui-form-label">{{$item->display_name}}</label>
@@ -205,5 +205,5 @@
     @break
 
   @default
-        {{$item->type}}
+        {{$item->element}}
 @endswitch

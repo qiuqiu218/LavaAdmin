@@ -98,7 +98,7 @@ layui.form.on('submit', function (data) {
 });
 
 var is_checkbox = false;
-layui.form.on('select(type)', function (data) {
+layui.form.on('select(element)', function (data) {
   var field = ['下拉框', '联动下拉框', '单选框', '复选框'];
   if (field.includes(data.value)) {
     if (data.value === '复选框') {

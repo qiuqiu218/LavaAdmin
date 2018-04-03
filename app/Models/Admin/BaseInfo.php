@@ -11,7 +11,7 @@ class BaseInfo extends Model
     /**
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['title'];
 
     /**
      * @var array
@@ -44,7 +44,7 @@ class BaseInfo extends Model
     {
         $field = $this->getMainFields();
         foreach ($field as $item) {
-            if (in_array($item->type, ['复选框', '多图上传', '多文件上传'])) {
+            if (in_array($item->element, ['复选框', '多图上传', '多文件上传'])) {
                 $this->casts[$item->name] = 'array';
             }
         }
@@ -161,23 +161,22 @@ class BaseInfo extends Model
 
     /**
      * 获取当前模型数据
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @param $data
+     * @return mixed
      */
-    public function getTableData()
+    public function getTableData($data)
     {
-        $data = self::query()->get();// 需要分页
         $field = $this->getListShowFields();
 
         // 获取要替换的字段
         $changeField = $field->filter(function ($item) {
-            return in_array($item->type, ['下拉框', '单选框', '复选框', '多图上传', '多文件上传']);
+            return in_array($item->element, ['下拉框', '单选框', '复选框', '多图上传', '多文件上传']);
         });
 
         if ($changeField->count()) {
             $data = $data->each(function ($item) use ($changeField) {
                 $changeField->each(function ($f) use ($item) {
-                    switch ($f->type) {
+                    switch ($f->element) {
                         case '多图上传':
                             $item[$f->name] = $this->replaceImages($item[$f->name]);
                             break;

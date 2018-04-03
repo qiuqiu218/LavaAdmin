@@ -27,16 +27,35 @@
           <div class="layui-form-mid layui-word-aux">{{$errors->first('display_name')}}</div>
         </div>
         <div class="layui-form-item">
-          <label class="layui-form-label">类型</label>
+          <label class="layui-form-label">显示元素</label>
+          <div class="layui-input-inline">
+            <select name="element" lay-filter="element">
+              <option value="">默认{{config('enum.Field.element.default')}}</option>
+              @foreach (config('enum.Field.element.data') as $name)
+              <option value="{{$name}}"{{ config('enum.Field.element.default') === $name ? ' selected' : '' }}>{{$name}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="layui-form-mid layui-word-aux">{{$errors->first('element')}}</div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字段类型</label>
           <div class="layui-input-inline">
             <select name="type" lay-filter="type">
-              <option value="">默认{{$type['default']}}</option>
-              @foreach ($type['data'] as $name)
-              <option value="{{$name}}"{{ $type['default'] === $name ? ' selected' : '' }}>{{$name}}</option>
+              <option value="">默认{{config('enum.Field.type.default')}}</option>
+              @foreach (config('enum.Field.type.data') as $name)
+              <option value="{{$name}}"{{ config('enum.Field.type.default') === $name ? ' selected' : '' }}>{{$name}}</option>
               @endforeach
             </select>
           </div>
           <div class="layui-form-mid layui-word-aux">{{$errors->first('type')}}</div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字段长度</label>
+          <div class="layui-input-inline">
+            <input type="text" name="type_length" placeholder="请输入默认值" class="layui-input" value="{{old('type_length')}}">
+          </div>
+          <div class="layui-form-mid layui-word-aux">{{$errors->first('type_length')}}</div>
         </div>
         <div class="layui-form-item" id="default_value">
           <label class="layui-form-label">默认值</label>

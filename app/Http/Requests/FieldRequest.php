@@ -26,6 +26,7 @@ class FieldRequest extends FormRequest
         $rules = [
             'name' => 'required|string|max:20',
             'display_name' => 'required|string|max:30',
+            'element' => 'sometimes|string|max:20',
             'type' => 'sometimes|string|max:20',
             'is_show' => 'required|integer',
             'is_import' => 'required|integer',

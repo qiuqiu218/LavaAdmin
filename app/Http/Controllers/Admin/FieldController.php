@@ -38,9 +38,7 @@ class FieldController extends BaseController
      */
     public function create(Request $request)
     {
-        $type = config('enum.Field.type');
         return $this->view([
-            'type' => $type,
             'table_id' => $request->input('table_id')
         ]);
     }
@@ -63,11 +61,9 @@ class FieldController extends BaseController
      */
     public function edit($id)
     {
-        $type = config('enum.Field.type');
         $data = $this->model->findOrFail($id);
         return $this->view([
-            'data' => $data,
-            'type' => $type
+            'data' => $data
         ]);
     }
 

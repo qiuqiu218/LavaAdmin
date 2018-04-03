@@ -95,8 +95,8 @@ layui.form.on('submit', function (data) {
   $("input[name='option']").val(JSON.stringify(option));
 });
 
-var is_checkbox = $("select[name='type']").val() === '复选框' ? true : false;
-layui.form.on('select(type)', function (data) {
+var is_checkbox = $("select[name='element']").val() === '复选框' ? true : false;
+layui.form.on('select(element)', function (data) {
   var field = ['下拉框', '联动下拉框', '单选框', '复选框'];
   if (field.includes(data.value)) {
     if (data.value === '复选框') {

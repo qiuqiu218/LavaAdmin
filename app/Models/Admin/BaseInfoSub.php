@@ -34,7 +34,7 @@ class BaseInfoSub extends Model
     {
         $field = $this->getFields();
         foreach ($field as $item) {
-            if (in_array($item->type, ['复选框', '多图上传', '多文件上传'])) {
+            if (in_array($item->element, ['复选框', '多图上传', '多文件上传'])) {
                 $this->casts[$item->name] = 'array';
             }
         }

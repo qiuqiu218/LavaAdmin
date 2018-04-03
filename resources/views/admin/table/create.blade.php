@@ -43,6 +43,16 @@
       </div>
       <div class="layui-form-mid layui-word-aux">{{$errors->first('is_classify')}}</div>
     </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">开启评论</label>
+      <div class="layui-input-inline">
+        <div class="layui-input">
+          <input type="radio" name="is_comment" value="1" title="开启">
+          <input type="radio" name="is_comment" value="0" title="关闭" checked>
+        </div>
+      </div>
+      <div class="layui-form-mid layui-word-aux">{{$errors->first('is_comment')}}</div>
+    </div>
   </div>
 </form>
 @endsection

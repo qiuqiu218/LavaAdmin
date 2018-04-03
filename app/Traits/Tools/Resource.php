@@ -44,6 +44,7 @@ trait Resource {
     public function getModel()
     {
         return $this->getController();
+//        return 'news';
     }
 
     /**

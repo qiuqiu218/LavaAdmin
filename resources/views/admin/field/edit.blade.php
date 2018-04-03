@@ -30,17 +30,36 @@
         <div class="layui-form-item">
           <label class="layui-form-label">类型</label>
           <div class="layui-input-inline">
-            <select name="type" lay-filter="type"{{$data->is_system ? ' disabled' : ''}}>
-              <option value="">默认{{$type['default']}}</option>
-              @foreach ($type['data'] as $name)
+            <select name="element" lay-filter="element"{{$data->is_system ? ' disabled' : ''}}>
+              <option value="">默认{{config('enum.Field.element.default')}}</option>
+              @foreach (config('enum.Field.element.data') as $name)
+              <option value="{{$name}}"{{ $data->element === $name ? ' selected' : '' }}>{{$name}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="layui-form-mid layui-word-aux">{{$errors->first('element')}}</div>
+          <div class="layui-form-mid layui-word-aux">{{$data->is_system ? '系统字段不可修改' : ''}}</div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">字段类型</label>
+          <div class="layui-input-inline">
+            <select name="type" lay-filter="type">
+              <option value="">默认{{config('enum.Field.type.default')}}</option>
+              @foreach (config('enum.Field.type.data') as $name)
               <option value="{{$name}}"{{ $data->type === $name ? ' selected' : '' }}>{{$name}}</option>
               @endforeach
             </select>
           </div>
           <div class="layui-form-mid layui-word-aux">{{$errors->first('type')}}</div>
-          <div class="layui-form-mid layui-word-aux">{{$data->is_system ? '系统字段不可修改' : ''}}</div>
         </div>
-        @if (!in_array($data->type, ['下拉框', '联动下拉框', '单选框', '复选框'])) 
+        <div class="layui-form-item">
+          <label class="layui-form-label">字段长度</label>
+          <div class="layui-input-inline">
+            <input type="text" name="type_length" placeholder="请输入默认值" class="layui-input" value="{{old('type_length')}}">
+          </div>
+          <div class="layui-form-mid layui-word-aux">{{$errors->first('type_length')}}</div>
+        </div>
+        @if (!in_array($data->element, ['下拉框', '联动下拉框', '单选框', '复选框'])) 
         <div class="layui-form-item" id="default_value">
           <label class="layui-form-label">默认值</label>
           <div class="layui-input-inline">
@@ -87,23 +106,24 @@
           <div class="layui-form-mid layui-word-aux">{{$errors->first('sort')}}</div>
         </div>
       </div>
-      <div class="layui-col-xs6" id="option" style="display:{{in_array($data->type, ['下拉框', '联动下拉框', '单选框', '复选框']) ? 'block' : 'none'}}">
+      <div class="layui-col-xs6" id="option" style="display:{{in_array($data->element, ['下拉框', '联动下拉框', '单选框', '复选框']) ? 'block' : 'none'}}">
         <div id="optionList">
-          @foreach ($data->option as $item)
-          <div class="layui-form-item">
-            <div class="layui-input-inline" style="width: 50px">
-              <input type="text" placeholder="值" value="{{$item['value']}}" class="layui-input value">
+          @if (in_array($data->element, ['下拉框', '联动下拉框', '单选框', '复选框']))
+            @foreach ($data->option as $item)
+            <div class="layui-form-item">
+              <div class="layui-input-inline" style="width: 50px">
+                <input type="text" placeholder="值" value="{{$item['value']}}" class="layui-input value">
+              </div>
+              <div class="layui-input-inline" style="width: 100px">
+                <input type="text" placeholder="文本" value="{{$item['text']}}" class="layui-input text">
+              </div>
+              <div class="layui-input-inline" style="width: 100px">
+                <input type="checkbox" title="默认" value="1" lay-skin="primary" class="active"{{$item['active'] ? ' checked' : ''}} lay-filter="active">
+              </div>
             </div>
-            <div class="layui-input-inline" style="width: 100px">
-              <input type="text" placeholder="文本" value="{{$item['text']}}" class="layui-input text">
-            </div>
-            <div class="layui-input-inline" style="width: 100px">
-              <input type="checkbox" title="默认" value="1" lay-skin="primary" class="active"{{$item['active'] ? ' checked' : ''}} lay-filter="active">
-            </div>
-          </div>
-          @endforeach
+            @endforeach
+          @endif
         </div>
-        
         <div class="layui-form-item">
           <button type="button" class="layui-btn layui-btn-normal" id="addOption">添加一行</button>
         </div>

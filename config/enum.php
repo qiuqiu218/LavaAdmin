@@ -28,7 +28,7 @@ return [
         ]
     ],
     'Field' => [
-        'type' => [
+        'element' => [
             'default' => '单行文本框',
             'data' => [
                 'text' => '单行文本框',
@@ -44,6 +44,27 @@ return [
                 'file' => '单文件上传',
                 'files' => '多文件上传',
                 'date' => '日期'
+            ]
+        ],
+        'type' => [
+            'default' => 'varchar',
+            'data' => [
+                'varchar',
+                'char',
+                'text',
+                'mediumText',
+                'longText',
+                'tinyInt',
+                'smallInt',
+                'int',
+                'bigInt',
+                'json',
+                'decimal',
+                'double',
+                'float',
+                'date',
+                'datetime',
+                'timestamp'
             ]
         ]
     ]

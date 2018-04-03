@@ -111,7 +111,7 @@ class TableObserver {
                 $table->field_table()->create([
                     'name' => 'classify_id',
                     'display_name' => '分类',
-                    'type' => '联动下拉框',
+                    'element' => '联动下拉框',
                     'default_value' => '',
                     'belong' => 1,
                     'is_show' => 1,

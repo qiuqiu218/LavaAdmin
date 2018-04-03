@@ -66,6 +66,17 @@ class MenuTableSeeder extends Seeder
             ],
             [
                 'title' => '信息管理'
+            ],
+            [
+                'title' => '商城管理',
+                'children' => [
+                    [
+                        'title' => '订单管理'
+                    ],
+                    [
+                        'title' => '参数设置'
+                    ]
+                ]
             ]
         ];
         foreach ($data as $item) {

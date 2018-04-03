@@ -10,7 +10,7 @@ class Table extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name', 'is_sub_table', 'is_classify', 'type'
+        'name', 'display_name', 'is_sub_table', 'is_classify', 'is_comment', 'type'
     ];
 
     /**
