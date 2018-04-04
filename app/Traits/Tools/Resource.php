@@ -53,7 +53,7 @@ trait Resource {
      */
     public function getPrefix()
     {
-        return Route::current()->getAction()['prefix'];
+        return Route::current()->getAction()['prefix'] ?? 'home';
     }
 
     /**

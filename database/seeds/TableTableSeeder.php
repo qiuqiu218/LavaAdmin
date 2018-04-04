@@ -12,8 +12,8 @@ class TableTableSeeder extends Seeder
     public function run()
     {
         $table = \App\Models\Admin\Table::query()->create([
-            'name' => 'mall',
-            'display_name' => '商城',
+            'name' => 'product',
+            'display_name' => '产品',
             'is_sub_table' => 1,
             'is_classify' => 1,
             'type' => 1
@@ -104,8 +104,14 @@ class TableTableSeeder extends Seeder
                     ]
                 ],
                 'belong' => 2
+            ],
+            [
+                'name' => 'content',
+                'display_name' => '商品描述',
+                'element' => '编辑器',
+                'type' => 'text',
+                'belong' => 2
             ]
-
         ];
         foreach ($data as $item) {
             $table->field_table()->create($item);

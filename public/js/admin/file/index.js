@@ -186,7 +186,6 @@ $.ajaxSetup({
 var _param = {
   url: '',
   type: 'get',
-  contentType: 'application/json',
   dataType: 'json',
   data: {}
 };
@@ -226,7 +225,8 @@ function ajax(param) {
 }
 
 exports.default = {
-  deleteInfo: deleteInfo
+  deleteInfo: deleteInfo,
+  ajax: ajax
 };
 
 /***/ })

@@ -1,18 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Admin\Comment;
+use App\Models\Admin\Table;
 use Illuminate\Http\Request;
 
-class IndexController extends BaseController
+class CommentController extends BaseController
 {
+    protected $model = null;
+
     /**
+     * CommentController constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new Comment();
+    }
+
+    /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->view();
+        $table_id = $request->input('table_id');
+        // 根据table_id 获取关联的comment表数据
+        $data = Table::query()->findOrFail($table_id)->comment_table;
+        return $this->view([
+            'data' => $data,
+            'table_id' => $request->input('table_id')
+        ]);
     }
 
     /**

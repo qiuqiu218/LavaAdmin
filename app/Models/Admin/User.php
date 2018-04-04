@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Models\Home;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+namespace App\Models\Admin;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable, HasRoles;
+
+    // Permission插件需要的属性 (守护名称)
+    protected $guard_name = 'web';
     /**
      * The attributes that are mass assignable.
      *

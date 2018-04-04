@@ -7,7 +7,6 @@ $.ajaxSetup({
 let _param = {
   url: '',
   type: 'get',
-  contentType: 'application/json',
   dataType: 'json',
   data: {}
 }
@@ -42,6 +41,9 @@ function ajax (param) {
   $.ajax(Object.assign(_param, param))
 }
 
+
+
 export default {
-  deleteInfo
+  deleteInfo,
+  ajax
 }

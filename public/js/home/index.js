@@ -60,30 +60,15 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 158);
+/******/ 	return __webpack_require__(__webpack_require__.s = 157);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 158:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(159);
-
-if (window.self.location.toString() !== window.top.location.toString()) {
-  // 如果当前页面是在框架内打开的
-  window.parent.location.reload();
-}
-
-/***/ }),
-
-/***/ 159:
+/***/ 157:
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\web\\app\\LavaAdmin\\resources\\src\\home\\index.js'");
 
 /***/ })
 

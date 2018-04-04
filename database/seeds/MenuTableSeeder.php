@@ -37,7 +37,7 @@ class MenuTableSeeder extends Seeder
                             ],
                             [
                                 'title' => '管理员角色',
-                                'route' => 'admin/role'
+                                'route' => 'admin/role?guard_name=admin'
                             ],
                             [
                                 'title' => '管理员权限',
@@ -54,7 +54,7 @@ class MenuTableSeeder extends Seeder
                             ],
                             [
                                 'title' => '会员角色',
-                                'route' => 'admin/role'
+                                'route' => 'admin/role?guard_name=web'
                             ],
                             [
                                 'title' => '会员权限',

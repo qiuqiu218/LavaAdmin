@@ -1,18 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Admin\Order;
 use Illuminate\Http\Request;
 
-class IndexController extends BaseController
+class OrderController extends BaseController
 {
+    protected $model = null;
+
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * CommentController constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new Order();
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return $this->view();
+        //
     }
 
     /**
