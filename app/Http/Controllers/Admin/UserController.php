@@ -30,13 +30,13 @@ class UserController extends BaseController
             return $this->error('您搜索的字段不存在');
         }
 
-        $query = User::query();
+        $query = $this->model->query();
         if ($keywords) {
             $query = $query->where($field, 'like', '%'.$keywords.'%');
         }
 
         $data = $query->orderBy('id')->paginate(10);
-        return view('admin.admin.index', [
+        return $this->view([
             'data' => $data,
             'keywords' => $keywords,
             'field' => $field
@@ -48,8 +48,8 @@ class UserController extends BaseController
      */
     public function create()
     {
-        $role = Role::query()->where('guard_name', 'admin')->get();
-        return view('admin.admin.create', [
+        $role = Role::query()->where('guard_name', 'web')->get();
+        return $this->view([
             'role' => $role
         ]);
     }
@@ -61,26 +61,25 @@ class UserController extends BaseController
     public function store(AdminRequest $request)
     {
         $input = $request->only($this->model->getFillable());
-        $admin = User::query()->create($input);
-        $res = $admin->syncRoles($request->input('role'));
+        $input['api_token'] = str_random(60);
+        $user = $this->model->create($input);
+        $res = $user->syncRoles($request->input('role'));
         return $res ? $this->setAutoClose()->success('注册成功') : $this->error('注册失败');
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
-        $role = Role::query()->where('guard_name', 'admin')->get();
-        $data = User::query()->findOrFail($id);
+        $role = Role::query()->where('guard_name', 'web')->get();
+        $data = $this->model->findOrFail($id);
         $roleName = $data->getRoleNames();
         if (count($roleName) > 0) {
             $data->role = $roleName[0];
         }
-        return view('admin.admin.edit', [
+        return $this->view([
             'data' => $data,
             'role' => $role
         ]);
@@ -94,25 +93,25 @@ class UserController extends BaseController
     public function update(AdminRequest $request, $id)
     {
         $input = $request->only($this->model->getFillable());
-        $admin = User::query()->findOrFail($id);
+        $user = $this->model->findOrFail($id);
 
         // 如果更新了信息 验证唯一性
         $validate = [];
-        if ($admin->username !== $input['username']) {
-            $validate['username'] = 'unique:admins,username';
+        if ($user->username !== $input['username']) {
+            $validate['username'] = 'unique:users,username';
         }
-        if ($admin->email !== $input['email']) {
-            $validate['email'] = 'unique:admins,email';
+        if ($user->email !== $input['email']) {
+            $validate['email'] = 'unique:users,email';
         }
-        if ($admin->phone !== $input['phone']) {
-            $validate['phone'] = 'unique:admins,phone';
+        if ($user->phone !== $input['phone']) {
+            $validate['phone'] = 'unique:users,phone';
         }
         if (count($validate) > 0) {
             $this->validate($request, $validate);
         }
 
-        $admin->update($input);
-        $res = $admin->syncRoles($request->input('role'));
+        $user->update($input);
+        $res = $user->syncRoles($request->input('role'));
         return $res ? $this->setAutoClose()->success('修改成功') : $this->error('修改失败');
     }
 
@@ -123,7 +122,7 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        $res = User::query()->findOrFail($id)->delete();
+        $res = $this->model->findOrFail($id)->delete();
         return $res ? $this->setAutoClose()->success('删除成功') : $this->error('删除失败');
     }
 }

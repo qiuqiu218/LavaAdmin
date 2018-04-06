@@ -73,10 +73,36 @@
 
 __webpack_require__(159);
 
+var _ajax = __webpack_require__(33);
+
+var _ajax2 = _interopRequireDefault(_ajax);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 if (window.self.location.toString() !== window.top.location.toString()) {
   // 如果当前页面是在框架内打开的
   window.parent.location.reload();
 }
+
+$("button").click(function () {
+  var username = $('input[name="username"]').val();
+  var password = $('input[name="password"]').val();
+
+  _ajax2.default.ajax({
+    url: '/api/login',
+    type: 'post',
+    data: {
+      username: username,
+      password: password
+      // grant_type: 'password',
+      // client_id: 2,
+      // client_secret: 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK'
+    },
+    success: function success(res) {
+      console.log(res);
+    }
+  });
+});
 
 /***/ }),
 
@@ -84,6 +110,69 @@ if (window.self.location.toString() !== window.top.location.toString()) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+var _param = {
+  url: '',
+  type: 'get',
+  dataType: 'json',
+  data: {}
+};
+
+function isConfirm(msg) {
+  return new Promise(function (resolve, reject) {
+    if (msg) {
+      layer.confirm(msg, function (index) {
+        layer.close(index);
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
+}
+
+function deleteInfo(route, callback) {
+  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
+    return layer.load();
+  }).then(function (index) {
+    return ajax({
+      url: route,
+      success: function success(res) {
+        layer.close(index);
+        callback(res);
+      },
+      type: 'delete'
+    });
+  });
+}
+
+function ajax(param) {
+  $.ajax(Object.assign(_param, param));
+}
+
+exports.default = {
+  deleteInfo: deleteInfo,
+  ajax: ajax
+};
 
 /***/ })
 

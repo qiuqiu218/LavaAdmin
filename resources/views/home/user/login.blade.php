@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="layui-container d-bg-white d-padding-30 d-vertical-center">
-  <form class="layui-form layui-form-pane" action="{{route('home.login')}}" method="post">
+  <div class="layui-form layui-form-pane">
     {{ csrf_field() }}
     <div class="layui-form-item">
       <label class="layui-form-label">账户</label>
@@ -25,11 +25,11 @@
     </div>
     <div class="layui-form-item">
       <div class="layui-input-inline">
-        <button class="layui-btn" lay-submit>登陆</button>
+        <button class="layui-btn">登陆</button>
         <a href="javascript:;" class="d-padding-l-20">忘记密码</a>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 @endsection
 

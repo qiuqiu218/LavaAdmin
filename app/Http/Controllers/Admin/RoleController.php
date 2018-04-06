@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class RoleController extends BaseController
 {
+    protected $model = null;
+
+    public function __construct()
+    {
+        $this->model = new Role();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +24,8 @@ class RoleController extends BaseController
      */
     public function index(Request $request)
     {
-        $guard_name = $request->input('guard_name');
-        $data = Role::all();
+        $guard_name = $request->input('guard_name', 'admin');
+        $data = $this->model->where('guard_name', $guard_name)->get();
         return view('admin.role.index', [
             'data' => $data,
             'guard_name' => $guard_name

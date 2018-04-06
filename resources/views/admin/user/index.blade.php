@@ -5,7 +5,7 @@
 <div class="d-padding-10">
   <div class="layui-row">
     <div class="layui-col-xs6">
-      <button class="layui-btn layui-btn-normal" route="{{ url('admin/user/create') }}">添加管理员</button>
+      <button class="layui-btn layui-btn-normal" route="{{ url('admin/user/create') }}">添加会员</button>
     </div>
     <div class="layui-col-xs6">
       <form class="layui-form layui-form-pane" method="get" action="{{ url('admin/user') }}">

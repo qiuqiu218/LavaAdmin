@@ -73,7 +73,7 @@
 
 var _other = __webpack_require__(32);
 
-var _ajax = __webpack_require__(48);
+var _ajax = __webpack_require__(33);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -159,7 +159,7 @@ function getUrlParam(name) {
 
 /***/ }),
 
-/***/ 48:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
