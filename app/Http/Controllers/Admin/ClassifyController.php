@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Admin\Classify;
+use App\Models\Classify;
 use Illuminate\Http\Request;
 
 class ClassifyController extends BaseController

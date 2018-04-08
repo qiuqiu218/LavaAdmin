@@ -8,9 +8,9 @@
 
 namespace App\Observers\Admin;
 
-use App\Models\Admin\Menu;
-use App\Models\Admin\Permission;
-use App\Models\Admin\PermissionClassify;
+use App\Models\Menu;
+use App\Models\Permission;
+use App\Models\PermissionClassify;
 
 class MenuObserver {
 

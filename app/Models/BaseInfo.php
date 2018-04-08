@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use App\Traits\Tools\Resource;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +32,7 @@ class BaseInfo extends Model
      */
     public function subTable()
     {
-        return $this->hasOne('App\Models\Admin\\'.ucfirst($this->getModel()).'Sub');
+        return $this->hasOne('App\Models\\'.ucfirst($this->getModel()).'Sub');
     }
 
     public function initFillable()

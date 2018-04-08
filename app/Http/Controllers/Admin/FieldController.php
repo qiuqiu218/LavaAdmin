@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\FieldRequest;
-use App\Models\Admin\Field;
-use App\Models\Admin\Table;
+use App\Models\Field;
+use App\Models\Table;
 use Illuminate\Http\Request;
 
 class FieldController extends BaseController

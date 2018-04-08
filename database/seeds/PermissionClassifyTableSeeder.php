@@ -99,7 +99,7 @@ class PermissionClassifyTableSeeder extends Seeder
             ]
         ];
         foreach ($data as $item) {
-            $classify = \App\Models\Admin\PermissionClassify::query()->create([
+            $classify = \App\Models\PermissionClassify::query()->create([
                 'name' => $item['name']
             ]);
             if (isset($item['children'])) {

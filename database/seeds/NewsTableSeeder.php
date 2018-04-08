@@ -12,7 +12,7 @@ class NewsTableSeeder extends Seeder
     public function run()
     {
         for($i = 0; $i < 20; $i++) {
-            $news = \App\Models\Admin\News::query()->create([
+            $news = \App\Models\News::query()->create([
                 'title' => $i
             ]);
             $news->subTable()->create([

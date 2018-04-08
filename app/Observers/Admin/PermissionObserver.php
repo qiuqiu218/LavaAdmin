@@ -8,8 +8,8 @@
 
 namespace App\Observers\Admin;
 
-use App\Models\Admin\Permission;
-use App\Models\Admin\Role;
+use App\Models\Permission;
+use App\Models\Role;
 
 class PermissionObserver {
 

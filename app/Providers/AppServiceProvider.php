@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Admin\Menu;
-use App\Models\Admin\Permission;
-use App\Models\Admin\Table;
+use App\Models\Menu;
+use App\Models\Permission;
+use App\Models\Table;
 use App\Observers\Admin\MenuObserver;
 use App\Observers\Admin\PermissionObserver;
 use App\Observers\Admin\TableObserver;

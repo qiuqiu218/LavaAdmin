@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,7 +29,7 @@ class PermissionClassify extends Model
      */
     public function permission()
     {
-        return $this->hasMany('App\Models\Admin\Permission');
+        return $this->hasMany('App\Models\Permission');
     }
 
     public static function getAllPermission()

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Admin\PermissionClassify;
+use App\Models\PermissionClassify;
 use Illuminate\Http\Request;
-use App\Models\Admin\Permission;
+use App\Models\Permission;
 
 class PermissionController extends BaseController
 {

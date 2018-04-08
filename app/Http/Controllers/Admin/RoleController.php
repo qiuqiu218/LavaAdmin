@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\RoleRequest;
-use App\Models\Admin\Menu;
-use App\Models\Admin\PermissionClassify;
-use App\Models\Admin\Role;
+use App\Models\Menu;
+use App\Models\PermissionClassify;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends BaseController

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Admin\Menu;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 class IndexController extends BaseController

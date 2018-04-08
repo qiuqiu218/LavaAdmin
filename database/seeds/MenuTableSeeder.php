@@ -80,13 +80,13 @@ class MenuTableSeeder extends Seeder
             ]
         ];
         foreach ($data as $item) {
-            $root = \App\Models\Admin\Menu::query()->create([
+            $root = \App\Models\Menu::query()->create([
                 'title' => $item['title'],
                 'type' => 1
             ]);
             if (isset($item['children'])) {
                 foreach ($item['children'] as $item2) {
-                    $root2 = \App\Models\Admin\Menu::query()->create([
+                    $root2 = \App\Models\Menu::query()->create([
                         'parent_id' => $root->id,
                         'title' => $item2['title'],
                         'route' => isset($item2['route']) ? $item2['route'] : null,
@@ -94,7 +94,7 @@ class MenuTableSeeder extends Seeder
                     ]);
                     if (isset($item2['children'])) {
                         foreach ($item2['children'] as $item3) {
-                            \App\Models\Admin\Menu::query()->create([
+                            \App\Models\Menu::query()->create([
                                 'parent_id' => $root2->id,
                                 'title' => $item3['title'],
                                 'route' => $item3['route'],

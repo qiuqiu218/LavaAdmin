@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\AdminRequest;
 use Spatie\Permission\Models\Role;
-use App\Models\Admin\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController

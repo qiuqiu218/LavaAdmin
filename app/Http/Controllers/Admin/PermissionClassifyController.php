@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\PermissionClassifyRequest;
-use App\Models\Admin\PermissionClassify;
+use App\Models\PermissionClassify;
 use Illuminate\Http\Request;
 
 class PermissionClassifyController extends BaseController

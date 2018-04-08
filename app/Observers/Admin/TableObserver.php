@@ -8,8 +8,8 @@
 
 namespace App\Observers\Admin;
 
-use App\Models\Admin\Menu;
-use App\Models\Admin\Table;
+use App\Models\Menu;
+use App\Models\Table;
 use Illuminate\Support\Facades\DB;
 
 class TableObserver {

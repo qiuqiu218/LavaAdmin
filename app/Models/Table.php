@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,7 +41,7 @@ class Table extends Model
      */
     public function field_table()
     {
-        return $this->hasMany('App\Models\Admin\Field');
+        return $this->hasMany('App\Models\Field');
     }
 
     /**
@@ -50,7 +50,7 @@ class Table extends Model
      */
     public function menu_table()
     {
-        return $this->hasMany('App\Models\Admin\Menu');
+        return $this->hasMany('App\Models\Menu');
     }
 
     /**
@@ -59,7 +59,7 @@ class Table extends Model
      */
     public function classify_table()
     {
-        return $this->hasMany('App\Models\Admin\Classify');
+        return $this->hasMany('App\Models\Classify');
     }
 
     /**
@@ -68,7 +68,7 @@ class Table extends Model
      */
     public function comment_table()
     {
-        return $this->hasMany('App\Models\Admin\Comment');
+        return $this->hasMany('App\Models\Comment');
     }
     /**
      * 获取当前表的字段集合

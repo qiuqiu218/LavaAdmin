@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use App\Traits\Tools\Resource;
 use Illuminate\Database\Eloquent\Model;
@@ -66,6 +66,6 @@ class Field extends Model
      */
     public function table()
     {
-        return $this->belongsTo('App\Models\Admin\Table');
+        return $this->belongsTo('App\Models\Table');
     }
 }

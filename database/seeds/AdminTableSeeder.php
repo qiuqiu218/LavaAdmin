@@ -11,7 +11,7 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        $admin = \App\Models\Admin\Admin::query()->create([
+        $admin = \App\Models\Admin::query()->create([
             'username' => 'admin',
             'password' => '111111'
         ]);

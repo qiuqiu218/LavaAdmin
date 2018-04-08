@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
@@ -9,7 +9,7 @@ class Permission extends \Spatie\Permission\Models\Permission
      */
     public function permission_classify()
     {
-        return $this->belongsTo('App\Models\Admin\PermissionClassify');
+        return $this->belongsTo('App\Models\PermissionClassify');
     }
 
     public static function findByClassifyId($name)

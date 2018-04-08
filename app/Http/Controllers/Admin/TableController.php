@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\TableRequest;
-use App\Models\Admin\Table;
+use App\Models\Table;
 
 class TableController extends BaseController
 {

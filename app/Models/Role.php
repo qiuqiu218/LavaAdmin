@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 class Role extends \Spatie\Permission\Models\Role
 {
