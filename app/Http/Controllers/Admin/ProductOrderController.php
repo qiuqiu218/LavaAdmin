@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Order;
+use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 
-class OrderController extends BaseController
+class ProductOrderController extends BaseController
 {
     protected $model = null;
 
@@ -15,16 +15,17 @@ class OrderController extends BaseController
      */
     public function __construct()
     {
-        $this->model = new Order();
+        $this->model = new ProductOrder();
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        return $this->view([
+            'data' => []
+        ]);
     }
 
     /**

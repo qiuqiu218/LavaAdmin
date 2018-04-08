@@ -63,14 +63,6 @@ class Table extends Model
     }
 
     /**
-     * 关联评论表
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function comment_table()
-    {
-        return $this->hasMany('App\Models\Comment');
-    }
-    /**
      * 获取当前表的字段集合
      * @param $name
      * @return mixed|null

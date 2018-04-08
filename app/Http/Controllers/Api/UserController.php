@@ -24,13 +24,13 @@ class UserController extends BaseController
         }
 
         $http = new Client();
-
+        $passport = \Laravel\Passport\Client::query()->findOrFail(2);
         try {
             $res = $http->post(url('oauth/token'), [
                 'form_params' => [
                     'grant_type' => 'password',
                     'client_id' => '2',
-                    'client_secret' => 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK',
+                    'client_secret' => $passport->secret,
                     'username' => $request->input('username'),
                     'password' => $request->input('password'),
                     'scope' => '',

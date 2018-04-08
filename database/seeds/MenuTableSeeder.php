@@ -71,7 +71,24 @@ class MenuTableSeeder extends Seeder
                 'title' => '商城管理',
                 'children' => [
                     [
-                        'title' => '订单管理'
+                        'title' => '产品管理',
+                        'route' => 'admin/product'
+                    ],
+                    [
+                        'title' => '规格管理',
+                        'route' => 'admin/product_spec_attribute'
+                    ],
+                    [
+                        'title' => '分类管理',
+                        'route' => 'admin/product_classify'
+                    ],
+                    [
+                        'title' => '订单管理',
+                        'route' => 'admin/product_order'
+                    ],
+                    [
+                        'title' => '评论管理',
+                        'route' => 'admin/product_comment'
                     ],
                     [
                         'title' => '参数设置'

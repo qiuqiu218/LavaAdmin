@@ -71,9 +71,9 @@
 "use strict";
 
 
-var _other = __webpack_require__(32);
+var _other = __webpack_require__(33);
 
-var _ajax = __webpack_require__(33);
+var _ajax = __webpack_require__(28);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -138,28 +138,7 @@ function renderSelected() {
 
 /***/ }),
 
-/***/ 32:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getUrlParam = getUrlParam;
-function getUrlParam(name) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
-  }
-  return null;
-}
-
-/***/ }),
-
-/***/ 33:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -219,6 +198,27 @@ exports.default = {
   deleteInfo: deleteInfo,
   ajax: ajax
 };
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
 
 /***/ })
 

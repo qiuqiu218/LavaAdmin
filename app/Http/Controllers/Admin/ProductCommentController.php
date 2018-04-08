@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Comment;
+use App\Models\ProductComment;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
-class CommentController extends BaseController
+class ProductCommentController extends BaseController
 {
     protected $model = null;
 
@@ -16,7 +16,7 @@ class CommentController extends BaseController
      */
     public function __construct()
     {
-        $this->model = new Comment();
+        $this->model = new ProductComment();
     }
 
     /**

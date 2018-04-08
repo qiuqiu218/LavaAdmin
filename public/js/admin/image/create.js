@@ -71,7 +71,7 @@
 "use strict";
 
 
-var _other = __webpack_require__(32);
+var _other = __webpack_require__(33);
 
 var listView = $('#listView');
 var uploadListIns = layui.upload.render({
@@ -130,7 +130,7 @@ var uploadListIns = layui.upload.render({
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -55,7 +55,9 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     // 数据表字段
     Route::resource('field', 'FieldController');
     // 评论
-    Route::resource('comment', 'CommentController');
+    Route::resource('product_comment', 'ProductCommentController');
+    // 订单
+    Route::resource('product_order', 'ProductOrderController');
 });
 
 $this->middleware('auth:admin')->group(function () {
