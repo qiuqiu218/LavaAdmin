@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('cover_img', 255)->comment('封面图')->nullable();
             $table->decimal('original_price', 8, 2)->comment('原价')->nullable();
             $table->decimal('current_price', 8, 2)->comment('现价')->nullable();
+            $table->unsignedInteger('read')->comment('查看数')->default(0);
             $table->timestamps();
 
             $table->index('product_classify_id');
@@ -29,13 +30,24 @@ class CreateProductsTable extends Migration
         Schema::create('product_details', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('product_id')->comment('关联产品id');
-            $table->json('images')->comment('图集')->nullable();
             $table->text('description')->comment('商品描述')->nullable();
             $table->timestamps();
 
             $table->index('product_id');
         });
-        // 产品分类表
+        // 产品详情表
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('product_id')->comment('关联产品id');
+            $table->string('name', 30)->comment('文件名称');
+            $table->string('path', 120)->comment('文件路径');
+            $table->string('mime', 20)->comment('Mime类型');
+            $table->unsignedInteger('size')->comment('文件大小');
+            $table->timestamps();
+
+            $table->index('product_id');
+        });
+        // 产品分类表(整表缓存)
         Schema::create('product_classifies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->comment('父级id')->nullable();
@@ -122,6 +134,7 @@ class CreateProductsTable extends Migration
     {
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_details');
+        Schema::dropIfExists('product_images');
         Schema::dropIfExists('product_classifies');
         Schema::dropIfExists('product_spec_attributes');
         Schema::dropIfExists('product_spec_items');

@@ -38,7 +38,7 @@ return [
                 'radio' => '单选框',
                 'checkbox' => '复选框',
                 'textarea' => '文本框',
-                'edit' => '编辑器',
+                'editor' => '编辑器',
                 'img' => '单图上传',
                 'imgs' => '多图上传',
                 'file' => '单文件上传',

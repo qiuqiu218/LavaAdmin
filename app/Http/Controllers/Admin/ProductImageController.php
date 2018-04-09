@@ -3,28 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\ProductComment;
 use Illuminate\Http\Request;
 
-class ProductCommentController extends BaseController
+class ProductImageController extends BaseController
 {
-    protected $model = null;
-
     /**
-     * CommentController constructor.
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index()
     {
-        $this->model = new ProductComment();
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index(Request $request)
-    {
-
+        //
     }
 
     /**

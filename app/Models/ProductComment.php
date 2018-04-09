@@ -10,13 +10,13 @@ class ProductComment extends Model
      * @var array
      */
     protected $fillable = [
-        'table_id',
-        'info_id',
+        'product_order_id',
+        'product_id',
         'user_id',
         'content',
         'images',
         'grade',
-        'anonymity'
+        'is_anonymity'
     ];
 
     /**

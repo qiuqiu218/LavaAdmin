@@ -17,13 +17,13 @@ class ProductOrder extends Model
         'express_fee',
         'quantity',
         'status',
-        'goods'
+        'products'
     ];
 
     /**
      * @var array
      */
     protected $casts = [
-        'goods' => 'array'
+        'products' => 'array'
     ];
 }

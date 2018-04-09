@@ -54,10 +54,20 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     Route::resource('table', 'TableController');
     // 数据表字段
     Route::resource('field', 'FieldController');
-    // 评论
-    Route::resource('product_comment', 'ProductCommentController');
-    // 订单
-    Route::resource('product_order', 'ProductOrderController');
+
+    // 商城系统
+        // 产品列表
+        Route::resource('product', 'ProductController');
+        // 评论
+        Route::resource('product_comment', 'ProductCommentController');
+        // 订单
+        Route::resource('product_order', 'ProductOrderController');
+        // 分类
+        Route::resource('product_classify', 'ProductClassifyController');
+        // 规格属性
+        Route::resource('product_spec_attribute', 'ProductSpecAttributeController');
+        // 产品规格
+        Route::resource('product_spec_item', 'ProductSpecItemController');
 });
 
 $this->middleware('auth:admin')->group(function () {

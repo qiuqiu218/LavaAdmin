@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\ProductComment;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductCommentController extends BaseController
+class ProductController extends BaseController
 {
     protected $model = null;
 
@@ -15,26 +15,29 @@ class ProductCommentController extends BaseController
      */
     public function __construct()
     {
-        $this->model = new ProductComment();
+        $this->model = new Product();
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-
+        $keywords = $request->input('keywords', '');
+        return $this->view([
+            'data' => [],
+            'search' => [
+                'keywords' => $keywords
+            ]
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return $this->view();
     }
 
     /**
