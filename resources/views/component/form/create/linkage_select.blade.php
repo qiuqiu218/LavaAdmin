@@ -7,6 +7,7 @@
   </div>
   <div class="layui-form-mid layui-word-aux">{{$errors->first($name)}}</div>
   <script>
-  _classify = @json($classify)
+  var _tree = @json($classify['tree']);
+  var _path = @json(isset($classify['path']) ? $classify['path'] : []);
   </script>
 </div>

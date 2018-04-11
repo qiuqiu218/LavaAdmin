@@ -30,4 +30,9 @@ class ProductClassify extends Node
         'created_at',
         'updated_at'
     ];
+
+    public function setParentIdAttribute($value)
+    {
+        $this->attributes['parent_id'] = $value ? $value : null;
+    }
 }

@@ -65,33 +65,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 153:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _selectTree = __webpack_require__(27);
-
-var _selectTree2 = _interopRequireDefault(_selectTree);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-layui.use(['form']);
-
-$.fn.extend({
-  selectTree: _selectTree2.default
-});
-
-var id = $("input[name='id']").val();
-
-$("[selectTree]").selectTree({
-  url: '/admin/getTree?id=' + id
-});
-
-/***/ }),
-
-/***/ 27:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -235,6 +209,32 @@ function initBind() {
 }
 
 exports.default = init;
+
+/***/ }),
+
+/***/ 153:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _selectTree = __webpack_require__(11);
+
+var _selectTree2 = _interopRequireDefault(_selectTree);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+layui.use(['form']);
+
+$.fn.extend({
+  selectTree: _selectTree2.default
+});
+
+var id = $("input[name='id']").val();
+
+$("[selectTree]").selectTree({
+  url: '/admin/getTree?id=' + id
+});
 
 /***/ })
 

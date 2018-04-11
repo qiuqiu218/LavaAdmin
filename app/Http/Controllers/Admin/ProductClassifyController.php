@@ -3,83 +3,85 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\ProductClassify;
 use Illuminate\Http\Request;
 
 class ProductClassifyController extends BaseController
 {
+    protected $model = null;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * CommentController constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new ProductClassify();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        $data = $this->model->get()->toHierarchy();
+        return $this->view([
+            'data' => $data
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return $this->view([
+            'classify' => $this->model->getClassifyTree()
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $input = array_filter($request->only($this->model->getFillable()));
+        $res = $this->model->create($input);
+        return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id)
     {
-        //
+        return $this->view([
+            'data' => $this->model->findOrFail($id),
+            'classify' => $this->model->getClassifyTree($id)
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->only($this->model->getFillable());
+        $res = $this->model->findOrFail($id)->update($input);
+        return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
+        $res = $this->model->findOrFail($id)->delete();
+        return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

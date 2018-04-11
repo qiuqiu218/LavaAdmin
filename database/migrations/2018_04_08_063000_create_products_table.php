@@ -26,11 +26,15 @@ class CreateProductsTable extends Migration
 
             $table->index('product_classify_id');
         });
-        // 产品详情表
+        /**
+         * 产品详情表
+         * spec = [{'name' => 'color', 'title' => '颜色', 'collect' => ['黑色', '白色']}]
+         */
         Schema::create('product_details', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('product_id')->comment('关联产品id');
             $table->text('description')->comment('商品描述')->nullable();
+            $table->json('spec')->comment('规格')->nullable();
             $table->timestamps();
 
             $table->index('product_id');
@@ -83,7 +87,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_classify_id')->comment('关联分类id')->default(0);
             $table->unsignedInteger('product_id')->comment('关联产品id')->default(0);
-            $table->decimal('price', 8, 2)->comment('价格')->nullable();
+            $table->decimal('price', 8, 2)->comment('价格')->default(0.00);
             $table->unsignedMediumInteger('store_count')->comment('库存数量')->default(0);
             $table->json('spec_collect')->comment('规格集合')->nullable();
             $table->timestamps();

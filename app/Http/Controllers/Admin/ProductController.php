@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Product;
+use App\Models\ProductClassify;
+use App\Models\ProductSpecAttribute;
 use Illuminate\Http\Request;
 
 class ProductController extends BaseController
@@ -15,6 +17,7 @@ class ProductController extends BaseController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->model = new Product();
     }
 
@@ -33,22 +36,26 @@ class ProductController extends BaseController
     }
 
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->view();
+        $product_classify_id = $request->input('product_classify_id', 0);
+        return $this->view([
+            'classify' => (new ProductClassify())->getTree($product_classify_id),
+            'product_classify_id' => $product_classify_id,
+            'spec' => (new ProductSpecAttribute())->getSpecAttribute($product_classify_id)
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        dd($input);
     }
 
     /**

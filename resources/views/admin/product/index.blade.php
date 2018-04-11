@@ -4,7 +4,7 @@
 <div class="d-padding-10">
   <div class="layui-row">
     <div class="layui-col-xs6">
-      <a class="layui-btn layui-btn-normal" href="{{ url('admin/product/create') }}">添加产品</a>
+      <button class="layui-btn layui-btn-normal" route="{{ url('admin/product/create') }}">添加产品</button>
     </div>
     <div class="layui-col-xs6">
       <form class="layui-form layui-form-pane" method="get" action="{{ url('admin/product') }}">
