@@ -25,6 +25,7 @@
   <script>
     var _data = @json(session('data'));
     var _autoClose = @json(session('autoClose'));
+    var _reload = @json(session('reload'))
   </script>
 @endsection
 

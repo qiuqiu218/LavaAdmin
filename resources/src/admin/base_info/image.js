@@ -6,4 +6,5 @@
 window.selectedImage = function (field, data) {
   $('input[name="'+field+'"]').val(data.path)
   layer.close(layer.index)
+  $.store.array.set('product_image', data.id)
 }

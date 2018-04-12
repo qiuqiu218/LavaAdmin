@@ -41,6 +41,23 @@ trait Baum {
     }
 
     /**
+     * 根据分类id返回当前模型的父级节点名称, 包括当前节点
+     * @param $id
+     * @return array
+     */
+    public function getPathNameAndSelf($id)
+    {
+        $data = [];
+        $item = $this->query()->find($id);
+        if ($item) {
+           $data = $item->getAncestorsAndSelf()->map(function ($item) {
+                return $item->title;
+            })->toArray();
+        }
+        return $data;
+    }
+
+    /**
      * 获取当前模型的父级节点，包括当前节点
      * @return mixed
      */

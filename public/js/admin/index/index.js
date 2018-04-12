@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 149);
+/******/ 	return __webpack_require__(__webpack_require__.s = 151);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 149:
+/***/ 151:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(150);
+__webpack_require__(152);
 
 layui.use(['layer'], function () {
   $("#logout").click(function (event) {
@@ -86,7 +86,7 @@ layui.use(['layer'], function () {
 
 /***/ }),
 
-/***/ 150:
+/***/ 152:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

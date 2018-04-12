@@ -58,6 +58,8 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
     // 商城系统
         // 产品列表
         Route::resource('product', 'ProductController');
+        // 产品图片
+        Route::resource('product_image', 'ProductImageController');
         // 评论
         Route::resource('product_comment', 'ProductCommentController');
         // 订单

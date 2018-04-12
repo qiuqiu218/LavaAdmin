@@ -1,5 +1,7 @@
 <form class="layui-form layui-form-pane" action="{{url('admin/product')}}" method="post">
   {{ csrf_field() }}
+  <input type="hidden" name="id" value="0">
+  <input type="hidden" name="product_image" value="">
   <div class="layui-footer d-text-center">
     <button class="layui-btn" lay-submit>确认添加</button>
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -23,7 +25,7 @@
           @endif
         </div>
         @include('component.form.create.text', ['name' => 'title', 'display_name' => '产品名称'])
-        @include('component.form.create.img', ['name' => 'cover_img', 'display_name' => '封面图', 'controller' => $controller])
+        @include('component.form.create.img', ['name' => 'cover_img', 'display_name' => '封面图', 'url' => 'admin/product_image'])
         <div class="layui-row layui-col-space10">
           <div class="layui-col-xs6">
             @include('component.form.create.text', ['name' => 'original_price', 'display_name' => '原价'])
@@ -32,10 +34,10 @@
             @include('component.form.create.text', ['name' => 'current_price', 'display_name' => '现价'])
           </div>
         </div>
-        @include('component.form.create.editor', ['name' => 'description', 'display_name' => '产品描述'])
+        @include('component.form.create.editor', ['name' => 'description', 'display_name' => '产品描述', 'url' => 'admin/product_image'])
       </div>
       <div class="layui-col-xs6">
-        @include('component.form.create.imgs', ['name' => 'images', 'display_name' => '图集', 'controller' => $controller])
+        @include('component.form.create.imgs', ['name' => 'images', 'display_name' => '图集', 'url' => 'admin/product_image'])
         <fieldset class="layui-elem-field">
           <legend>规格设置</legend>
           <div class="layui-field-box">

@@ -3,7 +3,7 @@
   <div class="layui-input-block">
     <input type="text" name="{{$name}}" placeholder="请上传{{$display_name}}" class="layui-input" value="{{old($name)}}">
     <div class="upload">
-      <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&field='.$name.'&type=Image') }}">
+      <button type="button" class="layui-btn" route="{{ url($url.'?field='.$name.'&type=Image') }}">
         <i class="layui-icon">&#xe67c;</i>添加图片
       </button>
     </div>

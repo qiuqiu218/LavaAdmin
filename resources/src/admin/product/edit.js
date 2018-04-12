@@ -49,7 +49,7 @@ function createSpec (collect) {
       return Object.assign(accumulator, item)
     })
     return `<tr>
-              <td title>${name.join('+')}</td>
+              <td>${name.join('+')}</td>
               <td>
                 <input type="text" class="layui-input">
                 <input type="hidden" value='${JSON.stringify(obj)}'>
@@ -87,3 +87,12 @@ layui.form.on('submit', function () {
   // 设置图片上传
   $("input[name='product_image']").val(JSON.stringify($.store.array.get('product_image')))
 })
+
+// spec_item 删除完成事件
+window.deleteProductSpecItem = function (res, elem) {
+  $(elem).parents('tr').remove()
+}
+
+window.editProductSpecItem = function (res, elem) {
+  $(elem).parents('tr').find("td.store_count").text(res.store_count)
+}

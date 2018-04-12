@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
 {
@@ -24,4 +25,13 @@ class ProductImage extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function getPathAttribute($value)
+    {
+        return Storage::disk('images')->url($value);
+    }
 }

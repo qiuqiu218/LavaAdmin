@@ -46,8 +46,8 @@
       <td>{{$item->current_price}}</td>
       <td>{{$item->created_at}}</td>
       <td align="center">
-        <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/'.$controller.'/'.$item->id.'/edit') }}">编辑</a>
-        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/'.$controller.'/'.$item->id) }}">删除</button>
+        <a class="layui-btn layui-btn-xs layui-btn-normal" href="{{ url('admin/product/'.$item->id.'/edit') }}">编辑</a>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/product/'.$item->id) }}">删除</button>
       </td>
     </tr>
     @endforeach

@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 145);
+/******/ 	return __webpack_require__(__webpack_require__.s = 147);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 145:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _other = __webpack_require__(33);
+var _other = __webpack_require__(19);
 
-var _ajax = __webpack_require__(28);
+var _ajax = __webpack_require__(20);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -147,7 +147,28 @@ function renderImages() {
 
 /***/ }),
 
-/***/ 28:
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
+
+/***/ }),
+
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -207,27 +228,6 @@ exports.default = {
   deleteInfo: deleteInfo,
   ajax: ajax
 };
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getUrlParam = getUrlParam;
-function getUrlParam(name) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
-  }
-  return null;
-}
 
 /***/ })
 

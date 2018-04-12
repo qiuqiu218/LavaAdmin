@@ -60,22 +60,22 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 131);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 131:
+/***/ 133:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _wangeditor = __webpack_require__(132);
+var _wangeditor = __webpack_require__(134);
 
 var _wangeditor2 = _interopRequireDefault(_wangeditor);
 
-__webpack_require__(133);
+__webpack_require__(135);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -101,11 +101,8 @@ var defaultMenus = ['head', // 标题
 
 var MenuConstructors = {};
 // 生成图片按钮并绑定事件
-MenuConstructors.images = function (id, index) {
+MenuConstructors.images = function (field, index, url) {
   var elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>');
-  var model = $("input[name='model']").val();
-  var mark = $("input[name='mark']").val() || 0;
-  var info_id = $("input[name='id']").val() || 0;
   elem.on('click', function () {
     layui.layer.open({
       type: 2,
@@ -113,32 +110,34 @@ MenuConstructors.images = function (id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: '/admin/image?model=' + model + '&mark=' + mark + '&info_id=' + info_id + '&field=' + id + '&type=Editor'
+      content: url
     });
   });
   if (_menus.length - 1 === index) {
-    $('#' + id + ' .w-e-toolbar').append(elem);
+    $('#' + field + ' .w-e-toolbar').append(elem);
   } else {
-    $('#' + id + ' .w-e-toolbar .w-e-menu').eq(index).before(elem);
+    $('#' + field + ' .w-e-toolbar .w-e-menu').eq(index).before(elem);
   }
 };
 
 var editor = {};
 $("[editor]").each(function () {
-  var id = $(this).attr('id');
+  var field = $(this).attr('id');
+
+  var url = $(this).attr('url');
 
   // 实例化编辑器
-  editor[id] = new _wangeditor2.default('#' + id);
+  editor[field] = new _wangeditor2.default('#' + field);
   // 自定义栏目
-  editor[id].customConfig.menus = _menus;
+  editor[field].customConfig.menus = _menus;
   // 监控变化，同步更新到 textarea
-  editor[id].customConfig.onchange = function (html) {
-    $('#' + id + '_textarea').val(html);
+  editor[field].customConfig.onchange = function (html) {
+    $('#' + field + '_textarea').val(html);
   };
   // 创建编辑器
-  editor[id].create();
+  editor[field].create();
   // 初始化内容
-  editor[id].txt.html($('#' + id + '_textarea').val());
+  editor[field].txt.html($('#' + field + '_textarea').val());
 
   // 获得自定义的栏目
   var customMenus = _menus.filter(function (res) {
@@ -147,9 +146,9 @@ $("[editor]").each(function () {
   // 生产自定义栏目并绑定点击事件
   customMenus.forEach(function (menu) {
     if (MenuConstructors[menu] && typeof MenuConstructors[menu] === 'function') {
-      MenuConstructors[menu](id, _menus.findIndex(function (res) {
+      MenuConstructors[menu](field, _menus.findIndex(function (res) {
         return res === menu;
-      }));
+      }), url);
     }
   });
 });
@@ -184,7 +183,7 @@ $('.w-e-text-container').on('click', '#imageAttr', function (e) {
 
 /***/ }),
 
-/***/ 132:
+/***/ 134:
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
@@ -4863,7 +4862,7 @@ return index;
 
 /***/ }),
 
-/***/ 133:
+/***/ 135:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -5,13 +5,14 @@ $("#images").on('click', '[deleted]', function () {
 
 window.selectedImages = function (field, data) {
   $.store.array.toggle(`baseInfo_input_${field}`, data)
+  $.store.array.set('product_image', data.id)
 }
 
 // 渲染选中的图片到表单中
 window.renderImages = function (field) {
   let collect = $.store.array.get(`baseInfo_input_${field}`)
   let data = collect.map(res => {
-    return `<div class="layui-col-xs2">
+    return `<div class="layui-col-xs3">
               <div class="square">
                 <div class="square-img">
                   <img src="${res.path}">

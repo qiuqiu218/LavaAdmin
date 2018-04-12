@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 137);
+/******/ 	return __webpack_require__(__webpack_require__.s = 139);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 137:
+/***/ 139:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78,13 +78,14 @@ $("#images").on('click', '[deleted]', function () {
 
 window.selectedImages = function (field, data) {
   $.store.array.toggle('baseInfo_input_' + field, data);
+  $.store.array.set('product_image', data.id);
 };
 
 // 渲染选中的图片到表单中
 window.renderImages = function (field) {
   var collect = $.store.array.get('baseInfo_input_' + field);
   var data = collect.map(function (res) {
-    return '<div class="layui-col-xs2">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </div>\n            </div>';
+    return '<div class="layui-col-xs3">\n              <div class="square">\n                <div class="square-img">\n                  <img src="' + res.path + '">\n                  <div class="mask">\n                    <div class="d-text-right">\n                      <a href="javascript:;" deleted><i class="layui-icon">&#xe640;</i>\u5220\u9664</a>\n                    </div>\n                  </div>\n                </div>\n                <input type="hidden" name="' + field + '[]" value="' + res.id + '">\n              </div>\n            </div>';
   });
   if (data.length > 0) {
     $('#' + field + 'List').append(data);

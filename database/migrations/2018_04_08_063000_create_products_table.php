@@ -34,15 +34,16 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_id')->comment('关联产品id');
             $table->text('description')->comment('商品描述')->nullable();
+            $table->json('images')->comment('图集')->nullable();
             $table->json('spec')->comment('规格')->nullable();
             $table->timestamps();
 
             $table->index('product_id');
         });
-        // 产品详情表
+        // 产品图片表
         Schema::create('product_images', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('product_id')->comment('关联产品id');
+            $table->unsignedInteger('product_id')->comment('关联产品id')->default(0);
             $table->string('name', 30)->comment('文件名称');
             $table->string('path', 120)->comment('文件路径');
             $table->string('mime', 20)->comment('Mime类型');
@@ -87,7 +88,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_classify_id')->comment('关联分类id')->default(0);
             $table->unsignedInteger('product_id')->comment('关联产品id')->default(0);
-            $table->decimal('price', 8, 2)->comment('价格')->default(0.00);
+            $table->decimal('price', 8, 2)->comment('价格')->nullable();
+            $table->string('title', 120)->comment('规格名称');
             $table->unsignedMediumInteger('store_count')->comment('库存数量')->default(0);
             $table->json('spec_collect')->comment('规格集合')->nullable();
             $table->timestamps();

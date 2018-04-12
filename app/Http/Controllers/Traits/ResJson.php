@@ -45,6 +45,11 @@ trait ResJson
     protected $autoClose = false;
 
     /**
+     * @var bool
+     */
+    protected $reload = true;
+
+    /**
      * @param string $message
      * @param string $jumpUrl
      * @return JsonResponse
@@ -134,11 +139,12 @@ trait ResJson
 
     /**
      * 设置自动关闭
-     *
+     * @param bool $reload
      * @return $this
      */
-    public function setAutoClose()
+    public function setAutoClose($reload = true)
     {
+        $this->reload = $reload;
         $this->autoClose = true;
         return $this;
     }
@@ -160,6 +166,7 @@ trait ResJson
                 'message' => $this->message,
                 'jumpUrl' => $this->jumpUrl,
                 'autoClose' => $this->autoClose,
+                'reload' => $this->reload,
                 'data' => $this->params
             ])->withInput();
         }

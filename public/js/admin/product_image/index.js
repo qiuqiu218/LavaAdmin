@@ -60,18 +60,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 169);
+/******/ 	return __webpack_require__(__webpack_require__.s = 161);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 169:
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(170);
+var _other = __webpack_require__(19);
 
 var _ajax = __webpack_require__(20);
 
@@ -79,37 +79,85 @@ var _ajax2 = _interopRequireDefault(_ajax);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (window.self.location.toString() !== window.top.location.toString()) {
-  // 如果当前页面是在框架内打开的
-  window.parent.location.reload();
-}
+// 获取url上面的参数
+var field = (0, _other.getUrlParam)('field');
+/**
+ * 获取图片上传类型
+ * Image 单图上传
+ * Images 多图上传
+ * Editor 编辑器
+ */
+var uploadType = (0, _other.getUrlParam)('type');
+// 初始化图片选中状态
+// renderSelected()
 
-$("button").click(function () {
-  var username = $('input[name="username"]').val();
-  var password = $('input[name="password"]').val();
+// 每次打开清空缓存
+$.store.remove('baseInfo_input_' + field);
 
-  _ajax2.default.ajax({
-    url: '/api/login',
-    type: 'post',
-    data: {
-      username: username,
-      password: password
-      // grant_type: 'password',
-      // client_id: 2,
-      // client_secret: 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK'
-    },
-    success: function success(res) {
-      console.log(res);
+// 选中/取消事件
+window.selected = function (index) {
+  var v = _data.data[index];
+  if ($.isFunction(parent['selected' + uploadType])) {
+    parent['selected' + uploadType](field, v);
+  }
+  if (uploadType === 'Images' || uploadType === 'Editor') {
+    renderSelected();
+  }
+};
+
+// 删除事件
+window.deleted = function (index) {
+  _ajax2.default.deleteInfo('/admin/product_image/' + _data.data[index].id, function (res) {
+    if (res.status === 'success') {
+      $("#img" + _data.data[index].id).remove();
+      // 删除缓存的图片id
+      $.store.array.remove('product_image', _data.data[index].id);
     }
   });
+};
+
+// 确认选择
+$("#submit").click(function () {
+  if ($.isFunction(parent['render' + uploadType])) {
+    parent['render' + uploadType](field);
+  }
 });
+
+// 关闭当前窗口
+function closeFrame() {
+  var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+  parent.layer.close(index); //再执行关闭
+}
+
+// 渲染选中/未选中的状态
+function renderSelected() {
+  var collect = $.store.array.get('baseInfo_input_' + field);
+  $("#list").find('.selected').removeClass('active').children('span').text('选择');
+  collect.forEach(function (res) {
+    $("#img" + res.id).find('.selected').addClass('active').children('span').text('取消选择');
+  });
+}
 
 /***/ }),
 
-/***/ 170:
-/***/ (function(module, exports) {
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
 
 /***/ }),
 

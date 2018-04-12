@@ -24,11 +24,8 @@ let defaultMenus = [
 
 let MenuConstructors = {}
 // 生成图片按钮并绑定事件
-MenuConstructors.images = function (id, index) {
+MenuConstructors.images = function (field, index, url) {
   let elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>')
-  let model = $("input[name='model']").val()
-  let mark = $("input[name='mark']").val() || 0
-  let info_id = $("input[name='id']").val() || 0
   elem.on('click', function () {
     layui.layer.open({
       type: 2,
@@ -36,13 +33,13 @@ MenuConstructors.images = function (id, index) {
       shadeClose: true,
       shade: 0.8,
       area: ['60%', '90%'],
-      content: `/admin/image?model=${model}&mark=${mark}&info_id=${info_id}&field=${id}&type=Editor`
+      content: url
     })
   })
   if (_menus.length - 1 === index) {
-    $(`#${id} .w-e-toolbar`).append(elem)
+    $(`#${field} .w-e-toolbar`).append(elem)
   } else {
-    $(`#${id} .w-e-toolbar .w-e-menu`).eq(index).before(elem)
+    $(`#${field} .w-e-toolbar .w-e-menu`).eq(index).before(elem)
   }
 }
 
@@ -50,27 +47,29 @@ MenuConstructors.images = function (id, index) {
 
 let editor = {}
 $("[editor]").each(function () {
-  let id = $(this).attr('id')
+  let field = $(this).attr('id')
+
+  let url = $(this).attr('url')
   
   // 实例化编辑器
-  editor[id]  = new wangEditor('#' + id)
+  editor[field]  = new wangEditor('#' + field)
   // 自定义栏目
-  editor[id].customConfig.menus = _menus
+  editor[field].customConfig.menus = _menus
   // 监控变化，同步更新到 textarea
-  editor[id].customConfig.onchange = function (html) {
-    $(`#${id}_textarea`).val(html)
+  editor[field].customConfig.onchange = function (html) {
+    $(`#${field}_textarea`).val(html)
   }
   // 创建编辑器
-  editor[id].create()
+  editor[field].create()
   // 初始化内容
-  editor[id].txt.html($(`#${id}_textarea`).val())
+  editor[field].txt.html($(`#${field}_textarea`).val())
   
   // 获得自定义的栏目
   let customMenus = _menus.filter(res => !defaultMenus.includes(res))
   // 生产自定义栏目并绑定点击事件
   customMenus.forEach(menu => {
     if (MenuConstructors[menu] && typeof MenuConstructors[menu] === 'function') {
-      MenuConstructors[menu](id, _menus.findIndex(res => res === menu))
+      MenuConstructors[menu](field, _menus.findIndex(res => res === menu), url)
     }
   })
 })

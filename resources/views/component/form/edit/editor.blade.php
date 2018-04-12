@@ -1,8 +1,8 @@
 <div class="layui-form-item d-table">
   <label class="layui-form-label">{{$display_name}}</label>
   <div class="layui-input-block">
-    <div id="{{$name}}" editor></div>
-    <textarea name="{{$name}}" id="{{$name}}_textarea" style="display: none">{{old($name) ? old($name) : $value}}</textarea>
+    <div id="{{$name}}" url="{{ url($url.'?field='.$name.'&type=Editor') }}" editor></div>
+    <textarea name="{{$name}}" id="{{$name}}_textarea" style="display: none">{{old($name) ? old($name) : $data[$name]}}</textarea>
   </div>
   <div class="layui-form-mid layui-word-aux">{{$errors->first($name)}}</div>
 </div>
@@ -28,3 +28,8 @@
     'redo'  // 重复
   ]
 </script>
+<style>
+.w-e-toolbar {
+  flex-wrap: wrap
+}
+</style>

@@ -1,13 +1,13 @@
 <div class="layui-form-item d-table">
   <label class="layui-form-label">{{$display_name}}</label>
   <div class="layui-input-block">
-    <div id="{{$name}}" editor>{{old($name)}}</div>
+    <div id="{{$name}}" url="{{ url($url.'?field='.$name.'&type=Editor') }}" editor>{{old($name)}}</div>
     <textarea name="{{$name}}" id="{{$name}}_textarea" style="display: none">{{old($name)}}</textarea>
   </div>
   <div class="layui-form-mid layui-word-aux">{{$errors->first($name)}}</div>
 </div>
 <script>
-  _menus = [
+  var _menus = [
     'head',  // 标题
     'bold',  // 粗体
     'italic',  // 斜体

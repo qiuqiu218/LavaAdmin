@@ -11,7 +11,9 @@ class ProductDetail extends Model
      */
     protected $fillable = [
         'product_id',
-        'description'
+        'description',
+        'images',
+        'spec'
     ];
 
     /**
@@ -19,6 +21,25 @@ class ProductDetail extends Model
      */
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'product_id',
+        'id'
     ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'images' => 'array',
+        'spec' => 'array'
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getImagesAttribute($value)
+    {
+        $value = $value ? $value : '[]';
+        return ProductImage::query()->whereIn('id', json_decode($value))->get();
+    }
 }

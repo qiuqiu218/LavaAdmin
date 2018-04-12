@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 164);
+/******/ 	return __webpack_require__(__webpack_require__.s = 165);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 164:
+/***/ 165:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -112,7 +112,7 @@ function createSpec(collect) {
     }).reduce(function (accumulator, item) {
       return Object.assign(accumulator, item);
     });
-    return '<tr>\n              <td title>' + name.join('+') + '</td>\n              <td>\n                <input type="text" class="layui-input">\n                <input type="hidden" value=\'' + JSON.stringify(obj) + '\'>\n              </td>\n            </tr>';
+    return '<tr>\n              <td>' + name.join('+') + '</td>\n              <td>\n                <input type="text" class="layui-input">\n                <input type="hidden" value=\'' + JSON.stringify(obj) + '\'>\n              </td>\n            </tr>';
   });
 }
 
@@ -145,6 +145,15 @@ layui.form.on('submit', function () {
   // 设置图片上传
   $("input[name='product_image']").val(JSON.stringify($.store.array.get('product_image')));
 });
+
+// spec_item 删除完成事件
+window.deleteProductSpecItem = function (res, elem) {
+  $(elem).parents('tr').remove();
+};
+
+window.editProductSpecItem = function (res, elem) {
+  $(elem).parents('tr').find("td.store_count").text(res.store_count);
+};
 
 /***/ }),
 

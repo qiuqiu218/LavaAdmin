@@ -13,6 +13,7 @@ class ProductSpecItem extends Model
         'product_classify_id',
         'product_id',
         'price',
+        'title',
         'store_count',
         'spec_collect'
     ];

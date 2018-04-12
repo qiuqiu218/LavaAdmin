@@ -60,60 +60,76 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 169);
+/******/ 	return __webpack_require__(__webpack_require__.s = 160);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 169:
+/***/ 160:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(170);
+var _other = __webpack_require__(19);
 
-var _ajax = __webpack_require__(20);
+var listView = $('#listView');
+var uploadListIns = layui.upload.render({
+  elem: '#imageBtn',
+  url: '/admin/product_image',
+  data: {
+    _token: $('meta[name="csrf-token"]').attr('content')
+  },
+  accept: 'images',
+  auto: false,
+  bindAction: '#submit',
+  field: 'img',
+  multiple: true,
+  choose: function choose(obj) {
+    var files = this.files = obj.pushFile();
 
-var _ajax2 = _interopRequireDefault(_ajax);
+    obj.preview(function (index, file, result) {
+      var tr = $(['<tr id="upload-' + index + '">', '<td>' + file.name + '</td>', '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>', '<td>等待上传</td>', '<td>', '<button class="layui-btn layui-btn-mini upload-reload layui-hide">重传</button>', '<button class="layui-btn layui-btn-mini layui-btn-danger upload-delete">删除</button>', '</td>', '</tr>'].join(''));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+      //单个重传
+      tr.find('.upload-reload').on('click', function () {
+        obj.upload(index, file);
+      });
 
-if (window.self.location.toString() !== window.top.location.toString()) {
-  // 如果当前页面是在框架内打开的
-  window.parent.location.reload();
-}
+      //删除
+      tr.find('.upload-delete').on('click', function () {
+        delete files[index]; //删除对应的文件
+        tr.remove();
+        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+      });
 
-$("button").click(function () {
-  var username = $('input[name="username"]').val();
-  var password = $('input[name="password"]').val();
-
-  _ajax2.default.ajax({
-    url: '/api/login',
-    type: 'post',
-    data: {
-      username: username,
-      password: password
-      // grant_type: 'password',
-      // client_id: 2,
-      // client_secret: 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK'
-    },
-    success: function success(res) {
-      console.log(res);
+      listView.append(tr);
+    });
+  },
+  done: function done(res, index, upload) {
+    if (res.status === 'success') {
+      //上传成功
+      // 缓存已上传的图片id
+      $.store.array.set('product_image', res.data.id);
+      var tr = listView.find('tr#upload-' + index);
+      var tds = tr.children();
+      tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+      tds.eq(3).html(''); //清空操作
+      return delete this.files[index]; //删除文件队列已经上传成功的文件
     }
-  });
+    this.error(index, upload);
+  },
+  error: function error(index, upload) {
+    var tr = listView.find('tr#upload-' + index);
+    var tds = tr.children();
+    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+    tds.eq(3).find('.upload-reload').removeClass('layui-hide'); //显示重传
+  }
 });
 
 /***/ }),
 
-/***/ 170:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 20:
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -122,57 +138,15 @@ $("button").click(function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+exports.getUrlParam = getUrlParam;
+function getUrlParam(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
   }
-});
-
-var _param = {
-  url: '',
-  type: 'get',
-  dataType: 'json',
-  data: {}
-};
-
-function isConfirm(msg) {
-  return new Promise(function (resolve, reject) {
-    if (msg) {
-      layer.confirm(msg, function (index) {
-        layer.close(index);
-        resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
+  return null;
 }
-
-function deleteInfo(route, callback) {
-  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
-    return layer.load();
-  }).then(function (index) {
-    return ajax({
-      url: route,
-      success: function success(res) {
-        layer.close(index);
-        callback(res);
-      },
-      type: 'delete'
-    });
-  });
-}
-
-function ajax(param) {
-  $.ajax(Object.assign(_param, param));
-}
-
-exports.default = {
-  deleteInfo: deleteInfo,
-  ajax: ajax
-};
 
 /***/ })
 

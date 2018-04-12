@@ -3,7 +3,7 @@
   <div class="layui-input-block">
     <div class="d-padding-10 d-border">
       <div class="d-margin-b-10">
-        <button type="button" class="layui-btn" route="{{ url('admin/image?model='.$controller.'&field='.$name.'&type=Images') }}">
+        <button type="button" class="layui-btn" route="{{ url($url.'?field='.$name.'&type=Images') }}">
           <i class="layui-icon">&#xe67c;</i>添加图片
         </button>
       </div>
