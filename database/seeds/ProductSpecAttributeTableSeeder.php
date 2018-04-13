@@ -16,26 +16,43 @@ class ProductSpecAttributeTableSeeder extends Seeder
                 'product_classify_id' => 1,
                 'name' => 'color',
                 'title' => '颜色',
-                'values' => [
-                    '黑色',
-                    '白色'
+                'children' => [
+                    [
+                        'title' => '黑色'
+                    ],
+                    [
+                        'title' => '白色'
+                    ]
                 ]
             ],
             [
                 'product_classify_id' => 1,
                 'name' => 'size',
                 'title' => '大小',
-                'values' => [
-                    'S',
-                    'M',
-                    'L',
-                    'XL'
+                'children' => [
+                    [
+                        'title' => 'S'
+                    ],
+                    [
+                        'title' => 'M'
+                    ],
+                    [
+                        'title' => 'L'
+                    ],
+                    [
+                        'title' => 'XL'
+                    ]
                 ]
             ]
         ];
 
         foreach ($data as $item) {
-            \App\Models\ProductSpecAttribute::query()->create($item);
+            $attribute = \App\Models\ProductSpecAttribute::query()->create([
+                'product_classify_id' => $item['product_classify_id'],
+                'name' => $item['name'],
+                'title' => $item['title']
+            ]);
+            $attribute->product_spec_attribute_value_table()->createMany($item['children']);
         }
     }
 }

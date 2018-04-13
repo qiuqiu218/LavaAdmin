@@ -65,38 +65,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 168:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ajax = __webpack_require__(20);
-
-var _ajax2 = _interopRequireDefault(_ajax);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-$('button').click(function () {
-  var username = $('input[name="username"]').val();
-  var password = $('input[name="password"]').val();
-
-  _ajax2.default.ajax({
-    url: '/login',
-    type: 'post',
-    data: {
-      username: username,
-      password: password
-    },
-    success: function success(res) {
-      console.log(res);
-    }
-  });
-});
-
-/***/ }),
-
-/***/ 20:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -156,6 +125,37 @@ exports.default = {
   deleteInfo: deleteInfo,
   ajax: ajax
 };
+
+/***/ }),
+
+/***/ 168:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ajax = __webpack_require__(12);
+
+var _ajax2 = _interopRequireDefault(_ajax);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+$('button').click(function () {
+  var username = $('input[name="username"]').val();
+  var password = $('input[name="password"]').val();
+
+  _ajax2.default.ajax({
+    url: '/login',
+    type: 'post',
+    data: {
+      username: username,
+      password: password
+    },
+    success: function success(res) {
+      console.log(res);
+    }
+  });
+});
 
 /***/ })
 

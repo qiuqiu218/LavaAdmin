@@ -27,6 +27,14 @@ class Product extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function product_image_table()
+    {
+        return $this->hasMany('App\Models\ProductImage');
+    }
+
+    /**
      * 关联产品规格表
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

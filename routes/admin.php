@@ -68,6 +68,8 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
         Route::resource('product_classify', 'ProductClassifyController');
         // 规格属性
         Route::resource('product_spec_attribute', 'ProductSpecAttributeController');
+        // 规格属性值
+        Route::resource('product_spec_attribute_value', 'ProductSpecAttributeValueController');
         // 产品规格
         Route::resource('product_spec_item', 'ProductSpecItemController');
 });

@@ -3,7 +3,7 @@
 @section('content')
 <div class="layui-footer d-text-center">
   <button class="layui-btn" id="submit">确认上传</button>
-  <a class="layui-btn layui-btn-primary" href="{{ url('admin/product_image?field='.$field.'&type='.$type) }}">返回列表</a>
+  <a class="layui-btn layui-btn-primary" href="{{ url('admin/product_image?'.$url_address) }}">返回列表</a>
 </div>
 <div class="layui-upload d-padding-10">
   <button type="button" class="layui-btn layui-btn-normal" id="imageBtn">选择多文件</button> 

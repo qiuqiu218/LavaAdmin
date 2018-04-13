@@ -5,7 +5,8 @@ let uploadListIns = layui.upload.render({
   elem: '#imageBtn',
   url: '/admin/product_image',
   data: {
-    _token: $('meta[name="csrf-token"]').attr('content')
+    _token: $('meta[name="csrf-token"]').attr('content'),
+    product_id: $("input[name='id']", window.parent.document).val()
   },
   accept: 'images',
   auto: false,

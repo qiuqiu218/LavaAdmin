@@ -10,6 +10,7 @@ use App\Models\ProductImage;
 use App\Models\ProductSpecAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends BaseController
 {
@@ -100,7 +101,6 @@ class ProductController extends BaseController
             \Log::info($e->getMessage());
             return $this->error('提交失败');
         }
-
     }
 
     /**
@@ -115,32 +115,91 @@ class ProductController extends BaseController
         }
         return $this->view([
             'data' => $data,
-            'classifyName' => (new ProductClassify())->getPathNameAndSelf($data->product_classify_id),
-            'spec' => (new ProductSpecAttribute())->getSpecAttribute($data->product_classify_id),
+            'classify' => (new ProductClassify())->getTree($data->product_classify_id),
+            'spec' => (new ProductSpecAttribute())->getSpecAttribute($data->product_classify_id, $data->spec),
             'product_spec_item' => $data->product_spec_item_table
         ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function update(Request $request, $id)
     {
-        //
+        // 执行事务
+        DB::beginTransaction();
+
+        try {
+            // 存储主表
+            $product = $this->model->findOrFail($id);
+            $product_input = $request->only($this->model->getFillable());
+            $product->update($product_input);
+
+            // 存储副表
+            $product_detail_input = $request->only((new ProductDetail())->getFillable());
+            $product_detail_input['spec'] = json_decode($product_detail_input['spec']);
+            $product->product_detail_table->update($product_detail_input);
+
+            // 存储规格表
+            $product_spec_item_input = $request->input('product_spec_items');
+            $product_spec_item_input = json_decode($product_spec_item_input, true);
+            $product_spec_item_input = data_set($product_spec_item_input, '*.price', $product->current_price);
+            $product_spec_item_input = data_set($product_spec_item_input, '*.product_classify_id', $product_input['product_classify_id']);
+            foreach ($product_spec_item_input as $key => $value) {
+                $product->product_spec_item_table()->create($value);
+            }
+
+            // 提交事务
+            DB::commit();
+            return $this->success('提交成功', url('admin/product'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::info($e->getMessage());
+            return $this->error('提交失败');
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
+        // 执行事务
+        DB::beginTransaction();
+
+        try {
+            $product = $this->model->findOrFail($id);
+
+            // 删除副表
+            $product->product_detail_table->delete();
+            // 删除规格表
+            $product->product_spec_item_table()->delete();
+
+            // 删除图片文件与记录
+            $images = $product->product_image_table();
+                // 删除文件
+            $imagePath = $images->get()->map(function ($item) {
+                return $item->getOriginal('path');
+            })->toArray();
+            Storage::disk('images')->delete($imagePath);
+                // 删除图片表
+            $images->delete();
+
+            // 删除主表
+            $product->delete();
+
+            // 提交事务
+            DB::commit();
+            return $this->setAutoClose()->success('删除成功');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::info($e->getMessage());
+            return $this->error('删除失败');
+        }
     }
 }

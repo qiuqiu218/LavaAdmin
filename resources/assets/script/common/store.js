@@ -50,7 +50,7 @@ $.extend({
           if ($.isPlainObject(res)) {
             return res[field] === id
           } else {
-            res === id
+            return res === id
           }
         })
       },

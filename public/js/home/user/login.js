@@ -65,55 +65,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 169:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(170);
-
-var _ajax = __webpack_require__(20);
-
-var _ajax2 = _interopRequireDefault(_ajax);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-if (window.self.location.toString() !== window.top.location.toString()) {
-  // 如果当前页面是在框架内打开的
-  window.parent.location.reload();
-}
-
-$("button").click(function () {
-  var username = $('input[name="username"]').val();
-  var password = $('input[name="password"]').val();
-
-  _ajax2.default.ajax({
-    url: '/api/login',
-    type: 'post',
-    data: {
-      username: username,
-      password: password
-      // grant_type: 'password',
-      // client_id: 2,
-      // client_secret: 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK'
-    },
-    success: function success(res) {
-      console.log(res);
-    }
-  });
-});
-
-/***/ }),
-
-/***/ 170:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 20:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -173,6 +125,54 @@ exports.default = {
   deleteInfo: deleteInfo,
   ajax: ajax
 };
+
+/***/ }),
+
+/***/ 169:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(170);
+
+var _ajax = __webpack_require__(12);
+
+var _ajax2 = _interopRequireDefault(_ajax);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+if (window.self.location.toString() !== window.top.location.toString()) {
+  // 如果当前页面是在框架内打开的
+  window.parent.location.reload();
+}
+
+$("button").click(function () {
+  var username = $('input[name="username"]').val();
+  var password = $('input[name="password"]').val();
+
+  _ajax2.default.ajax({
+    url: '/api/login',
+    type: 'post',
+    data: {
+      username: username,
+      password: password
+      // grant_type: 'password',
+      // client_id: 2,
+      // client_secret: 'IK64G83Gpha5a5CD9gHK1LPypnWKwgbCFSJwhfrK'
+    },
+    success: function success(res) {
+      console.log(res);
+    }
+  });
+});
+
+/***/ }),
+
+/***/ 170:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 

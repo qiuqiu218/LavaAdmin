@@ -82,11 +82,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // 清空缓存
 $.store.remove('product_image');
 
+// 确认选择分类
 $("#confirmSelect").click(function () {
   var product_classify_id = $("input[name='product_classify_id']").val();
   window.parent.location.href = "/admin/product/create?product_classify_id=" + product_classify_id;
 });
 
+// 设置库存
 $("#createSku").click(function () {
   var data = [];
   window._spec.forEach(function (res, index) {
@@ -97,6 +99,10 @@ $("#createSku").click(function () {
       };
     }).get();
     data.push(arr);
+  });
+  // 去除数组长度为0的数据
+  data = data.filter(function (res) {
+    return res.length > 0;
   });
   var spec_collect = (0, _cartesian2.default)(data);
   $("#specCollect").html('\n        <table class="layui-table">\n          <colgroup>\n            <col>\n            <col width="100">\n          </colgroup>\n          <thead>\n            <tr>\n              <th>\u89C4\u683C</th>\n              <th>\u5E93\u5B58</th>\n            </tr> \n          </thead>\n          <tbody>\n            ' + createSpec(spec_collect).join('') + '\n          </tbody>\n        </table>');

@@ -3,11 +3,6 @@ import cartesian from 'cartesian'
 // 清空缓存
 $.store.remove('product_image')
 
-$("#confirmSelect").click(function () {
-  let product_classify_id = $("input[name='product_classify_id']").val()
-  window.parent.location.href="/admin/product/create?product_classify_id=" + product_classify_id
-})
-
 $("#createSku").click(function () {
   let data = []
   window._spec.forEach((res, index) => {
@@ -19,27 +14,17 @@ $("#createSku").click(function () {
     }).get()
     data.push(arr)
   })
+  // 去除数组长度为0的数据
+  data = data.filter(res => res.length > 0)
   let spec_collect = cartesian(data)
-  $("#specCollect").html(`
-        <table class="layui-table">
-          <colgroup>
-            <col>
-            <col width="100">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>规格</th>
-              <th>库存</th>
-            </tr> 
-          </thead>
-          <tbody>
-            ${createSpec(spec_collect).join('')}
-          </tbody>
-        </table>`)
+  $("#specCollect").append(createSpec(spec_collect).join(''))
 })
 
 function createSpec (collect) {
-  return collect.map(res => {
+  return collect.filter(res => {
+    let name = res.map(item => item.text)
+    return !$("#specCollect").text().includes(name.join('+'))
+  }).map(res => {
     let name = res.map(item => item.text)
     let obj = res.map(item => {
       return {
@@ -48,11 +33,15 @@ function createSpec (collect) {
     }).reduce((accumulator, item) => {
       return Object.assign(accumulator, item)
     })
-    return `<tr>
-              <td>${name.join('+')}</td>
+    
+    return `<tr create>
+              <td title>${name.join('+')}</td>
               <td>
                 <input type="text" class="layui-input">
                 <input type="hidden" value='${JSON.stringify(obj)}'>
+              </td>
+              <td>
+                <button type="button" class="layui-btn layui-btn-xs layui-btn-danger" onclick="deleteProductSpecItem(null, this)">删除</button>
               </td>
             </tr>`
   })
@@ -75,7 +64,7 @@ layui.form.on('submit', function () {
 
   // 设置spec集合
   let specCollect = []
-  $("#specCollect tbody tr").each(function () {
+  $("#specCollect tr[create]").each(function () {
     specCollect.push({
       store_count: $(this).find('input[type="text"]').val(),
       title: $(this).find('td[title]').text(),
@@ -83,9 +72,6 @@ layui.form.on('submit', function () {
     })
   })
   $("input[name='product_spec_items']").val(JSON.stringify(specCollect))
-
-  // 设置图片上传
-  $("input[name='product_image']").val(JSON.stringify($.store.array.get('product_image')))
 })
 
 // spec_item 删除完成事件

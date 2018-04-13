@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('product_classify_id')->comment('关联分类id')->default(0);
+            $table->unsignedInteger('brand_id')->comment('关联品牌id')->default(0);
             $table->string('title', 120)->comment('产品标题');
             $table->string('cover_img', 255)->comment('封面图')->nullable();
             $table->decimal('original_price', 8, 2)->comment('原价')->nullable();
@@ -40,6 +41,19 @@ class CreateProductsTable extends Migration
 
             $table->index('product_id');
         });
+
+        // 品牌表
+        Schema::create('brands', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title', 120)->comment('品牌标题');
+            $table->string('logo', 255)->comment('LOGO')->default('');
+            $table->string('cover_img', 255)->comment('封面图')->defualt('');
+            $table->text('description')->comment('品牌描述')->defualt('');
+            $table->unsignedMediumInteger('product_count')->comment('产品数量')->default(0);
+            $table->unsignedMediumInteger('fans_count')->comment('粉丝数')->default(0);
+
+            $table->timestamps();
+        });
         // 产品图片表
         Schema::create('product_images', function (Blueprint $table) {
             $table->increments('id');
@@ -60,7 +74,7 @@ class CreateProductsTable extends Migration
             $table->integer('rgt')->comment('右边界')->nullable();
             $table->integer('depth')->comment('深度')->nullable();
             $table->string('title', 30)->comment('分类名称');
-            $table->unsignedSmallInteger('product_count')->comment('产品数量')->default(0);
+            $table->unsignedMediumInteger('product_count')->comment('产品数量')->default(0);
             $table->unsignedSmallInteger('sort')->comment('排序')->nullable();
             $table->timestamps();
 
@@ -77,12 +91,25 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('product_classify_id')->comment('关联分类id')->default(0);
             $table->string('name', 30)->comment('标识');
             $table->string('title', 30)->comment('属性名称');
-            $table->json('values')->comment('属性值')->nullable();
             $table->timestamps();
         });
+
+        /**
+         * 规格属性值表(整表缓存)
+         * product_classify_id为顶级分类id
+         */
+        Schema::create('product_spec_attribute_values', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('product_spec_attribute_id')->comment('关联属性id');
+            $table->string('title', 30)->comment('值名称');
+            $table->string('notes', 60)->comment('备注(暂时不用)')->nullable();
+            $table->timestamps();
+        });
+
         /**
          * 产品规格表
          * product_classify_id字段性质与products表一致(最终极分类id)
+         * spec_collect = {color: '黑色', size: 'XL'}
          */
         Schema::create('product_spec_items', function (Blueprint $table) {
             $table->increments('id');
@@ -143,6 +170,7 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('product_images');
         Schema::dropIfExists('product_classifies');
         Schema::dropIfExists('product_spec_attributes');
+        Schema::dropIfExists('product_spec_attribute_values');
         Schema::dropIfExists('product_spec_items');
         Schema::dropIfExists('product_orders');
         Schema::dropIfExists('product_comments');

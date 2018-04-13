@@ -1,5 +1,5 @@
 $("#images").on('click', '[deleted]', function () {
-  let parent = $(this).parents('.layui-col-xs2')
+  let parent = $(this).parents('[items]')
   parent.remove()
 })
 
@@ -12,7 +12,7 @@ window.selectedImages = function (field, data) {
 window.renderImages = function (field) {
   let collect = $.store.array.get(`baseInfo_input_${field}`)
   let data = collect.map(res => {
-    return `<div class="layui-col-xs3">
+    return `<div class="layui-col-xs3" items>
               <div class="square">
                 <div class="square-img">
                   <img src="${res.path}">

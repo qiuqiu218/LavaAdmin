@@ -1,14 +1,14 @@
 @extends('layouts.default')
 
 @section('content')
-@if ($type === 'Images' || $type === 'Editor')
+@if ($url_params['type'] === 'Images' || $url_params['type'] === 'Editor')
 <div class="layui-footer d-text-center">
   <button class="layui-btn layui-btn-normal" id="submit">确认选择</button> 
 </div>
 @endif
 <div class="d-padding-10">
   <div class="d-margin-b-10">
-    <a class="layui-btn layui-btn-normal" href="{{ url('admin/product_image/create?field='.$field.'&type='.$type) }}">添加图片</a>
+    <a class="layui-btn layui-btn-normal" href="{{ url('admin/product_image/create?'.$url_address) }}">添加图片</a>
   </div>
   <div class="layui-row layui-col-space25" id="list">
     @foreach ($data as $item)

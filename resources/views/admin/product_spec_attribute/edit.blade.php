@@ -15,11 +15,10 @@
     <fieldset class="layui-elem-field">
       <legend>属性值</legend>
       <div class="layui-field-box">
-        @foreach ($data->values as $value)
+        @foreach ($data->product_spec_attribute_value_table as $item)
         <div class="d-border d-padding-5 layui-inline d-margin-b-5 d-margin-r-5">
-          <input type="hidden" name="values[]" value="{{$value}}">
-          {{$value}}
-          <a href="javascript:;" class="deleteItem"><i class="layui-icon">&#x1006;</i></a>
+          {{$item->title}}
+          <a href="javascript:;" class="deleteItem" data-id="{{$item->id}}"><i class="layui-icon">&#x1006;</i></a>
         </div>
         @endforeach
         <button type="button" class="layui-btn layui-btn-normal d-margin-b-5 layui-btn-sm" id="addItem">添加</button>

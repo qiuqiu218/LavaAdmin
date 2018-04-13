@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\ProductOrder;
+use App\Models\ProductSpecAttributeValue;
 use Illuminate\Http\Request;
 
-class ProductOrderController extends BaseController
+class ProductSpecAttributeValueController extends BaseController
 {
     protected $model = null;
 
@@ -16,17 +16,16 @@ class ProductOrderController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->model = new ProductOrder();
+        $this->model = new ProductSpecAttributeValue();
     }
-
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return $this->view([
-            'data' => []
-        ]);
+        //
     }
 
     /**
@@ -85,13 +84,14 @@ class ProductOrderController extends BaseController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        //
+        $data = $this->model->findOrFail($id);
+        $res  = $data->delete();
+        return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }

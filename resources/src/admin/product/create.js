@@ -3,11 +3,13 @@ import cartesian from 'cartesian'
 // 清空缓存
 $.store.remove('product_image')
 
+// 确认选择分类
 $("#confirmSelect").click(function () {
   let product_classify_id = $("input[name='product_classify_id']").val()
   window.parent.location.href="/admin/product/create?product_classify_id=" + product_classify_id
 })
 
+// 设置库存
 $("#createSku").click(function () {
   let data = []
   window._spec.forEach((res, index) => {
@@ -19,6 +21,8 @@ $("#createSku").click(function () {
     }).get()
     data.push(arr)
   })
+  // 去除数组长度为0的数据
+  data = data.filter(res => res.length > 0)
   let spec_collect = cartesian(data)
   $("#specCollect").html(`
         <table class="layui-table">

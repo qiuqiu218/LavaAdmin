@@ -71,14 +71,15 @@
 "use strict";
 
 
-var _other = __webpack_require__(19);
+var _other = __webpack_require__(20);
 
 var listView = $('#listView');
 var uploadListIns = layui.upload.render({
   elem: '#imageBtn',
   url: '/admin/product_image',
   data: {
-    _token: $('meta[name="csrf-token"]').attr('content')
+    _token: $('meta[name="csrf-token"]').attr('content'),
+    product_id: $("input[name='id']", window.parent.document).val()
   },
   accept: 'images',
   auto: false,
@@ -129,7 +130,7 @@ var uploadListIns = layui.upload.render({
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

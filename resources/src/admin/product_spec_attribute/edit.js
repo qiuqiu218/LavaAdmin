@@ -1,3 +1,5 @@
+import ajax from '_assets/script/tools/ajax'
+
 $("#addItem").click(function () {
   let _this = this
   layui.layer.prompt({
@@ -14,8 +16,15 @@ $("#addItem").click(function () {
 
 $("body").on('click', '.deleteItem', function () {
   let _this = this
-  layui.layer.confirm('您真的要删除吗?', function (index) {
-    $(_this).parent().remove()
-    layer.close(index)
-  })
+  let id = $(this).data('id')
+  if (id) {
+    ajax.deleteInfo(`/admin/product_spec_attribute_value/${id}`, res => {
+      $(_this).parent().remove()
+    })
+  } else {
+    layui.layer.confirm('您真的要删除吗?', function (index) {
+      $(_this).parent().remove()
+      layer.close(index)
+    })
+  }
 })

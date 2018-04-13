@@ -12,8 +12,7 @@ class ProductSpecAttribute extends Model
     protected $fillable = [
         'product_classify_id',
         'name',
-        'title',
-        'values'
+        'title'
     ];
 
     /**
@@ -25,34 +24,37 @@ class ProductSpecAttribute extends Model
     ];
 
     /**
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $casts = [
-        'values' => 'array'
-    ];
-
-    /**
-     * @param $value
-     * @return array
-     */
-    public function getValuesAttribute($value)
+    public function product_spec_attribute_value_table()
     {
-        return $value ? json_decode($value) : [];
+        return $this->hasMany('App\Models\ProductSpecAttributeValue');
     }
 
     /**
      * 根据分类id获取规格属性
      * @param $product_classify_id
-     * @return array|\Illuminate\Database\Eloquent\Collection|static[]
+     * @param $spec
+     * @return array|\Illuminate\Database\Eloquent\Collection|null|static[]
      */
-    public function getSpecAttribute($product_classify_id)
+    public function getSpecAttribute($product_classify_id, $spec = [])
     {
         $data = null;
 
         if ($product_classify_id) {
             $item = ProductClassify::query()->find($product_classify_id);
             $root = $item->getRoot();
-            $data = $this->query()->where('product_classify_id', $root->id)->get();
+            $data = $this->query()->with('product_spec_attribute_value_table')->where('product_classify_id', $root->id)->get();
+            $data = $data->map(function ($item) use ($spec) {
+                $first = collect($spec)->firstWhere('name', $item->name);
+
+                $item->product_spec_attribute_value_table->map(function ($item) use ($first) {
+
+                    $item->active = collect($first['collect'])->contains($item->title);
+                    return $item;
+                });
+                return $item;
+            });
         }
 
         return $data ? $data : [];

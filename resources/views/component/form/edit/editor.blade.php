@@ -1,7 +1,7 @@
 <div class="layui-form-item d-table">
   <label class="layui-form-label">{{$display_name}}</label>
   <div class="layui-input-block">
-    <div id="{{$name}}" url="{{ url($url.'?field='.$name.'&type=Editor') }}" editor></div>
+    <div id="{{$name}}" url="{{ url($url.'?'.(isset($params) ? $params.'&' : $params).'field='.$name.'&type=Editor') }}" editor></div>
     <textarea name="{{$name}}" id="{{$name}}_textarea" style="display: none">{{old($name) ? old($name) : $data[$name]}}</textarea>
   </div>
   <div class="layui-form-mid layui-word-aux">{{$errors->first($name)}}</div>

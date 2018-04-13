@@ -29,10 +29,14 @@ class ProductImageController extends BaseController
     {
         $product_id = $request->input('product_id', 0);
         $data = $this->model->where('product_id', $product_id)->paginate(8);
+        $url_params = $request->all();
+        $url_address = collect($url_params)->map(function ($value, $key) {
+            return $key.'='.$value;
+        })->implode('&');
         return $this->view([
             'data' => $data,
-            'field' => $request->input('field'),
-            'type' => $request->input('type')
+            'url_params' => $url_params,
+            'url_address' => $url_address
         ]);
     }
 
@@ -41,9 +45,13 @@ class ProductImageController extends BaseController
      */
     public function create(Request $request)
     {
+        $url_params = $request->all();
+        $url_address = collect($url_params)->map(function ($value, $key) {
+            return $key.'='.$value;
+        })->implode('&');
         return $this->view([
-            'field' => $request->input('field'),
-            'type' => $request->input('type')
+            'url_params' => $url_params,
+            'url_address' => $url_address
         ]);
     }
 
@@ -57,6 +65,7 @@ class ProductImageController extends BaseController
         $img = $request->file('img');
         $img->isValid();
         $res = [
+            'product_id' => $request->input('product_id', 0),
             'name' => $img->getClientOriginalName(),
             'mime' => $img->getMimeType(),
             'size' => $img->getSize()

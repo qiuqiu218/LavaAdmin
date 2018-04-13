@@ -3,13 +3,13 @@
   <div class="layui-input-block">
     <div class="d-padding-10">
       <div class="d-margin-b-10">
-        <button type="button" class="layui-btn" route="{{ url($url.'?field='.$name.'&type=Images') }}">
+        <button type="button" class="layui-btn" route="{{ url($url.'?'.(isset($params) ? $params.'&' : $params).'field='.$name.'&type=Images') }}">
           <i class="layui-icon">&#xe67c;</i>添加图片
         </button>
       </div>
       <div class="layui-row layui-col-space20" id="{{$name}}List">
         @foreach ($data[$name] as $img)
-        <div class="layui-col-xs3">
+        <div class="layui-col-xs3" items>
           <div class="square">
             <div class="square-img">
               <img src="{{$img['path']}}">

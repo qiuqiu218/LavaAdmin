@@ -16,7 +16,9 @@ $("button[route]").click(function () {
     end () {
       if (callback) {
         if ($.isFunction(window[callback])) {
-          window[callback](window.iframeData, _this)
+          if (window.iframeData) {
+            window[callback](window.iframeData, _this)
+          }
         }
       }
     }

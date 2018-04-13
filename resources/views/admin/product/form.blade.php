@@ -46,8 +46,8 @@
               <div class="layui-form-item" pane>
                 <label class="layui-form-label">{{$item->title}}</label>
                 <div class="layui-input-block">
-                  @foreach ($item->values as $value)
-                    <input type="checkbox" value="{{$value}}" title="{{$value}}" lay-skin="primary">
+                  @foreach ($item->product_spec_attribute_value_table as $value)
+                    <input type="checkbox" value="{{$value->title}}" title="{{$value->title}}" lay-skin="primary">
                   @endforeach
                 </div>
               </div>

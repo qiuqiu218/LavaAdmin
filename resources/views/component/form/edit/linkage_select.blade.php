@@ -1,6 +1,6 @@
 <div class="layui-form-item">
   <label class="layui-form-label">{{$display_name}}</label>
-  <div class="layui-form" selectTree="{{$name}}" value="{{old($name) ? old($name) : $value}}">
+  <div class="layui-form" selectTree="{{$name}}" value="{{old($name) ? old($name) : $data[$name]}}">
     <div class="layui-input-inline">
       <select></select>
     </div>

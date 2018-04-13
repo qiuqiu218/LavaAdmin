@@ -65,15 +65,78 @@
 /************************************************************************/
 /******/ ({
 
+/***/ 12:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+var _param = {
+  url: '',
+  type: 'get',
+  dataType: 'json',
+  data: {}
+};
+
+function isConfirm(msg) {
+  return new Promise(function (resolve, reject) {
+    if (msg) {
+      layer.confirm(msg, function (index) {
+        layer.close(index);
+        resolve();
+      });
+    } else {
+      resolve();
+    }
+  });
+}
+
+function deleteInfo(route, callback) {
+  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
+    return layer.load();
+  }).then(function (index) {
+    return ajax({
+      url: route,
+      success: function success(res) {
+        layer.close(index);
+        callback(res);
+      },
+      type: 'delete'
+    });
+  });
+}
+
+function ajax(param) {
+  $.ajax(Object.assign(_param, param));
+}
+
+exports.default = {
+  deleteInfo: deleteInfo,
+  ajax: ajax
+};
+
+/***/ }),
+
 /***/ 149:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _other = __webpack_require__(19);
+var _other = __webpack_require__(20);
 
-var _ajax = __webpack_require__(20);
+var _ajax = __webpack_require__(12);
 
 var _ajax2 = _interopRequireDefault(_ajax);
 
@@ -138,7 +201,7 @@ function renderSelected() {
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -156,69 +219,6 @@ function getUrlParam(name) {
   }
   return null;
 }
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-
-var _param = {
-  url: '',
-  type: 'get',
-  dataType: 'json',
-  data: {}
-};
-
-function isConfirm(msg) {
-  return new Promise(function (resolve, reject) {
-    if (msg) {
-      layer.confirm(msg, function (index) {
-        layer.close(index);
-        resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
-}
-
-function deleteInfo(route, callback) {
-  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
-    return layer.load();
-  }).then(function (index) {
-    return ajax({
-      url: route,
-      success: function success(res) {
-        layer.close(index);
-        callback(res);
-      },
-      type: 'delete'
-    });
-  });
-}
-
-function ajax(param) {
-  $.ajax(Object.assign(_param, param));
-}
-
-exports.default = {
-  deleteInfo: deleteInfo,
-  ajax: ajax
-};
 
 /***/ })
 
