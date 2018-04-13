@@ -10,7 +10,6 @@ class ProductOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id',
         'user_id',
         'out_trade_no',
         'total_fee',

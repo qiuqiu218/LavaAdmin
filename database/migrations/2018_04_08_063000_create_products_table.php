@@ -128,18 +128,35 @@ class CreateProductsTable extends Migration
         Schema::create('product_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->comment('会员id');
-            $table->unsignedInteger('product_id')->comment('产品id');
             $table->string('out_trade_no', 14)->comment('订单号');
             $table->decimal('total_fee', 8, 2)->comment('总金额')->default('0.00');
             $table->decimal('express_fee', 7, 2)->comment('快递费')->default('0.00');
             $table->unsignedSmallInteger('quantity')->comment('商品总数量')->default(0);
             $table->unsignedTinyInteger('status')->comment('订单状态')->default(0);
+            $table->unsignedTinyInteger('is_delete')->comment('会员是否删除了订单')->default(0);
+            $table->timestamp('received_at')->comment('收货时间')->nullable();
             $table->json('products')->comment('商品列表')->nullable();
 
             $table->timestamps();
 
             $table->index('user_id');
             $table->index('out_trade_no');
+        });
+        // 退款表
+        Schema::create('product_refunds', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->comment('会员id');
+            $table->string('product_order_id', 14)->comment('订单号');
+            $table->decimal('total_fee', 8, 2)->comment('退款总金额')->default('0.00');
+            $table->unsignedSmallInteger('quantity')->comment('退款数量')->default(0);
+            $table->unsignedTinyInteger('status')->comment('退款状态1申请中2已退款')->default(0);
+            $table->json('products')->comment('退款商品')->nullable();
+            $table->string('content', 255)->comment('退货理由')->defualt('');
+            $table->json('images')->comment('退货图片')->nullable();
+
+            $table->timestamps();
+
+            $table->index('user_id');
         });
         // 评论表
         Schema::create('product_comments', function (Blueprint $table) {
@@ -165,6 +182,7 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('brands');
         Schema::dropIfExists('products');
         Schema::dropIfExists('product_details');
         Schema::dropIfExists('product_images');

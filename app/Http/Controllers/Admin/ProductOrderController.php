@@ -22,10 +22,16 @@ class ProductOrderController extends BaseController
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $status = $request->input('status', 0);
+        $query = $this->model->query();
+        if ($status > 0) {
+            $query = $query->where('status', $status);
+        }
+        $data = $query->paginate(10);
         return $this->view([
-            'data' => []
+            'data' => $data
         ]);
     }
 
