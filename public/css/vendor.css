@@ -571,3 +571,6 @@
   height: 40px;
   overflow: hidden;
 }
+.layui-table img {
+  width: 100%;
+}

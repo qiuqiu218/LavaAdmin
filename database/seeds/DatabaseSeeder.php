@@ -16,8 +16,12 @@ class DatabaseSeeder extends Seeder
              PermissionClassifyTableSeeder::class,
              MenuTableSeeder::class,
              AdminTableSeeder::class,
+             UserTableSeeder::class,
              ProductClassifyTableSeeder::class,
-             ProductSpecAttributeTableSeeder::class
+             ProductSpecAttributeTableSeeder::class,
+             ProductOrderTableSeeder::class,
+             ProductRefundTableSeeder::class
+//             ProductCommentTableSeeder::class
          ]);
     }
 }

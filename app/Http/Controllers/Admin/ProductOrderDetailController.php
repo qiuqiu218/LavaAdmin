@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\ProductComment;
+use App\Models\ProductOrderDetail;
 use Illuminate\Http\Request;
 
-class ProductCommentController extends BaseController
+class ProductOrderDetailController extends BaseController
 {
     protected $model = null;
 
@@ -16,7 +16,7 @@ class ProductCommentController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->model = new ProductComment();
+        $this->model = new ProductOrderDetail();
     }
 
     /**
@@ -25,7 +25,8 @@ class ProductCommentController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = $this->model->with(['product_order_detail', 'user'])->orderByDesc('id')->paginate(10);
+        $product_order_id = $request->input('product_order_id');
+        $data = $this->model->where('product_order_id', $product_order_id)->get();
         return $this->view([
             'data' => $data
         ]);
@@ -53,15 +54,14 @@ class ProductCommentController extends BaseController
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $data = $this->model->with(['product_order_detail', 'user'])->findOrFail($id);
-        return $this->view([
-            'data' => $data
-        ]);
+        //
     }
 
     /**
@@ -88,13 +88,13 @@ class ProductCommentController extends BaseController
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $data = $this->model->findOrFail($id);
-        return $data->delete() ? $this->success('删除成功') : $this->error('删除失败');
+        //
     }
 }

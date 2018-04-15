@@ -24,14 +24,27 @@ class ProductOrderController extends BaseController
      */
     public function index(Request $request)
     {
-        $status = $request->input('status', 0);
+        // 查询数据
+        $status = (int)$request->input('status', 0);
         $query = $this->model->query();
         if ($status > 0) {
             $query = $query->where('status', $status);
         }
-        $data = $query->paginate(10);
+        $data = $query->orderByDesc('id')->paginate(10);
+
+        // 搜索条件
+        $search = [
+            'status' => collect(config('enum.ProductOrder.status'))->map(function ($value, $key) use ($status) {
+                return [
+                    'value' => $key,
+                    'text' => $value,
+                    'active' => $status === $key ? true : false
+                ];
+            })
+        ];
         return $this->view([
-            'data' => $data
+            'data' => $data,
+            'search' => $search
         ]);
     }
 
@@ -52,17 +65,6 @@ class ProductOrderController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }

@@ -60,108 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 164);
+/******/ 	return __webpack_require__(__webpack_require__.s = 162);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 12:
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-
-var _param = {
-  url: '',
-  type: 'get',
-  dataType: 'json',
-  data: {}
-};
-
-function isConfirm(msg) {
-  return new Promise(function (resolve, reject) {
-    if (msg) {
-      layer.confirm(msg, function (index) {
-        layer.close(index);
-        resolve();
-      });
-    } else {
-      resolve();
-    }
-  });
-}
-
-function deleteInfo(route, callback) {
-  var confirm = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  isConfirm(confirm === true ? '您真的要删除吗?' : confirm).then(function (res) {
-    return layer.load();
-  }).then(function (index) {
-    return ajax({
-      url: route,
-      success: function success(res) {
-        layer.close(index);
-        callback(res);
-      },
-      type: 'delete'
-    });
-  });
-}
-
-function ajax(param) {
-  $.ajax(Object.assign(_param, param));
-}
-
-exports.default = {
-  deleteInfo: deleteInfo,
-  ajax: ajax
-};
-
-/***/ }),
-
-/***/ 164:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ajax = __webpack_require__(12);
-
-var _ajax2 = _interopRequireDefault(_ajax);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-$("#addItem").click(function () {
-  var _this = this;
-  layui.layer.prompt({
-    title: '属性值'
-  }, function (value, index) {
-    $(_this).before('<div class="d-border d-padding-5 layui-inline d-margin-b-5 d-margin-r-5">\n                      <input type="hidden" name="values[]" value="' + value + '">\n                      ' + value + '\n                      <a href="javascript:;" class="deleteItem"><i class="layui-icon">&#x1006;</i></a>\n                    </div>');
-    layer.close(index);
-  });
-});
-
-$("body").on('click', '.deleteItem', function () {
-  var _this = this;
-  var id = $(this).data('id');
-  if (id) {
-    _ajax2.default.deleteInfo('/admin/product_spec_attribute_value/' + id, function (res) {
-      $(_this).parent().remove();
-    });
-  } else {
-    layui.layer.confirm('您真的要删除吗?', function (index) {
-      $(_this).parent().remove();
-      layer.close(index);
-    });
+layui.form.on('submit', function (data) {
+  if (data.elem.tagName === 'BUTTON') {
+    $("#status").val($(data.elem).text());
   }
 });
 

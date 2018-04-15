@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductComment extends Model
+class ProductRefund extends Model
 {
     /**
      * @var array
      */
     protected $fillable = [
-        'product_order_detail_id',
-        'product_order_id',
-        'product_id',
         'user_id',
+        'product_order_detail_id',
+        'total_fee',
+        'total_quantity',
+        'status',
         'content',
-        'images',
-        'grade',
-        'is_anonymity'
+        'images'
     ];
 
     /**
@@ -36,18 +35,19 @@ class ProductComment extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param $value
+     * @return mixed
      */
-    public function product()
+    public function getStatusAttribute($value)
     {
-        return $this->belongsTo('App\Models\Product');
+        return config('enum.ProductRefund.status')[$value] ?? '未知状态';
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param $value
      */
-    public function user()
+    public function setStatusAttribute($value)
     {
-        return $this->belongsTo('App\Models\User');
+        $this->attributes['status'] = array_search($value, config('enum.ProductRefund.status')) ?? 1;
     }
 }

@@ -14,15 +14,24 @@ class ProductOrder extends Model
         'out_trade_no',
         'total_fee',
         'express_fee',
-        'quantity',
-        'status',
-        'products'
+        'total_quantity',
+        'status'
     ];
 
     /**
-     * @var array
+     * @param $value
+     * @return mixed
      */
-    protected $casts = [
-        'products' => 'array'
-    ];
+    public function getStatusAttribute($value)
+    {
+        return config('enum.ProductOrder.status')[$value] ?? '未知状态';
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function product_order_detail_table()
+    {
+        return $this->hasMany('App\Models\ProductOrderDetail');
+    }
 }

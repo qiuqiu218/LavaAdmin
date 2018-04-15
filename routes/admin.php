@@ -64,6 +64,10 @@ $this->namespace('Admin')->middleware('auth:admin')->group(function () {
         Route::resource('product_comment', 'ProductCommentController');
         // 订单
         Route::resource('product_order', 'ProductOrderController');
+        // 订单详情
+        Route::resource('product_order_detail', 'ProductOrderDetailController');
+        // 退货订单
+        Route::resource('product_refund', 'ProductRefundController');
         // 分类
         Route::resource('product_classify', 'ProductClassifyController');
         // 规格属性

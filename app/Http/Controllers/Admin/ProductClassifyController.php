@@ -15,6 +15,7 @@ class ProductClassifyController extends BaseController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->model = new ProductClassify();
     }
 

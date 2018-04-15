@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->decimal('original_price', 8, 2)->comment('原价')->nullable();
             $table->decimal('current_price', 8, 2)->comment('现价')->nullable();
             $table->unsignedInteger('read')->comment('查看数')->default(0);
+            $table->unsignedMediumInteger('comment')->comment('评论数')->default(0);
+            $table->float('grade', 2,1)->comment('评分')->default(0);
             $table->timestamps();
 
             $table->index('product_classify_id');
@@ -131,38 +133,60 @@ class CreateProductsTable extends Migration
             $table->string('out_trade_no', 14)->comment('订单号');
             $table->decimal('total_fee', 8, 2)->comment('总金额')->default('0.00');
             $table->decimal('express_fee', 7, 2)->comment('快递费')->default('0.00');
-            $table->unsignedSmallInteger('quantity')->comment('商品总数量')->default(0);
+            $table->unsignedSmallInteger('total_quantity')->comment('商品总数量')->default(0);
             $table->unsignedTinyInteger('status')->comment('订单状态')->default(0);
             $table->unsignedTinyInteger('is_delete')->comment('会员是否删除了订单')->default(0);
             $table->timestamp('received_at')->comment('收货时间')->nullable();
-            $table->json('products')->comment('商品列表')->nullable();
 
             $table->timestamps();
 
             $table->index('user_id');
             $table->index('out_trade_no');
         });
+
+        /**
+         * 订单详情表
+         * spec = [{"text": "颜色", "name": "color", "value": "黑色"}]
+         */
+        Schema::create('product_order_details', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('product_order_id')->comment('订单id');
+            $table->unsignedInteger('product_id')->comment('产品id');
+            $table->string('title', 120)->comment('商品标题');
+            $table->string('cover_img')->comment('封面图')->default('');
+            $table->decimal('original_price', 8, 2)->comment('原价')->nullable();
+            $table->decimal('current_price', 8, 2)->comment('现价')->nullable();
+            $table->unsignedSmallInteger('quantity')->comment('购买数量')->default(0);
+            $table->json('spec')->comment('规格')->nullable();
+
+            $table->timestamps();
+
+            $table->index('product_order_id');
+            $table->index('product_id');
+        });
+
         // 退款表
         Schema::create('product_refunds', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->comment('会员id');
-            $table->string('product_order_id', 14)->comment('订单号');
-            $table->decimal('total_fee', 8, 2)->comment('退款总金额')->default('0.00');
-            $table->unsignedSmallInteger('quantity')->comment('退款数量')->default(0);
-            $table->unsignedTinyInteger('status')->comment('退款状态1申请中2已退款')->default(0);
-            $table->json('products')->comment('退款商品')->nullable();
-            $table->string('content', 255)->comment('退货理由')->defualt('');
+            $table->unsignedInteger('product_order_detail_id')->comment('订单详情id');
+            $table->decimal('total_fee', 8, 2)->comment('退款总金额')->nullable();
+            $table->unsignedSmallInteger('total_quantity')->comment('退款总数量');
+            $table->unsignedTinyInteger('status')->comment('退款状态1申请中3已退款5已关')->default(0);
+            $table->string('content')->comment('退货理由')->defualt('');
             $table->json('images')->comment('退货图片')->nullable();
 
             $table->timestamps();
 
             $table->index('user_id');
+            $table->index('product_order_detail_id');
         });
         // 评论表
         Schema::create('product_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('product_order_id')->comment('订单id');
             $table->unsignedInteger('product_id')->comment('产品id');
+            $table->unsignedInteger('product_order_id')->comment('订单id');
+            $table->unsignedInteger('product_order_detail_id')->comment('订单详情id');
             $table->unsignedInteger('user_id')->comment('会员id');
             $table->string('content')->comment('评论内容')->defualt('');
             $table->json('images')->comment('评论图片')->nullable();
@@ -170,8 +194,9 @@ class CreateProductsTable extends Migration
             $table->unsignedTinyInteger('is_anonymity')->comment('是否匿名')->default(0);
             $table->timestamps();
 
-            $table->index('product_id');
+            $table->index('product_order_detail_id');
             $table->index('product_order_id');
+            $table->index('product_id');
         });
     }
 
@@ -191,6 +216,8 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('product_spec_attribute_values');
         Schema::dropIfExists('product_spec_items');
         Schema::dropIfExists('product_orders');
+        Schema::dropIfExists('product_order_details');
+        Schema::dropIfExists('product_refunds');
         Schema::dropIfExists('product_comments');
     }
 }

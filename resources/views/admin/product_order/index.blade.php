@@ -4,14 +4,10 @@
 <div class="d-padding-10">
   <div class="layui-row">
     <form class="layui-form layui-form-pane" method="get" action="">
-      <div class="d-input-group d-float-right">
-        <div class="layui-form-item">
-          <div class="d-input-group">
-            <input type="text" name="keywords" placeholder="请输入关键词" class="layui-input" value="">
-            <div class="addbtn">
-              <button class="layui-btn">搜索</button>
-            </div>
-          </div>
+      <div class="d-input-group">
+        @include('component.form.create.select', ['name' => 'status', 'display_name' => '状态', 'option' => $search['status']])
+        <div class="addbtn">
+          <button class="layui-btn">搜索</button>
         </div>
       </div>
     </form>
@@ -23,7 +19,7 @@
       <col>
       <col>
       <col>
-      <col width="120">
+      <col width="200">
     </colgroup>
     <thead>
       <tr>
@@ -41,11 +37,10 @@
       <td>{{$item->id}}</td>
       <td>{{$item->out_trade_no}}</td>
       <td>{{$item->total_fee}}</td>
-      <td>{{$item->quantity}}</td>
+      <td>{{$item->total_quantity}}</td>
       <td>{{$item->status}}</td>
       <td align="center">
-        <button class="layui-btn layui-btn-xs layui-btn-normal" route="">查看</button>
-        <button class="layui-btn layui-btn-xs layui-btn-danger" url="{{ url('admin/product_order/'.$item->id) }}">删除</button>
+        <button class="layui-btn layui-btn-xs" route="{{ url('admin/product_order_detail?product_order_id='.$item->id) }}">查看商品</button>
       </td>
     </tr>
     @endforeach

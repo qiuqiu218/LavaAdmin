@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Models\ProductComment;
+use App\Models\ProductRefund;
 use Illuminate\Http\Request;
 
-class ProductCommentController extends BaseController
+class ProductRefundController extends BaseController
 {
     protected $model = null;
 
@@ -16,7 +16,7 @@ class ProductCommentController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->model = new ProductComment();
+        $this->model = new ProductRefund();
     }
 
     /**
@@ -25,7 +25,13 @@ class ProductCommentController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = $this->model->with(['product_order_detail', 'user'])->orderByDesc('id')->paginate(10);
+        // 查询数据
+        $status = (int)$request->input('status', 0);
+        $query = $this->model->query()->with('product_order_detail');
+        if ($status > 0) {
+            $query = $query->where('status', $status);
+        }
+        $data = $query->orderByDesc('id')->paginate(10);
         return $this->view([
             'data' => $data
         ]);
@@ -53,38 +59,40 @@ class ProductCommentController extends BaseController
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $data = $this->model->with(['product_order_detail', 'user'])->findOrFail($id);
+        //
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $data = $this->model->with('product_order_detail')->findOrFail($id);
+
         return $this->view([
             'data' => $data
         ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $status = $request->input('status');
+        $data = $this->model->findOrFail($id);
+        $data->status = $status;
+        return $data->save() ? $this->setAutoClose()->success() : $this->error();
     }
 
     /**
