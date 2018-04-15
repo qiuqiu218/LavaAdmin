@@ -41,7 +41,7 @@ class MenuTableSeeder extends Seeder
                             ],
                             [
                                 'title' => '管理员权限',
-                                'route' => 'admin/permission'
+                                'route' => 'admin/permission?guard_name=admin'
                             ]
                         ]
                     ],
@@ -58,7 +58,7 @@ class MenuTableSeeder extends Seeder
                             ],
                             [
                                 'title' => '会员权限',
-                                'route' => 'admin/permission'
+                                'route' => 'admin/permission?guard_name=web'
                             ]
                         ]
                     ]
@@ -87,11 +87,12 @@ class MenuTableSeeder extends Seeder
                         'route' => 'admin/product_order'
                     ],
                     [
-                        'title' => '评论管理',
-                        'route' => 'admin/product_comment'
+                        'title' => '退货管理',
+                        'route' => 'admin/product_refund'
                     ],
                     [
-                        'title' => '参数设置'
+                        'title' => '评论管理',
+                        'route' => 'admin/product_comment'
                     ]
                 ]
             ]

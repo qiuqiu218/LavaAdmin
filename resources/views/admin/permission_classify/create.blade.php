@@ -3,6 +3,7 @@
 @section('content')
 <form class="layui-form layui-form-pane" action="{{url('admin/permission_classify')}}" method="post">
   {{ csrf_field() }}
+  <input type="hidden" name="guard_name" value="{{$guard_name}}">
   <div class="layui-footer d-text-center">
     <button class="layui-btn" lay-submit>确认添加</button>
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>

@@ -5,7 +5,7 @@
 <div class="d-padding-10">
   <div class="layui-row">
     <div class="layui-col-xs6">
-      <button class="layui-btn layui-btn-normal" route="{{ url('admin/permission_classify/create') }}">添加分类</button>
+      <button class="layui-btn layui-btn-normal" route="{{ url('admin/permission_classify/create?guard_name='.$guard_name) }}">添加分类</button>
     </div>
   </div>
   <table class="layui-table">

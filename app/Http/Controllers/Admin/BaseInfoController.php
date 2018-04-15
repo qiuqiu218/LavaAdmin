@@ -16,6 +16,7 @@ class BaseInfoController extends BaseController
 
     public function __construct()
     {
+        parent::__construct();
         $this->model = $this->getInstantiationModel();
         View::share('controller', $this->getController());
     }

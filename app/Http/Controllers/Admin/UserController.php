@@ -14,6 +14,7 @@ class UserController extends BaseController
 
     public function __construct()
     {
+        parent::__construct();
         $this->model = new User();
     }
 
@@ -61,7 +62,6 @@ class UserController extends BaseController
     public function store(AdminRequest $request)
     {
         $input = $request->only($this->model->getFillable());
-        $input['api_token'] = str_random(60);
         $user = $this->model->create($input);
         $res = $user->syncRoles($request->input('role'));
         return $res ? $this->setAutoClose()->success('注册成功') : $this->error('注册失败');

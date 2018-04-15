@@ -16,6 +16,7 @@ class MenuController extends BaseController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('permission:menu_create')->only(['create', 'store']);
         $this->middleware('permission:menu_edit')->only(['edit', 'update']);
         $this->middleware('permission:menu_delete')->only('destroy');

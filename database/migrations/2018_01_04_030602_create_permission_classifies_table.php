@@ -17,6 +17,7 @@ class CreatePermissionClassifiesTable extends Migration
             $table->increments('id');
             $table->string('name', 30)->comment('名称');
             $table->unsignedTinyInteger('sort')->comment('排序')->nullable();
+            $table->string('guard_name', 20)->comment('类型(admin,web)');
             $table->timestamps();
         });
     }

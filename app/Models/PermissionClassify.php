@@ -12,7 +12,7 @@ class PermissionClassify extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'sort'
+        'name', 'sort', 'guard_name'
     ];
 
     /**

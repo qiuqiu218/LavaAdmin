@@ -15,23 +15,29 @@ class PermissionObserver {
 
     public function created(Permission $permission)
     {
-        $super_admin = Role::query()->where('name', 'super_admin')->first();
-        $super_admin->givePermissionTo($permission->name);
+        if ($permission->guard_name === 'admin') {
+            $super_admin = Role::query()->where('name', 'super_admin')->first();
+            $super_admin->givePermissionTo($permission->name);
+        }
     }
 
     public function updated(Permission $permission)
     {
         if ($permission->getOriginal('name') !== $permission->name) {
-            $super_admin = Role::query()->where('name', 'super_admin')->first();
-            $super_admin->revokePermissionTo($permission->getOriginal('name'));
-            $super_admin->givePermissionTo($permission->name);
+            if ($permission->guard_name === 'admin') {
+                $super_admin = Role::query()->where('name', 'super_admin')->first();
+                $super_admin->revokePermissionTo($permission->getOriginal('name'));
+                $super_admin->givePermissionTo($permission->name);
+            }
         }
     }
 
     public function deleted(Permission $permission)
     {
-        $super_admin = Role::query()->where('name', 'super_admin')->first();
-        $super_admin->revokePermissionTo($permission->getOriginal('name'));
+        if ($permission->guard_name === 'admin') {
+            $super_admin = Role::query()->where('name', 'super_admin')->first();
+            $super_admin->revokePermissionTo($permission->getOriginal('name'));
+        }
     }
 
 }

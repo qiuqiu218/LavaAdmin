@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Models\Admin\Admin;
+use App\Models\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -55,10 +55,8 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\Admin\
+     * @param array $data
+     * @return $this|\Illuminate\Database\Eloquent\Model
      */
     protected function create(array $data)
     {

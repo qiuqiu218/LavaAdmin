@@ -9,27 +9,44 @@ use Illuminate\Http\Request;
 
 class PermissionClassifyController extends BaseController
 {
+    protected $model = null;
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * CommentController constructor.
      */
-    public function index()
+    public function __construct()
     {
-        $data = PermissionClassify::query()->where('name', '<>', '菜单管理')->orderBy('sort')->get();
-        return view('admin.permission_classify.index', [
-            'data' => $data
+        parent::__construct();
+        $this->model = new PermissionClassify();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $guard_name = $request->input('guard_name');
+        $data = $this->model
+                    ->where('guard_name', $guard_name)
+                    ->where('name', '<>', '菜单管理')
+                    ->orderBy('sort')
+                    ->get();
+        return $this->view([
+            'data' => $data,
+            'guard_name' => $guard_name
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.permission_classify.create');
+        return $this->view([
+            'guard_name' => $request->input('guard_name')
+        ]);
     }
 
     /**
@@ -38,8 +55,8 @@ class PermissionClassifyController extends BaseController
      */
     public function store(PermissionClassifyRequest $request)
     {
-        $input = $request->only('name', 'sort');
-        $res = PermissionClassify::query()->create($input);
+        $input = $request->only($this->model->getFillable());
+        $res = $this->model->create($input);
         return $res ? $this->setAutoClose()->success('创建成功') : $this->error('创建失败');
     }
 
@@ -49,8 +66,8 @@ class PermissionClassifyController extends BaseController
      */
     public function edit($id)
     {
-        $data = PermissionClassify::query()->findOrFail($id);
-        return view('admin.permission_classify.edit', [
+        $data = $this->model->findOrFail($id);
+        return $this->view([
             'data' => $data
         ]);
     }
@@ -62,8 +79,8 @@ class PermissionClassifyController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $input = $request->only('name', 'sort');
-        $res = PermissionClassify::query()->findOrFail($id)->update($input);
+        $input = $request->only($this->model->getFillable());
+        $res = $this->model->findOrFail($id)->update($input);
         return $res ? $this->setAutoClose()->success('更新成功') : $this->error('更新失败');
     }
 
@@ -74,7 +91,7 @@ class PermissionClassifyController extends BaseController
      */
     public function destroy($id)
     {
-        $res = PermissionClassify::query()->findOrFail($id)->delete();
+        $res = $this->model->findOrFail($id)->delete();
         return $res ? $this->success('删除成功') : $this->error('删除失败');
     }
 }
