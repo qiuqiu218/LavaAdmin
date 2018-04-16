@@ -74,7 +74,7 @@ class ProductImageController extends BaseController
         DB::beginTransaction();
 
         try {
-            $res['path'] = Storage::disk('images')->putFile('product_image', $img);
+            $res['path'] = Storage::putFile('product_image', $img);
             $data = $this->model->create($res);
             DB::commit();
             return $this->setParams($data)->success('上传成功');
@@ -96,7 +96,7 @@ class ProductImageController extends BaseController
         // 执行事务
         DB::beginTransaction();
         try {
-            Storage::disk('images')->delete($data->getOriginal('path'));
+            Storage::delete($data->getOriginal('path'));
             $data->delete();
             DB::commit();
             return $this->success('删除成功');

@@ -8,7 +8,6 @@ use App\Models\Table;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
 
 class BaseInfoController extends BaseController
 {
@@ -18,7 +17,6 @@ class BaseInfoController extends BaseController
     {
         parent::__construct();
         $this->model = $this->getInstantiationModel();
-        View::share('controller', $this->getController());
     }
 
     /**

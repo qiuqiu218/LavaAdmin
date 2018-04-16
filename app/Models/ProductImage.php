@@ -32,6 +32,7 @@ class ProductImage extends Model
      */
     public function getPathAttribute($value)
     {
-        return Storage::disk('images')->url($value);
+        return Storage::url($value);
+//        return Storage::disk('images')->url($value);
     }
 }
