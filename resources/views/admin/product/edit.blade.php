@@ -14,7 +14,7 @@
       <div class="layui-col-xs6">
         @include('component.form.edit.linkage_select', ['name' => 'product_classify_id', 'display_name' => '产品分类', 'classify' => $classify])
         @include('component.form.edit.text', ['name' => 'title', 'display_name' => '产品名称'])
-        @include('component.form.edit.img', ['name' => 'cover_img', 'display_name' => '封面图', 'url' => 'admin/product_image', 'params' => 'product_id='.$data->id])
+        @include('component.form.edit.image', ['name' => 'cover_img', 'display_name' => '封面图', 'url' => 'admin/product_image', 'params' => 'product_id='.$data->id])
         <div class="layui-row layui-col-space10">
           <div class="layui-col-xs6">
             @include('component.form.edit.text', ['name' => 'original_price', 'display_name' => '原价'])
@@ -26,7 +26,7 @@
         @include('component.form.edit.editor', ['name' => 'description', 'display_name' => '产品描述', 'url' => 'admin/product_image', 'params' => 'product_id='.$data->id])
       </div>
       <div class="layui-col-xs6">
-        @include('component.form.edit.imgs', ['name' => 'images', 'display_name' => '图集', 'url' => 'admin/product_image', 'params' => 'product_id='.$data->id])
+        @include('component.form.edit.images', ['name' => 'images', 'display_name' => '图集', 'url' => 'admin/product_image', 'params' => 'product_id='.$data->id])
         <fieldset class="layui-elem-field">
           <legend>规格设置</legend>
           <div class="layui-field-box">

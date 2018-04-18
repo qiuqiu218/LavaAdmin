@@ -12,95 +12,16 @@
   <div class="d-padding-10" style="height: 100%">
     <div class="layui-row">
       <div class="layui-col-xs6">
-        <div class="layui-form-item">
-          <label class="layui-form-label">标识</label>
-          <div class="layui-input-inline">
-            <input type="text" name="name" required lay-verify="required" placeholder="请输入字段标识" class="layui-input" value="{{old('name')}}">
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('name')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">名称</label>
-          <div class="layui-input-inline">
-            <input type="text" name="display_name" required lay-verify="required" placeholder="请输入字段名称" class="layui-input" value="{{old('display_name')}}">
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('display_name')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">显示元素</label>
-          <div class="layui-input-inline">
-            <select name="element" lay-filter="element">
-              <option value="">默认{{config('enum.Field.element.default')}}</option>
-              @foreach (config('enum.Field.element.data') as $name)
-              <option value="{{$name}}"{{ config('enum.Field.element.default') === $name ? ' selected' : '' }}>{{$name}}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('element')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">字段类型</label>
-          <div class="layui-input-inline">
-            <select name="type" lay-filter="type">
-              <option value="">默认{{config('enum.Field.type.default')}}</option>
-              @foreach (config('enum.Field.type.data') as $name)
-              <option value="{{$name}}"{{ config('enum.Field.type.default') === $name ? ' selected' : '' }}>{{$name}}</option>
-              @endforeach
-            </select>
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('type')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">字段长度</label>
-          <div class="layui-input-inline">
-            <input type="text" name="type_length" placeholder="请输入默认值" class="layui-input" value="{{old('type_length')}}">
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('type_length')}}</div>
-        </div>
-        <div class="layui-form-item" id="default_value">
-          <label class="layui-form-label">默认值</label>
-          <div class="layui-input-inline">
-            <input type="text" name="default_value" placeholder="请输入默认值" class="layui-input" value="{{old('default_value')}}">
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('default_value')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">字段所属</label>
-          <div class="layui-input-inline">
-            <div class="layui-input">
-              <input type="radio" name="belong" value="1" title="主表" checked>
-              <input type="radio" name="belong" value="2" title="副表">
-            </div>
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('belong')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">后台列表</label>
-          <div class="layui-input-inline">
-            <div class="layui-input">
-              <input type="radio" name="is_show" value="1" title="显示" checked>
-              <input type="radio" name="is_show" value="0" title="隐藏">
-            </div>
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('is_show')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">是否输入</label>
-          <div class="layui-input-inline">
-            <div class="layui-input">
-              <input type="radio" name="is_import" value="1" title="开启" checked>
-              <input type="radio" name="is_import" value="0" title="关闭">
-            </div>
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('is_import')}}</div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">排序</label>
-          <div class="layui-input-inline">
-            <input type="text" name="sort" placeholder="请输入字段排序" class="layui-input" value="{{old('sort')}}">
-          </div>
-          <div class="layui-form-mid layui-word-aux">{{$errors->first('sort')}}</div>
-        </div>
+        @include('component.form.create.text', ['name' => 'name', 'display_name' => '字段标识'])
+        @include('component.form.create.text', ['name' => 'display_name', 'display_name' => '字段名称'])
+        @include('component.form.create.select', ['name' => 'element', 'display_name' => '显示元素', 'option' => config('enum.Field.element')])
+        @include('component.form.create.select', ['name' => 'type', 'display_name' => '字段类型', 'option' => config('enum.Field.type')])
+        @include('component.form.create.text', ['name' => 'type_length', 'display_name' => '字段长度'])
+        @include('component.form.create.text', ['name' => 'default_value', 'display_name' => '默认值'])
+        @include('component.form.create.radio', ['name' => 'belong', 'display_name' => '字段所属', 'option' => config('enum.Field.belong')])
+        @include('component.form.create.radio', ['name' => 'is_show', 'display_name' => '后台列表', 'option' => config('enum.Field.is_show')])
+        @include('component.form.create.radio', ['name' => 'is_import', 'display_name' => '后台列表', 'option' => config('enum.Field.is_import')])
+        @include('component.form.create.text', ['name' => 'sort', 'display_name' => '排序'])
       </div>
       <div class="layui-col-xs6" id="option" style="display: none">
         <div id="optionList">

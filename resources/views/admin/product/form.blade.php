@@ -25,7 +25,7 @@
           @endif
         </div>
         @include('component.form.create.text', ['name' => 'title', 'display_name' => '产品名称'])
-        @include('component.form.create.img', ['name' => 'cover_img', 'display_name' => '封面图', 'url' => 'admin/product_image'])
+        @include('component.form.create.image', ['name' => 'cover_img', 'display_name' => '封面图', 'url' => 'admin/product_image'])
         <div class="layui-row layui-col-space10">
           <div class="layui-col-xs6">
             @include('component.form.create.text', ['name' => 'original_price', 'display_name' => '原价'])
@@ -37,7 +37,7 @@
         @include('component.form.create.editor', ['name' => 'description', 'display_name' => '产品描述', 'url' => 'admin/product_image'])
       </div>
       <div class="layui-col-xs6">
-        @include('component.form.create.imgs', ['name' => 'images', 'display_name' => '图集', 'url' => 'admin/product_image'])
+        @include('component.form.create.images', ['name' => 'images', 'display_name' => '图集', 'url' => 'admin/product_image'])
         <fieldset class="layui-elem-field">
           <legend>规格设置</legend>
           <div class="layui-field-box">
